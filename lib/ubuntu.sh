@@ -23,24 +23,27 @@ ubuntu_detect() {
 	log "kernel $KVER  source $SRC_PKG $PKG_VER  flavour $FLAVOUR abi $ABI"
 }
 
-# Download dsc + orig + diff and unpack with dpkg-source, which verifies the
-# tarball checksums embedded in the dsc.
+# Download dsc + orig + diff, check each file against the dsc's sha256 list,
+# then unpack. The dsc signature itself is not verified: uploader keys are not
+# in any keyring shipped with Ubuntu, so trust rests on TLS to Launchpad.
 ubuntu_fetch_source() {
 	need_cmd dpkg-source curl patch
 	local dsc="${SRC_PKG}_${PKG_VER}.dsc"
 	local base="$LP_SRC/$SRC_PKG/$PKG_VER"
 	mkdir -p "$SRC_DIR"
 	fetch "$base/$dsc" "$SRC_DIR/$dsc"
-	local f
-	while read -r _ _ f; do
-		[[ -n "$f" ]] && fetch "$base/$f" "$SRC_DIR/$f"
+	local sum f
+	while read -r sum _ f; do
+		[[ -n "$f" ]] || continue
+		fetch "$base/$f" "$SRC_DIR/$f"
+		sha256_check "$SRC_DIR/$f" "$sum"
 	done < <(sed -n '/^Checksums-Sha256:/,/^[A-Z]/{/^ /p}' "$SRC_DIR/$dsc")
 
 	if [[ -e "$SRC_TREE/Makefile" ]]; then
 		log "source tree present: $SRC_TREE"
 	else
 		log "unpacking source into $SRC_TREE"
-		(cd "$SRC_DIR" && dpkg-source --no-check -x "$dsc" "$SRC_TREE" >/dev/null) \
+		(cd "$SRC_DIR" && dpkg-source -x "$dsc" "$SRC_TREE" >/dev/null) \
 			|| die "dpkg-source failed"
 	fi
 	ubuntu_prep_tree
