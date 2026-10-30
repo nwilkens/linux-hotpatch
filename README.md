@@ -30,3 +30,10 @@ one that built the kernel.
 
 - `patches/CVE-2026-98432.patch`: upstream e3f33b0a1d89, "ipv4: free inet_opt
   and ireq_opt after an RCU grace period".
+
+## Checking a loaded patch
+
+`hotpatch status` lists each livepatch with its enabled and transition state
+and the functions it replaces. `scripts/tcp-ipopts-smoke.py HOST 22` opens
+connections carrying an IPv4 Record Route option, the path that allocates the
+options buffer the CVE-2026-98432 fix frees under RCU.
