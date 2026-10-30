@@ -46,16 +46,11 @@ ubuntu_fetch_source() {
 	local dsc="${SRC_PKG}_${PKG_VER}.dsc"
 	local base
 	base="$(source_base)"
-	mkdir -p "$SRC_DIR/quarantine"
-	# The dsc only enters the cache once trusted, so a cached one is never rechecked.
-	if [[ ! -s "$SRC_DIR/$dsc" ]]; then
-		local q="$SRC_DIR/quarantine/$dsc"
-		rm -f "$q"
-		fetch "$base/$dsc" "$q" || die "could not fetch $dsc"
-		if [[ -n "${HOTPATCH_POOL:-}" ]]; then
-			( archive_verify_dsc "$q" ) || { rm -f "$q"; die "dsc verification failed"; }
-		fi
-		mv "$q" "$SRC_DIR/$dsc"
+	mkdir -p "$SRC_DIR"
+	fetch "$base/$dsc" "$SRC_DIR/$dsc" || die "could not fetch $dsc"
+	if [[ -n "${HOTPATCH_POOL:-}" ]]; then
+		( archive_verify_dsc "$SRC_DIR/$dsc" ) \
+			|| { rm -f "$SRC_DIR/$dsc"; die "dsc verification failed"; }
 	fi
 	local sum f
 	while read -r sum _ f; do
