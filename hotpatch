@@ -5,6 +5,8 @@ set -euo pipefail
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib/common.sh
 source "$HERE/lib/common.sh"
+# shellcheck source=lib/archive.sh
+source "$HERE/lib/archive.sh"
 # shellcheck source=lib/ubuntu.sh
 source "$HERE/lib/ubuntu.sh"
 # shellcheck source=lib/kpatch.sh
@@ -13,7 +15,7 @@ source "$HERE/lib/kpatch.sh"
 source "$HERE/lib/livepatch.sh"
 
 DEPS=(build-essential libelf-dev libssl-dev bison flex bc dwarves zstd git
-	dpkg-dev kmod python3 binutils elfutils rsync cpio)
+	dpkg-dev kmod python3 binutils elfutils rsync cpio gpgv ubuntu-keyring)
 
 usage() {
 	cat >&2 <<USAGE

@@ -38,8 +38,9 @@ ubuntu_detect() {
 }
 
 # Download dsc + orig + diff, check each file against the dsc's sha256 list,
-# then unpack. The dsc signature itself is not verified: uploader keys are not
-# in any keyring shipped with Ubuntu, so trust rests on TLS to Launchpad.
+# then unpack. From Launchpad the dsc is trusted on TLS alone, since uploader
+# keys are in no shipped keyring; from a pool mirror it is checked against the
+# archive-signed Sources index.
 ubuntu_fetch_source() {
 	need_cmd dpkg-source curl patch
 	local dsc="${SRC_PKG}_${PKG_VER}.dsc"
@@ -47,6 +48,7 @@ ubuntu_fetch_source() {
 	base="$(source_base)"
 	mkdir -p "$SRC_DIR"
 	fetch "$base/$dsc" "$SRC_DIR/$dsc"
+	[[ -n "${HOTPATCH_POOL:-}" ]] && archive_verify_dsc "$SRC_DIR/$dsc"
 	local sum f
 	while read -r sum _ f; do
 		[[ -n "$f" ]] || continue

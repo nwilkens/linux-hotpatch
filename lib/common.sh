@@ -27,9 +27,11 @@ fetch() {
 	local url="$1" dest="$2"
 	[[ -s "$dest" ]] && { log "cached: $dest"; return 0; }
 	mkdir -p "$(dirname "$dest")"
-	log "fetching $url"
+	local shown
+	shown="$(sed -E 's#//[^/@]*@#//#' <<<"$url")"
+	log "fetching $shown"
 	curl -fL -sS --retry 3 --connect-timeout 20 --proto '=https' --tlsv1.2 -A 'linux-hotpatch' -o "$dest.part" "$url" \
-		|| die "download failed: $url"
+		|| { log "download failed: $shown"; return 1; }
 	mv "$dest.part" "$dest"
 }
 
