@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Build and manage kernel livepatches for the running Ubuntu kernel.
+set -euo pipefail
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# shellcheck source=lib/common.sh
+source "$HERE/lib/common.sh"
+# shellcheck source=lib/ubuntu.sh
+source "$HERE/lib/ubuntu.sh"
+# shellcheck source=lib/kpatch.sh
+source "$HERE/lib/kpatch.sh"
+# shellcheck source=lib/livepatch.sh
+source "$HERE/lib/livepatch.sh"
+
+DEPS=(build-essential libelf-dev libssl-dev bison flex bc dwarves zstd git
+	dpkg-dev kmod python3 binutils elfutils rsync cpio)
+
+usage() {
+	cat >&2 <<USAGE
+usage: hotpatch <command> [args]
+  deps                      install build dependencies (apt)
+  prepare                   fetch kernel source and debug vmlinux, build kpatch-build
+  build <name> <patch> [kpatch-build args]
+                            build livepatch module <name> from <patch>
+  load <module.ko>          insert livepatch and wait for the transition
+  unload <name>             disable and remove a loaded livepatch
+  status                    show loaded livepatches
+  env                       print detected kernel and paths
+USAGE
+	exit 2
+}
+
+cmd="${1:-}"; shift || true
+case "$cmd" in
+	deps)
+		need_root
+		DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends "${DEPS[@]}"
+		;;
+	prepare)
+		need_root; ubuntu_detect
+		ubuntu_fetch_source
+		ubuntu_fetch_vmlinux
+		kpatch_install
+		;;
+	build)
+		[[ $# -ge 2 ]] || usage
+		need_root; ubuntu_detect
+		kpatch_build "$@"
+		;;
+	load)   [[ $# -eq 1 ]] || usage; need_root; lp_load "$1" ;;
+	unload) [[ $# -eq 1 ]] || usage; need_root; lp_unload "$1" ;;
+	status) lp_status ;;
+	env)    ubuntu_detect; printf 'SRC_TREE=%s\nVMLINUX=%s\nCONFIG=%s\n' "$SRC_TREE" "$VMLINUX" "$CONFIG" ;;
+	*) usage ;;
+esac
