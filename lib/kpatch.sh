@@ -31,7 +31,8 @@ kpatch_compiler_report() {
 
 # kpatch_build <name> <patch> [extra kpatch-build args]
 kpatch_build() {
-	local name="$1" patch="$2"; shift 2
+	local name="$1" patch; shift
+	patch="$(readlink -f "$1")"; shift
 	[[ -r "$patch" ]] || die "patch not readable: $patch"
 	( cd "$SRC_TREE" && patch -p1 -N --dry-run -s < "$patch" ) \
 		|| die "patch does not apply cleanly to $SRC_TREE"
