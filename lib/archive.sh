@@ -34,6 +34,7 @@ archive_dsc_sha256() {
 	[[ -n "$sum" ]] || return 1
 	fetch "${HOTPATCH_POOL%/}/dists/$suite/main/source/Sources.gz" "$sources" || return 1
 	sha256_check "$sources" "$sum"
+	# No early exit in awk: under pipefail a SIGPIPE to zcat would fail the call.
 	zcat "$sources" | awk -v p="$SRC_PKG" -v v="$PKG_VER" -v f="$name" '
 		BEGIN { RS=""; FS="\n" }
 		{
@@ -42,7 +43,7 @@ archive_dsc_sha256() {
 			if (ok != 2) next
 			for (i = 1; i <= NF; i++) {
 				n = split($i, a, " ")
-				if (n == 3 && a[3] == f && length(a[1]) == 64) { print a[1]; exit }
+				if (n == 3 && a[3] == f && length(a[1]) == 64) print a[1]
 			}
 		}' | grep -E '^[0-9a-f]{64}$'
 }

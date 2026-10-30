@@ -46,13 +46,21 @@ ubuntu_fetch_source() {
 	local dsc="${SRC_PKG}_${PKG_VER}.dsc"
 	local base
 	base="$(source_base)"
-	mkdir -p "$SRC_DIR"
-	fetch "$base/$dsc" "$SRC_DIR/$dsc"
-	[[ -n "${HOTPATCH_POOL:-}" ]] && archive_verify_dsc "$SRC_DIR/$dsc"
+	mkdir -p "$SRC_DIR/quarantine"
+	# The dsc only enters the cache once trusted, so a cached one is never rechecked.
+	if [[ ! -s "$SRC_DIR/$dsc" ]]; then
+		local q="$SRC_DIR/quarantine/$dsc"
+		rm -f "$q"
+		fetch "$base/$dsc" "$q" || die "could not fetch $dsc"
+		if [[ -n "${HOTPATCH_POOL:-}" ]]; then
+			( archive_verify_dsc "$q" ) || { rm -f "$q"; die "dsc verification failed"; }
+		fi
+		mv "$q" "$SRC_DIR/$dsc"
+	fi
 	local sum f
 	while read -r sum _ f; do
 		[[ -n "$f" ]] || continue
-		fetch "$base/$f" "$SRC_DIR/$f"
+		fetch "$base/$f" "$SRC_DIR/$f" || die "could not fetch $f"
 		sha256_check "$SRC_DIR/$f" "$sum"
 	done < <(sed -n '/^Checksums-Sha256:/,/^[A-Z]/{/^ /p}' "$SRC_DIR/$dsc")
 
@@ -84,7 +92,7 @@ ubuntu_fetch_vmlinux() {
 	ddeb="linux-image-unsigned-${KVER}-dbgsym_${PKG_VER}_${arch}.ddeb"
 	local dbg="$HOTPATCH_WORKDIR/dbg"
 	if [[ ! -s "$VMLINUX" ]]; then
-		fetch "$LP_BIN/$ddeb" "$dbg/$ddeb"
+		fetch "$LP_BIN/$ddeb" "$dbg/$ddeb" || die "could not fetch $ddeb; place it under $dbg/ by hand"
 		log "extracting vmlinux from $ddeb"
 		mkdir -p "$dbg"
 		dpkg-deb --fsys-tarfile "$dbg/$ddeb" \
