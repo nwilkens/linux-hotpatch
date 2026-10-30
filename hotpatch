@@ -39,8 +39,8 @@ case "$cmd" in
 	prepare)
 		need_root; ubuntu_detect
 		ubuntu_fetch_source
-		ubuntu_fetch_vmlinux
 		kpatch_install
+		ubuntu_fetch_vmlinux
 		;;
 	build)
 		[[ $# -ge 2 ]] || usage
