@@ -5,6 +5,20 @@
 LP_SRC="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles"
 LP_BIN="https://launchpad.net/ubuntu/+archive/primary/+files"
 
+# Where to get the source files. Launchpad redirects to launchpadlibrarian.net,
+# which some networks cannot reach; HOTPATCH_POOL names an archive root with a
+# pool/ layout to use instead, such as
+# https://snapshot.ubuntu.com/ubuntu/20250601T000000Z for a superseded package.
+source_base() {
+	if [[ -n "${HOTPATCH_POOL:-}" ]]; then
+		local letter="${SRC_PKG:0:1}"
+		[[ "$SRC_PKG" == lib* ]] && letter="${SRC_PKG:0:4}"
+		printf '%s/pool/main/%s/%s' "${HOTPATCH_POOL%/}" "$letter" "$SRC_PKG"
+	else
+		printf '%s/%s/%s' "$LP_SRC" "$SRC_PKG" "$PKG_VER"
+	fi
+}
+
 # Sets KVER, SRC_PKG, PKG_VER, FLAVOUR, ABI for the running kernel.
 ubuntu_detect() {
 	KVER="$(running_kernel)"
@@ -29,7 +43,8 @@ ubuntu_detect() {
 ubuntu_fetch_source() {
 	need_cmd dpkg-source curl patch
 	local dsc="${SRC_PKG}_${PKG_VER}.dsc"
-	local base="$LP_SRC/$SRC_PKG/$PKG_VER"
+	local base
+	base="$(source_base)"
 	mkdir -p "$SRC_DIR"
 	fetch "$base/$dsc" "$SRC_DIR/$dsc"
 	local sum f

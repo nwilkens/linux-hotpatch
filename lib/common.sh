@@ -28,7 +28,7 @@ fetch() {
 	[[ -s "$dest" ]] && { log "cached: $dest"; return 0; }
 	mkdir -p "$(dirname "$dest")"
 	log "fetching $url"
-	curl -fL --retry 3 --proto '=https' --tlsv1.2 -A 'linux-hotpatch' -o "$dest.part" "$url" \
+	curl -fL -sS --retry 3 --proto '=https' --tlsv1.2 -A 'linux-hotpatch' -o "$dest.part" "$url" \
 		|| die "download failed: $url"
 	mv "$dest.part" "$dest"
 }

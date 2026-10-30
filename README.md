@@ -18,6 +18,10 @@ vmlinux is checked against the running kernel's GNU build-id before use.
     ./hotpatch unload cve_2026_98432
 
 State lives under `/var/lib/linux-hotpatch` (override with `HOTPATCH_WORKDIR`).
+Set `HOTPATCH_POOL` to an archive root with a `pool/` layout, for example
+`https://snapshot.ubuntu.com/ubuntu/20250601T000000Z`, when the host cannot
+reach launchpadlibrarian.net. The debug kernel can be pre-seeded by placing the
+`-dbgsym` ddeb under `/var/lib/linux-hotpatch/dbg/`.
 Extra arguments after the patch path go to kpatch-build, for example
 `--skip-compiler-check` when the local gcc is a later packaging revision of the
 one that built the kernel.
