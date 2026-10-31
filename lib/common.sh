@@ -63,7 +63,8 @@ backend_load() {
 
 # GNU build-id of the running kernel, from the ELF notes it exposes.
 kernel_build_id() {
-	python3 -I - <<'PY'
+	local id
+	id="$(python3 -I - <<'PY'
 import struct
 d = open('/sys/kernel/notes', 'rb').read()
 off = 0
@@ -74,4 +75,21 @@ while off + 12 <= len(d):
     if name.rstrip(b'\0') == b'GNU' and t == 3:
         print(desc.hex())
 PY
+)"
+	[[ "$id" =~ ^[0-9a-f]{32,}$ ]] || die "running kernel has no GNU build-id in /sys/kernel/notes"
+	printf '%s\n' "$id"
+}
+
+vmlinux_build_id() {
+	readelf -n "$1" | awk '/Build ID/ {print $3}'
+}
+
+# The debug vmlinux must carry the running kernel's build-id or its symbols
+# and CRCs describe another build.
+verify_vmlinux() {
+	local want have
+	want="$(kernel_build_id)"
+	have="$(vmlinux_build_id "$VMLINUX")"
+	[[ "$want" == "$have" ]] || die "vmlinux build-id ${have:-missing} does not match running kernel $want"
+	log "vmlinux build-id verified: $have"
 }

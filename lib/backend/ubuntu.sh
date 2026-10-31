@@ -101,18 +101,7 @@ backend_fetch_vmlinux() {
 			|| die "could not extract vmlinux"
 		rm -f "$dbg/$ddeb"
 	fi
-	ubuntu_verify_vmlinux
-}
-
-# The running kernel exposes its ELF notes; the GNU build-id in there must
-# equal the one in the debug vmlinux or the symbols are for another build.
-ubuntu_verify_vmlinux() {
-	local want have
-	want="$(kernel_build_id)"
-	have="$(readelf -n "$VMLINUX" | awk '/Build ID/ {print $3}')"
-	[[ -n "$want" && "$want" == "$have" ]] \
-		|| die "vmlinux build-id $have does not match running kernel $want"
-	log "vmlinux build-id verified: $have"
+	verify_vmlinux
 }
 
 # Ubuntu's debian/rules.d/0-common-vars.mk passes these on the make command
