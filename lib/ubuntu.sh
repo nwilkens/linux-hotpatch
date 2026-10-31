@@ -119,3 +119,12 @@ PY
 		|| die "vmlinux build-id $have does not match running kernel $want"
 	log "vmlinux build-id verified: $have"
 }
+
+# Ubuntu's debian/rules.d/0-common-vars.mk passes these on the make command
+# line rather than through .config, so /boot/config-* does not record them.
+# Without CONFIG_DEBUG_SECTION_MISMATCH the compiler inlines once-called
+# functions and the static symbols no longer match the shipped vmlinux.
+ubuntu_build_env() {
+	export CONFIG_DEBUG_SECTION_MISMATCH=y
+	export CFLAGS_MODULE="-DPKG_ABI=$ABI"
+}
