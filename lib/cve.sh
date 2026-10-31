@@ -40,6 +40,8 @@ cve_fetch_patch() {
 	if [[ -r "$dest" ]] && cve_patch_reverts "$dest"; then
 		die "$id: $dest is already present in $SRC_TREE"
 	fi
+	[[ -r "$HOTPATCH_HOME/patches/$id.patch" ]] \
+		&& log "$id: the curated patch does not apply to this tree; resolving from the CNA record instead"
 	rm -f "$dest"
 	json="$CVE_DIR/$id.json"
 	fetch "$CVE_RECORDS/${id:4:4}/$id.json" "$json" \
@@ -77,9 +79,9 @@ cve_update_records() {
 		git -C "$VULNS_DIR" pull -q --depth 1 || die "could not update $VULNS_DIR"
 	else
 		git clone -q --depth 1 --sparse "$VULNS_REPO" "$VULNS_DIR" || die "could not clone $VULNS_REPO"
-		git -C "$VULNS_DIR" sparse-checkout set --no-cone "cve/published/$year" "cve/published/$((year - 1))" \
-			|| die "sparse checkout failed"
 	fi
+	git -C "$VULNS_DIR" sparse-checkout set --no-cone "cve/published/$year" "cve/published/$((year - 1))" \
+		|| die "sparse checkout failed"
 }
 
 LORE="https://lore.kernel.org/linux-cve-announce/"
@@ -115,7 +117,9 @@ cve_catalog() {
 	printf 'cve\tstatus\tdetail\ttitle\n' > "$out"
 	while IFS=$'\t' read -r id commit title; do
 		detail=""
-		if ( cve_fetch_patch "$id" ) > "$CVE_DIR/$id.log" 2>&1; then
+		if [[ "$commit" == "-" ]]; then
+			status="no-record"
+		elif ( cve_fetch_patch "$id" ) > "$CVE_DIR/$id.log" 2>&1; then
 			detail="$(python3 -I "$HOTPATCH_HOME/scripts/inspect-patch.py" --brief \
 				--src "$SRC_TREE" --config "$CONFIG" "$(cve_patch_path "$id")" 2>&1 | tail -1)"
 			status="applies"

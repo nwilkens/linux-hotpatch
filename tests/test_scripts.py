@@ -321,8 +321,8 @@ class CatalogTest(unittest.TestCase):
                 f.write("CVE-2026-1234\nCVE-2026-9999\nnot-an-id\n")
             r = subprocess.run([sys.executable, "-I", os.path.join(SCRIPTS, "cve-catalog.py"), d, "6.11.0-28-generic", ids],
                                capture_output=True, text=True, check=True)
-            self.assertEqual(r.stdout, "CVE-2026-1234\t" + "a" * 40 + "\tnet: fix thing\n")
-            self.assertIn("CVE-2026-9999", r.stderr)
+            self.assertEqual(r.stdout.splitlines()[0], "CVE-2026-1234\t" + "a" * 40 + "\tnet: fix thing")
+            self.assertTrue(r.stdout.splitlines()[1].startswith("CVE-2026-9999\t-\tno record"))
 
     def test_object_names(self):
         self.assertEqual(inspect.object_name("built into vmlinux (obj-y=y)"), "vmlinux")
