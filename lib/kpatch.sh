@@ -29,13 +29,25 @@ kpatch_compiler_report() {
 	log "local compiler:    $lgcc"
 }
 
-# kpatch_build <name> <patch> [extra kpatch-build args]
+# kpatch_build <name> [kpatch-build args] -- <patch>...
+# Several patches build one cumulative module, which is how livepatches
+# stack: kpatch modules replace whatever is loaded unless built with -R.
 kpatch_build() {
-	local name="$1" patch; shift
-	patch="$(readlink -f "$1")"; shift
-	[[ -r "$patch" ]] || die "patch not readable: $patch"
-	( cd "$SRC_TREE" && patch -p1 -N --dry-run -s < "$patch" ) \
-		|| die "patch does not apply cleanly to $SRC_TREE"
+	local name="$1" replace=1 p; shift
+	local -a flags=() patches=()
+	while [[ $# -gt 0 && "$1" != "--" ]]; do
+		[[ "$1" == "-R" || "$1" == "--non-replace" ]] && replace=0
+		flags+=("$1"); shift
+	done
+	shift || true
+	for p in "$@"; do
+		p="$(readlink -f "$p")"
+		[[ -r "$p" ]] || die "patch not readable: $p"
+		patches+=("$p")
+	done
+	[[ ${#patches[@]} -gt 0 ]] || die "no patches given"
+	( cd "$SRC_TREE" && cat "${patches[@]}" | patch -p1 -N --dry-run -s ) \
+		|| die "patches do not apply cleanly together to $SRC_TREE"
 	kpatch_compiler_report
 	backend_build_env
 	local out="$HOTPATCH_WORKDIR/out/$name"
@@ -49,8 +61,15 @@ kpatch_build() {
 		--jobs "$(nproc)" \
 		--name "$name" \
 		--output "$out" \
-		"$@" "$patch" || die "kpatch-build failed, see $CACHEDIR/build.log"
+		"${flags[@]}" "${patches[@]}" || die "kpatch-build failed, see $CACHEDIR/build.log"
 	log "built: $out/$name.ko"
+	{
+		echo "replace=$replace"
+		for p in "${patches[@]}"; do
+			printf 'patch=%s %s\n' "$(basename "$p")" \
+				"$(grep -m1 '^Subject: ' "$p" | sed -E 's/^Subject: (\[PATCH[^]]*\] *)?//')"
+		done
+	} > "$out/$name.manifest"
 	modinfo "$out/$name.ko" | grep -E '^(vermagic|livepatch|name):'
 	lp_check_versions "$out/$name.ko"
 	kernel_build_id > "$out/$name.buildid"

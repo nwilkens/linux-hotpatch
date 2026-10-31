@@ -27,15 +27,33 @@ lp_status() {
 	for p in "$LP_SYS"/*/; do
 		[[ -d "$p" ]] || { log "no livepatches loaded"; return 0; }
 		p="${p%/}"
-		printf '%s enabled=%s transition=%s\n' "${p##*/}" "$(cat "$p/enabled")" "$(cat "$p/transition")"
+		printf '%s enabled=%s transition=%s replace=%s\n' "${p##*/}" "$(cat "$p/enabled")" "$(cat "$p/transition")" "$(cat "$p/replace" 2>/dev/null || echo '?')"
 		find "$p" -mindepth 2 -maxdepth 2 -type d -printf '  %P\n'
 	done
 }
 
+# Names of loaded livepatches other than $1.
+lp_others() {
+	local p
+	for p in "$LP_SYS"/*/; do
+		[[ -d "$p" ]] || continue
+		p="${p%/}"; p="${p##*/}"
+		[[ "$p" == "$1" ]] || printf '%s\n' "$p"
+	done
+}
+
 lp_load() {
-	local ko="$1" name
+	local ko="$1" replace_ok="${2:-}" name others replace=1
 	[[ -r "$ko" ]] || die "module not readable: $ko"
+	[[ -z "$replace_ok" || "$replace_ok" == "--replace" ]] || die "unknown option $replace_ok"
 	name="$(modinfo -F name "$ko")"
+	[[ -r "${ko%.ko}.manifest" ]] && replace="$(sed -n 's/^replace=//p' "${ko%.ko}.manifest")"
+	others="$(lp_others "$name")"
+	if [[ -n "$others" && "$replace" != 0 && "$replace_ok" != "--replace" ]]; then
+		die "loading $name would supersede: $(tr '\n' ' ' <<<"$others")" \
+			"(kpatch modules replace loaded livepatches). Build one cumulative" \
+			"module carrying every fix and pass --replace."
+	fi
 	[[ "$(modinfo -F livepatch "$ko")" == "Y" ]] || die "$ko is not a livepatch module"
 	[[ "$(modinfo -F vermagic "$ko" | awk '{print $1}')" == "$(running_kernel)" ]] \
 		|| die "vermagic does not match running kernel"
@@ -56,6 +74,12 @@ lp_load() {
 	insmod "$ko" || die "insmod failed: $(dmesg | tail -5)"
 	lp_wait_transition "$name" || die "transition did not complete; check 'hotpatch status' and dmesg"
 	log "$name enabled=$(cat "$LP_SYS/$name/enabled") transition complete"
+	local o
+	for o in $others; do
+		if [[ ! -d "$LP_SYS/$o" ]]; then
+			rmmod "$o" 2>/dev/null && log "removed superseded $o"
+		fi
+	done
 	dmesg | grep -i "livepatch" | tail -5
 }
 

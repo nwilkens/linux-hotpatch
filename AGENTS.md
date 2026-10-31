@@ -43,7 +43,11 @@ exercises the patched code from userspace, and reports. The human says
    inlined something differently; explain each one or stop.
 
 4. **Build.** `hotpatch build CVE-YYYY-NNNNN`, or `hotpatch build <name>
-   <patch>` for a hand-made patch. A build is a full kernel compile and takes
+   <patch>` for a hand-made patch. When a livepatch is already loaded, build
+   one cumulative module that carries every fix, old and new: kpatch modules
+   replace the loaded livepatch atomically, so a module with only the new
+   fix would silently remove the old one. `load` refuses that without
+   `--replace`, and the `.manifest` next to each module lists what it carries. A build is a full kernel compile and takes
    an hour or more on a small VM. The tool then checks vermagic, compares
    every imported symbol CRC with the debug vmlinux, and records the kernel
    build-id next to the module. The module can be copied to any host running
