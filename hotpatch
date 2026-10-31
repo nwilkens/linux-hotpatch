@@ -49,7 +49,7 @@ case "$cmd" in
 		need_root; ubuntu_detect
 		kpatch_build "$@"
 		;;
-	load)   [[ $# -eq 1 ]] || usage; need_root; lp_load "$1" ;;
+	load)   [[ $# -eq 1 ]] || usage; need_root; ubuntu_detect; lp_load "$1" ;;
 	unload) [[ $# -eq 1 ]] || usage; need_root; lp_unload "$1" ;;
 	status) lp_status ;;
 	env)    ubuntu_detect; printf 'SRC_TREE=%s\nVMLINUX=%s\nCONFIG=%s\n' "$SRC_TREE" "$VMLINUX" "$CONFIG" ;;

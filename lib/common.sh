@@ -36,3 +36,5 @@ fetch() {
 }
 
 running_kernel() { uname -r; }
+# shellcheck disable=SC2034
+HOTPATCH_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"

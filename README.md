@@ -5,7 +5,8 @@ Builds kernel livepatch modules for the running Ubuntu kernel with
 
 Source and debug symbols come from Launchpad, which still serves packages the
 archive pool has dropped, so end-of-life HWE kernels can be patched. The debug
-vmlinux is checked against the running kernel's GNU build-id before use.
+vmlinux is checked against the running kernel's GNU build-id before use, and
+each built module's symbol versions are compared with it before loading.
 
 ## Use
 

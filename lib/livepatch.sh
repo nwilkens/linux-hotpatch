@@ -12,6 +12,15 @@ lp_wait_transition() {
 	return 1
 }
 
+# kmod cannot read the compact __versions layout some kernels use, so
+# kpatch-build's own check passes vacuously; compare against vmlinux here.
+lp_check_versions() {
+	local ko="$1"
+	[[ -r "$VMLINUX" ]] || die "debug vmlinux not found at $VMLINUX; run 'hotpatch prepare'"
+	python3 -I "$HOTPATCH_HOME/scripts/check-modversions.py" "$ko" "$VMLINUX" \
+		|| die "symbol versions in $ko do not match $VMLINUX"
+}
+
 lp_status() {
 	local p
 	[[ -d $LP_SYS ]] || die "no livepatch support in this kernel"
@@ -30,6 +39,7 @@ lp_load() {
 	[[ "$(modinfo -F livepatch "$ko")" == "Y" ]] || die "$ko is not a livepatch module"
 	[[ "$(modinfo -F vermagic "$ko" | awk '{print $1}')" == "$(running_kernel)" ]] \
 		|| die "vermagic does not match running kernel"
+	lp_check_versions "$ko"
 	[[ -d "$LP_SYS/$name" ]] && die "$name is already loaded"
 	log "loading $name"
 	insmod "$ko" || die "insmod failed: $(dmesg | tail -5)"

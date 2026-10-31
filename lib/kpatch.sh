@@ -41,7 +41,7 @@ kpatch_build() {
 	local out="$HOTPATCH_WORKDIR/out/$name"
 	mkdir -p "$out"
 	export CACHEDIR="$HOTPATCH_WORKDIR/kpatch-cache"
-	log "building livepatch $name (log: $CACHEDIR/build.log)"
+	log "building livepatch $name (on failure see $CACHEDIR/build.log)"
 	"$KPATCH_DIR/kpatch-build/kpatch-build" \
 		--sourcedir "$SRC_TREE" \
 		--config "$CONFIG" \
@@ -52,4 +52,7 @@ kpatch_build() {
 		"$@" "$patch" || die "kpatch-build failed, see $CACHEDIR/build.log"
 	log "built: $out/$name.ko"
 	modinfo "$out/$name.ko" | grep -E '^(vermagic|livepatch|name):'
+	lp_check_versions "$out/$name.ko"
+	log "patched functions:"
+	readelf -p .kpatch.strings "$out/$name.ko" | awk -F'] *' 'NR>2 && NF>1 {print $2}' | paste - - | awk '{print "  " $1 ": " $2}'
 }
