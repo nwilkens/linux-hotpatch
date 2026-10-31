@@ -45,9 +45,9 @@ lp_others() {
 	done
 }
 
-# "object function" pairs a kpatch module replaces, from its string table.
+# "object function" pairs a kpatch module replaces.
 lp_module_funcs() {
-	readelf -p .kpatch.strings "$1" | awk -F'] *' 'NR>2 && NF>1 {print $2}' | paste -d' ' - -
+	python3 -I "$HOTPATCH_HOME/scripts/kpatch-funcs.py" "$1" | awk '{print $1, $2}'
 }
 
 # "object function" pairs every loaded livepatch other than $1 replaces.

@@ -79,6 +79,21 @@ kpatch_build() {
 	modinfo "$out/$name.ko" | grep -E '^(vermagic|livepatch|name):'
 	lp_check_versions "$out/$name.ko"
 	kernel_build_id > "$out/$name.buildid"
+	kpatch_report_funcs "$out/$name.ko" "${patches[@]}"
+}
+
+# kpatch_report_funcs <module.ko> <patch>...: list what the module patches and
+# call out functions the source diff did not touch. Those come from changed
+# inlining decisions and need a reason before the module is loaded.
+kpatch_report_funcs() {
+	local ko="$1" expected actual extra; shift
+	actual="$(python3 -I "$HOTPATCH_HOME/scripts/kpatch-funcs.py" "$ko")" || die "cannot read patch records from $ko"
 	log "patched functions:"
-	readelf -p .kpatch.strings "$out/$name.ko" | awk -F'] *' 'NR>2 && NF>1 {print $2}' | paste - - | awk '{print "  " $1 ": " $2}'
+	printf '  %s\n' "${actual//$'\n'/$'\n'  }" >&2
+	expected="$(for p in "$@"; do
+		python3 -I "$HOTPATCH_HOME/scripts/inspect-patch.py" --brief --src "$SRC_TREE" "$p" \
+			| sed -nE 's/^funcs=([^ ]*).*/\1/p' | tr ',' '\n'
+	done | sort -u)"
+	extra="$(comm -23 <(awk '{print $2}' <<<"$actual" | sort -u) <(printf '%s\n' "$expected"))"
+	[[ -z "$extra" ]] || log "functions patched beyond the source diff (changed inlining?): $(tr '\n' ' ' <<<"$extra")"
 }
