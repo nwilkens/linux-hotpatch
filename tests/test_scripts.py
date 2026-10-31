@@ -177,6 +177,11 @@ static int __init foo_init(void)
 {
 	return 0;
 }
+static int
+leading_name(void)
+{
+	return 0;
+}
 """
 
 
@@ -208,6 +213,9 @@ class InspectTest(unittest.TestCase):
             self.assertTrue(bar["from_source"])
             self.assertEqual(bar["funcs"], ["second", "foo_init"])
             self.assertEqual(bar["unanchored"], 1)
+            self.assertEqual(inspect.enclosing_block(BAR_C.splitlines(), len(BAR_C.splitlines()) - 1),
+                             ("func", "leading_name", "leading_name(void)"))
+            self.assertEqual(inspect.enclosing_block(["static void *ptr_fn(int a)", "{", "\tx;"], 3)[1], "ptr_fn")
             text = "\n".join(inspect.review(files))
             self.assertIn("include/net/foo.h: header change", text)
             self.assertEqual(files["include/net/foo.h"]["types"], ["foo"])
@@ -229,7 +237,7 @@ class InspectTest(unittest.TestCase):
         with tempfile.TemporaryDirectory() as d:
             os.makedirs(os.path.join(d, "net/foo"))
             with open(os.path.join(d, "net/foo/bar.c"), "w") as f:
-                f.write(BAR_C[:-2] + "} /* changed trailing context */\n")
+                f.write(BAR_C.replace("\treturn 0;\n}\nstatic int\n", "\treturn 0;\n} /* changed trailing context */\nstatic int\n"))
             files = inspect.annotate(inspect.parse(SYNTHETIC.splitlines()), d)
             self.assertEqual(files["net/foo/bar.c"]["funcs"], ["second", "foo_init"])
 

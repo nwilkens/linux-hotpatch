@@ -16,8 +16,10 @@ import subprocess
 import sys
 
 HUNK = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+\d+(?:,(\d+))? @@ ?(.*)$")
-FUNC_CTX = re.compile(r"^(?:[\w\s\*]+?)?\b(\w+)\s*\(")
-DEFINITION = re.compile(r"^[A-Za-z_][\w\s\*]*?\b(\w+)\s*\(")
+# A function name followed by "(", optionally after storage class, return
+# type and pointer stars; also matches when the name starts the line.
+DEFINITION = re.compile(r"^(?=[A-Za-z_])(?:[\w\*\s]*?[\s\*])?(\w+)\s*\(")
+FUNC_CTX = DEFINITION
 TYPE_OPENER = re.compile(r"^(?:typedef\s+)?(?:struct|union|enum)\s*(\w+)?\s*\{")
 NOT_DEFINITION = re.compile(r"^(?:struct|union|enum|typedef|return|else|if|for|while|switch|do|case)\b|^#|;\s*$|^\s*$")
 INIT_FUNC = re.compile(r"\b__init\b|\b__exit\b|\b__ref\b")
