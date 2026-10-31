@@ -238,6 +238,18 @@ def locate(src, config, path):
     return "not found in Makefile"
 
 
+def object_name(location):
+    """Shorten a locate() string to vmlinux, module:<name>[:loaded] or unknown."""
+    if location.startswith("built into vmlinux"):
+        return "vmlinux"
+    m = re.match(r"module (\S+) \(.*loaded: (\w+)", location)
+    if m:
+        return f"module:{m.group(1)}" + (":loaded" if m.group(2) == "yes" else "")
+    if location.startswith("not built"):
+        return "not-built"
+    return "unknown"
+
+
 def review(files):
     items = []
     for path, info in files.items():
@@ -266,12 +278,20 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--src")
     ap.add_argument("--config")
+    ap.add_argument("--brief", action="store_true", help="one line: functions, objects, review count")
     ap.add_argument("patch")
     args = ap.parse_args()
     with open(args.patch, errors="replace") as f:
         lines = f.read().splitlines()
     subject, body = git_header(lines)
     files = annotate(parse(lines), args.src)
+    if args.brief:
+        funcs = [fn for info in files.values() for fn in info["funcs"]]
+        objects = sorted({object_name(locate(args.src, args.config, p)) for p in files})
+        items = review(files)
+        print(f"funcs={','.join(funcs) or '-'} objects={','.join(objects)} review={len(items)}"
+              + (" " + "; ".join(i.split(":", 1)[1].split("\n")[0].strip() for i in items) if items else ""))
+        return
     print(f"Subject: {subject}\n")
     if body:
         print(body + "\n")

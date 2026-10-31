@@ -273,5 +273,63 @@ class InspectTest(unittest.TestCase):
         self.assertEqual(files["net/foo/bar.c"]["unanchored"], 2)
 
 
+catalog = load("cve-catalog")
+
+
+def cna_record(intro, mainline, branch_fixes, commits=("a" * 40,)):
+    versions = [{"version": intro, "status": "affected"},
+                {"version": "0", "lessThan": intro, "status": "unaffected", "versionType": "semver"}]
+    for c in commits:
+        versions.append({"version": "1" * 40, "lessThan": c, "status": "affected", "versionType": "git"})
+    for b in branch_fixes:
+        versions.append({"version": b, "lessThanOrEqual": b.rsplit(".", 1)[0] + ".*",
+                         "status": "unaffected", "versionType": "semver"})
+    versions.append({"version": mainline, "lessThanOrEqual": "*", "status": "unaffected",
+                     "versionType": "original_commit_for_fix"})
+    return {"containers": {"cna": {"affected": [{"versions": versions}]}}}
+
+
+class CatalogTest(unittest.TestCase):
+    rec = cna_record("4.4", "7.3", ["6.6.159", "6.12.113"])
+
+    def test_unsupported_series_between_intro_and_fix_is_affected(self):
+        self.assertEqual(catalog.affects(self.rec, (6, 11, 0)), "a" * 40)
+
+    def test_before_introduction_is_not_affected(self):
+        self.assertIsNone(catalog.affects(self.rec, (4, 3, 9)))
+
+    def test_mainline_at_or_past_fix_is_not_affected(self):
+        self.assertIsNone(catalog.affects(self.rec, (7, 3, 0)))
+
+    def test_stable_branch_fix_covers_newer_point_release(self):
+        self.assertIsNone(catalog.affects(self.rec, (6, 6, 160)))
+        self.assertEqual(catalog.affects(self.rec, (6, 6, 150)), "a" * 40)
+
+    def test_record_without_fix_commit_is_skipped(self):
+        self.assertIsNone(catalog.affects(cna_record("4.4", "7.3", [], commits=()), (6, 11, 0)))
+
+    def test_main_reads_ids_and_records(self):
+        with tempfile.TemporaryDirectory() as d:
+            os.makedirs(os.path.join(d, "cve/published/2026"))
+            rec = cna_record("4.4", "7.3", ["6.6.159"])
+            rec["cveMetadata"] = {"cveId": "CVE-2026-1234"}
+            rec["containers"]["cna"]["title"] = "net: fix thing"
+            with open(os.path.join(d, "cve/published/2026/CVE-2026-1234.json"), "w") as f:
+                json.dump(rec, f)
+            ids = os.path.join(d, "ids")
+            with open(ids, "w") as f:
+                f.write("CVE-2026-1234\nCVE-2026-9999\nnot-an-id\n")
+            r = subprocess.run([sys.executable, "-I", os.path.join(SCRIPTS, "cve-catalog.py"), d, "6.11.0-28-generic", ids],
+                               capture_output=True, text=True, check=True)
+            self.assertEqual(r.stdout, "CVE-2026-1234\t" + "a" * 40 + "\tnet: fix thing\n")
+            self.assertIn("CVE-2026-9999", r.stderr)
+
+    def test_object_names(self):
+        self.assertEqual(inspect.object_name("built into vmlinux (obj-y=y)"), "vmlinux")
+        self.assertEqual(inspect.object_name("module tcp_bbr (CONFIG_TCP_CONG_BBR=m), loaded: yes"), "module:tcp_bbr:loaded")
+        self.assertEqual(inspect.object_name("module tcp_bbr (CONFIG_TCP_CONG_BBR=m), loaded: no"), "module:tcp_bbr")
+        self.assertEqual(inspect.object_name("not built (CONFIG_X=n)"), "not-built")
+
+
 if __name__ == "__main__":
     unittest.main()

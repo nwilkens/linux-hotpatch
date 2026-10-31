@@ -22,6 +22,8 @@ usage: hotpatch <command> [args]
   prepare                   fetch kernel source and debug vmlinux, build kpatch-build
   fetch-patch <CVE-ID>      pick the upstream fix that applies to the source tree
   inspect <CVE-ID|patch>    summarise the change: files, functions, objects, review items
+  catalog <from> [<to>]     list CVEs published in the date range that affect this kernel,
+                            resolved against the source tree
   build <CVE-ID> [kpatch-build args]
                             fetch the fix for <CVE-ID> and build it as cve_yyyy_nnnnn
   build <name> <CVE-ID|patch>... [kpatch-build args]
@@ -62,6 +64,11 @@ case "$cmd" in
 			p="$1"
 		fi
 		python3 -I "$HERE/scripts/inspect-patch.py" --src "$SRC_TREE" --config "$CONFIG" "$p"
+		;;
+	catalog)
+		[[ $# -ge 1 && $# -le 2 ]] || usage
+		need_root; backend_load; backend_detect
+		cve_catalog "$@"
 		;;
 	build)
 		[[ $# -ge 1 ]] || usage
