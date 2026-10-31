@@ -2,6 +2,7 @@
 # Load, inspect and remove livepatch modules through sysfs.
 
 LP_SYS=/sys/kernel/livepatch
+LP_LOADED="$HOTPATCH_WORKDIR/loaded"
 
 lp_wait_transition() {
 	local name="$1"
@@ -29,6 +30,8 @@ lp_status() {
 		p="${p%/}"
 		printf '%s enabled=%s transition=%s replace=%s\n' "${p##*/}" "$(cat "$p/enabled")" "$(cat "$p/transition")" "$(cat "$p/replace" 2>/dev/null || echo '?')"
 		find "$p" -mindepth 2 -maxdepth 2 -type d -printf '  %P\n'
+		[[ -r "$LP_LOADED/${p##*/}.manifest" ]] \
+			&& sed -n 's/^patch=/  carries: /p' "$LP_LOADED/${p##*/}.manifest"
 	done
 }
 
@@ -74,10 +77,13 @@ lp_load() {
 	insmod "$ko" || die "insmod failed: $(dmesg | tail -5)"
 	lp_wait_transition "$name" || die "transition did not complete; check 'hotpatch status' and dmesg"
 	log "$name enabled=$(cat "$LP_SYS/$name/enabled") transition complete"
+	mkdir -p "$LP_LOADED"
+	[[ -r "${ko%.ko}.manifest" ]] && cp "${ko%.ko}.manifest" "$LP_LOADED/$name.manifest"
 	local o
 	for o in $others; do
 		if [[ ! -d "$LP_SYS/$o" ]]; then
 			rmmod "$o" 2>/dev/null && log "removed superseded $o"
+			rm -f "$LP_LOADED/$o.manifest"
 		fi
 	done
 	dmesg | grep -i "livepatch" | tail -5
@@ -89,5 +95,6 @@ lp_unload() {
 	echo 0 > "$LP_SYS/$name/enabled"
 	lp_wait_transition "$name" || die "disable transition did not complete"
 	rmmod "$name" || die "rmmod failed"
+	rm -f "$LP_LOADED/$name.manifest"
 	log "$name removed"
 }
