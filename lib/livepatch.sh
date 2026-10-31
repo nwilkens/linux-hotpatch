@@ -39,7 +39,15 @@ lp_load() {
 	[[ "$(modinfo -F livepatch "$ko")" == "Y" ]] || die "$ko is not a livepatch module"
 	[[ "$(modinfo -F vermagic "$ko" | awk '{print $1}')" == "$(running_kernel)" ]] \
 		|| die "vermagic does not match running kernel"
-	lp_check_versions "$ko"
+	if [[ -r "${VMLINUX:-}" ]]; then
+		lp_check_versions "$ko"
+	elif [[ -r "${ko%.ko}.buildid" ]]; then
+		[[ "$(cat "${ko%.ko}.buildid")" == "$(kernel_build_id)" ]] \
+			|| die "$ko was built for a different kernel build (build-id mismatch)"
+		log "build-id matches the running kernel"
+	else
+		die "cannot verify $ko: no debug vmlinux and no ${ko%.ko}.buildid"
+	fi
 	[[ -d "$LP_SYS/$name" ]] && die "$name is already loaded"
 	log "loading $name"
 	insmod "$ko" || die "insmod failed: $(dmesg | tail -5)"

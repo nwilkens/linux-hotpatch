@@ -9,12 +9,14 @@ source "$HERE/lib/common.sh"
 source "$HERE/lib/archive.sh"
 # shellcheck source=lib/ubuntu.sh
 source "$HERE/lib/ubuntu.sh"
+# shellcheck source=lib/cve.sh
+source "$HERE/lib/cve.sh"
 # shellcheck source=lib/kpatch.sh
 source "$HERE/lib/kpatch.sh"
 # shellcheck source=lib/livepatch.sh
 source "$HERE/lib/livepatch.sh"
 
-DEPS=(build-essential libelf-dev libssl-dev bison flex bc dwarves zstd git
+DEPS=(build-essential curl patch libelf-dev libssl-dev bison flex bc dwarves zstd git
 	dpkg-dev kmod python3 binutils elfutils rsync cpio gpgv ubuntu-keyring)
 
 usage() {
@@ -22,6 +24,10 @@ usage() {
 usage: hotpatch <command> [args]
   deps                      install build dependencies (apt)
   prepare                   fetch kernel source and debug vmlinux, build kpatch-build
+  fetch-patch <CVE-ID>      pick the upstream fix that applies to the source tree
+  inspect <CVE-ID|patch>    summarise the change: files, functions, objects, review items
+  build <CVE-ID> [kpatch-build args]
+                            fetch the fix for <CVE-ID> and build it as cve_yyyy_nnnnn
   build <name> <patch> [kpatch-build args]
                             build livepatch module <name> from <patch>
   load <module.ko>          insert livepatch and wait for the transition
@@ -44,10 +50,32 @@ case "$cmd" in
 		kpatch_install
 		ubuntu_fetch_vmlinux
 		;;
-	build)
-		[[ $# -ge 2 ]] || usage
+	fetch-patch)
+		[[ $# -eq 1 ]] || usage
 		need_root; ubuntu_detect
-		kpatch_build "$@"
+		cve_fetch_patch "$1"
+		;;
+	inspect)
+		[[ $# -eq 1 ]] || usage
+		need_root; ubuntu_detect
+		if is_cve_id "$1"; then
+			cve_fetch_patch "$1"; p="$(cve_patch_path "$1")"
+		else
+			p="$1"
+		fi
+		python3 -I "$HERE/scripts/inspect-patch.py" --src "$SRC_TREE" --config "$CONFIG" "$p"
+		;;
+	build)
+		[[ $# -ge 1 ]] || usage
+		need_root; ubuntu_detect
+		if is_cve_id "$1" && { [[ $# -eq 1 ]] || [[ "$2" == -* ]]; }; then
+			id="$1"; shift
+			cve_fetch_patch "$id"
+			kpatch_build "$(cve_module_name "$id")" "$(cve_patch_path "$id")" "$@"
+		else
+			[[ $# -ge 2 ]] || usage
+			kpatch_build "$@"
+		fi
 		;;
 	load)   [[ $# -eq 1 ]] || usage; need_root; ubuntu_detect; lp_load "$1" ;;
 	unload) [[ $# -eq 1 ]] || usage; need_root; lp_unload "$1" ;;

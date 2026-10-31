@@ -102,18 +102,7 @@ ubuntu_fetch_vmlinux() {
 # equal the one in the debug vmlinux or the symbols are for another build.
 ubuntu_verify_vmlinux() {
 	local want have
-	want="$(python3 -I - <<'PY'
-import struct
-d = open('/sys/kernel/notes', 'rb').read()
-off = 0
-while off + 12 <= len(d):
-    n, s, t = struct.unpack_from('<III', d, off); off += 12
-    name = d[off:off + n]; off += (n + 3) & ~3
-    desc = d[off:off + s]; off += (s + 3) & ~3
-    if name.rstrip(b'\0') == b'GNU' and t == 3:
-        print(desc.hex())
-PY
-)"
+	want="$(kernel_build_id)"
 	have="$(readelf -n "$VMLINUX" | awk '/Build ID/ {print $3}')"
 	[[ -n "$want" && "$want" == "$have" ]] \
 		|| die "vmlinux build-id $have does not match running kernel $want"

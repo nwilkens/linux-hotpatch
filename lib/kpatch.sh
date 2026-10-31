@@ -53,6 +53,7 @@ kpatch_build() {
 	log "built: $out/$name.ko"
 	modinfo "$out/$name.ko" | grep -E '^(vermagic|livepatch|name):'
 	lp_check_versions "$out/$name.ko"
+	kernel_build_id > "$out/$name.buildid"
 	log "patched functions:"
 	readelf -p .kpatch.strings "$out/$name.ko" | awk -F'] *' 'NR>2 && NF>1 {print $2}' | paste - - | awk '{print "  " $1 ": " $2}'
 }

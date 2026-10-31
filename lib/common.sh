@@ -36,5 +36,20 @@ fetch() {
 }
 
 running_kernel() { uname -r; }
+
+# GNU build-id of the running kernel, from the ELF notes it exposes.
+kernel_build_id() {
+	python3 -I - <<'PY'
+import struct
+d = open('/sys/kernel/notes', 'rb').read()
+off = 0
+while off + 12 <= len(d):
+    n, s, t = struct.unpack_from('<III', d, off); off += 12
+    name = d[off:off + n]; off += (n + 3) & ~3
+    desc = d[off:off + s]; off += (s + 3) & ~3
+    if name.rstrip(b'\0') == b'GNU' and t == 3:
+        print(desc.hex())
+PY
+}
 # shellcheck disable=SC2034
 HOTPATCH_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
