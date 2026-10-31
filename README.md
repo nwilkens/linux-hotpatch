@@ -63,7 +63,9 @@ Extra arguments after the CVE id or patch path go to kpatch-build, for example
 `--skip-compiler-check` when the local gcc is a later packaging revision of the
 one that built the kernel.
 
-AGENTS.md is the runbook for driving this with a coding agent. Run
+docs/build-service.md is a proposal for turning this into an open build
+service for any kernel. AGENTS.md is the runbook for driving this with a
+coding agent. Run
 `tests/run.sh` before committing.
 
 ## Patches
