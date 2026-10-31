@@ -24,6 +24,8 @@ usage: hotpatch <command> [args]
   inspect <CVE-ID|patch>    summarise the change: files, functions, objects, review items
   catalog <from> [<to>]     list CVEs published in the date range that affect this kernel,
                             resolved against the source tree
+  export <catalog.tsv> <dir>
+                            copy the catalog's applicable patches to <dir>/<series>/ with an index
   build <CVE-ID> [kpatch-build args]
                             fetch the fix for <CVE-ID> and build it as cve_yyyy_nnnnn
   build <name> <CVE-ID|patch>... [--cumulative] [kpatch-build args]
@@ -70,6 +72,11 @@ case "$cmd" in
 		[[ $# -ge 1 && $# -le 2 ]] || usage
 		need_root; backend_load; backend_detect
 		cve_catalog "$@"
+		;;
+	export)
+		[[ $# -eq 2 ]] || usage
+		need_root; backend_load; backend_detect
+		cve_export "$1" "$2"
 		;;
 	build)
 		[[ $# -ge 1 ]] || usage

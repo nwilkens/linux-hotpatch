@@ -15,16 +15,20 @@ cve_module_name() { local n="${1,,}"; printf '%s\n' "${n//-/_}"; }
 cve_patch_applies() { ( cd "$SRC_TREE" && patch -p1 -N --dry-run -s < "$1" ) >/dev/null 2>&1; }
 cve_patch_reverts() { ( cd "$SRC_TREE" && patch -p1 -R --dry-run -s < "$1" ) >/dev/null 2>&1; }
 
-# cve_patch_path <id>: the curated patch if the repo ships one that applies
-# to this tree, else the fetched one.
+# 6.11 for a 6.11.0-28-generic kernel.
+kernel_series() { local v="${KVER%%-*}"; printf '%s.%s\n' "${v%%.*}" "$(cut -d. -f2 <<<"$v")"; }
+
+# cve_patch_path <id>: a patch the repo ships, generic or for this kernel
+# series, if it applies to this tree; else the fetched one.
 cve_patch_path() {
-	local id="$1" curated
-	curated="$HOTPATCH_HOME/patches/$id.patch"
-	if [[ -r "$curated" ]] && cve_patch_applies "$curated"; then
-		printf '%s\n' "$curated"
-	else
-		printf '%s\n' "$CVE_DIR/$id.patch"
-	fi
+	local id="$1" candidate
+	for candidate in "$HOTPATCH_HOME/patches/$id.patch" "$HOTPATCH_HOME/patches/$(kernel_series)/$id.patch"; do
+		if [[ -r "$candidate" ]] && cve_patch_applies "$candidate"; then
+			printf '%s\n' "$candidate"
+			return 0
+		fi
+	done
+	printf '%s\n' "$CVE_DIR/$id.patch"
 }
 
 # cve_fetch_patch <id>: download the CNA record, try each fixing commit
@@ -42,8 +46,8 @@ cve_fetch_patch() {
 	if [[ -r "$dest" ]] && cve_patch_reverts "$dest"; then
 		die "$id: $dest is already present in $SRC_TREE"
 	fi
-	[[ -r "$HOTPATCH_HOME/patches/$id.patch" ]] \
-		&& log "$id: the curated patch does not apply to this tree; resolving from the CNA record instead"
+	[[ -r "$HOTPATCH_HOME/patches/$id.patch" || -r "$HOTPATCH_HOME/patches/$(kernel_series)/$id.patch" ]] \
+		&& log "$id: the shipped patch does not apply to this tree; resolving from the CNA record instead"
 	rm -f "$dest"
 	json="$CVE_DIR/$id.json"
 	if [[ -r "$VULNS_DIR/cve/published/${id:4:4}/$id.json" ]]; then
@@ -138,4 +142,23 @@ cve_catalog() {
 		sleep 1
 	done < <(python3 -I "$HOTPATCH_HOME/scripts/cve-catalog.py" "$VULNS_DIR" "$KVER" "$ids")
 	log "catalog written to $out"
+}
+
+# cve_export <catalog.tsv> <dir>: copy every patch the catalog found to apply
+# into <dir>/<series>/ with an INDEX.tsv, ready to commit under patches/.
+cve_export() {
+	local tsv="$1" dir id status detail title n=0
+	dir="$2/$(kernel_series)"
+	[[ -r "$tsv" ]] || die "cannot read $tsv"
+	mkdir -p "$dir"
+	printf 'cve\tstatus\tdetail\ttitle\n' > "$dir/INDEX.tsv"
+	while IFS=$'\t' read -r id status detail title; do
+		is_cve_id "$id" || continue
+		[[ "$status" == "applies" || "$status" == "review" ]] || continue
+		[[ -r "$CVE_DIR/$id.patch" ]] || { log "warning: no fetched patch for $id, skipping"; continue; }
+		cp "$CVE_DIR/$id.patch" "$dir/$id.patch"
+		printf '%s\t%s\t%s\t%s\n' "$id" "$status" "$detail" "$title" >> "$dir/INDEX.tsv"
+		n=$((n + 1))
+	done < "$tsv"
+	log "exported $n patches for kernel series $(kernel_series) to $dir"
 }

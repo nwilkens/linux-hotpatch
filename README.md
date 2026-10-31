@@ -35,6 +35,12 @@ when loaded with `--replace`, for sites that prefer one module carrying all
 fixes. Each build writes a `.manifest` beside the module listing what it
 carries, and `status` shows it for loaded modules.
 
+`patches/<series>/` holds pre-resolved patches for a kernel series with an
+`INDEX.tsv` (status, changed functions, object, title) produced by
+`hotpatch catalog <from> [<to>]` and `hotpatch export <catalog.tsv> patches`.
+`build` uses a shipped patch when it applies and otherwise resolves the CVE
+from the kernel CNA record.
+
 `inspect` and `build` take a CVE id. The tool reads the kernel CNA record
 from kernel.org, downloads each fixing commit starting with the stable branch
 nearest the running kernel, and keeps the first one that applies to the
