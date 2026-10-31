@@ -1,0 +1,603 @@
+cve	status	detail	title
+CVE-2026-98169	applies	funcs=smb3_enum_snapshots objects=module:cifs review=0	smb: client: fix potential OOB read in smb3_enum_snapshots()
+CVE-2026-98170	applies	funcs=move_smb2_ea_to_cifs objects=module:cifs review=0	smb: client: fix OOB struct field reads in move_smb2_ea_to_cifs()
+CVE-2026-98171	applies	funcs=receive_encrypted_standard objects=module:cifs review=0	smb: client: fix next_buffer UAF and NextCommand bounds in compound PDUs
+CVE-2026-98175	applies	funcs=clean_demultiplex_info objects=module:cifs review=0	smb: client: cancel reconnect work in clean_demultiplex_info()
+CVE-2026-98181	applies	funcs=gud_pipe_check objects=module:gud review=0	drm/gud: fix out-of-bounds write in gud_plane_atomic_check()
+CVE-2026-98185	applies	funcs=mwifiex_ret_802_11_scan objects=module:mwifiex review=0	wifi: mwifiex: validate scan response extents
+CVE-2026-98186	applies	funcs=mwifiex_search_oui_in_ie,mwifiex_is_rsn_oui_present,mwifiex_is_wpa_oui_present objects=module:mwifiex review=0	wifi: mwifiex: bound the pairwise-cipher OUI walk to the IE length
+CVE-2026-98187	applies	funcs=p54_parse_eeprom objects=module:p54common review=0	wifi: p54: require a full exp_if record in PDR_INTERFACE_LIST
+CVE-2026-98188	applies	funcs=p54_convert_rev0,p54_convert_rev1,p54_parse_eeprom objects=module:p54common review=0	wifi: p54: validate curve data length in the calibration curve converters
+CVE-2026-98189	applies	funcs=wilc_wlan_handle_isr_ext objects=module:wilc1000 review=0	wifi: wilc1000: fix RX buffer OOB-write in wilc_wlan_handle_isr_ext()
+CVE-2026-98190	applies	funcs=wilc_wfi_p2p_rx,mgmt_tx objects=module:wilc1000 review=0	wifi: wilc1000: fix out-of-bounds read in P2P public action frames
+CVE-2026-98191	applies	funcs=wlcore_regdomain_config objects=module:wlcore review=0	wifi: wlcore: release runtime PM ref on regdomain config failure
+CVE-2026-98192	applies	funcs=wcn36xx_dxe_deinit objects=module:wcn36xx review=0	wifi: wcn36xx: Fix potential use-after-free in TX ack timer teardown
+CVE-2026-98193	review	funcs=lib80211_michael_mic_verify objects=module:lib80211_crypt_tkip review=2 1 changed line(s) outside any function; check for data or declaration changes; changes an inline function or macro, so every caller is recompiled and patched	wifi: libipw: reject TKIP frames without a full MIC
+CVE-2026-98195	applies	funcs=il_dealloc_bcast_stations objects=module:iwlegacy review=0	wifi: iwlegacy: fix broadcast stations deallocation
+CVE-2026-98196	applies	funcs=brcms_free_timer objects=module:brcmsmac review=0	wifi: brcmsmac: fix UAF in brcms_free_timer()
+CVE-2026-98197	applies	funcs=w83791d_remove objects=module:w83791d review=0	hwmon: (w83791d) remove fan/pwm 4-5 sysfs group on remove
+CVE-2026-98198	review	funcs=pwm_fan_cleanup,pwm_fan_probe,pwm_fan_shutdown objects=module:pwm-fan review=1 7 changed line(s) outside any function; check for data or declaration changes	hwmon: (pwm-fan) Stop RPM timer before freeing tach data
+CVE-2026-98199	review	funcs=- objects=unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	hwmon: (pmbus/core) increase number of phases and add new mask
+CVE-2026-98200	applies	funcs=fungible_show objects=module:hp-wmi-sensors review=0	hwmon: (hp-wmi-sensors) Fix use-after-free in fungible_show()
+CVE-2026-98201	applies	funcs=input_ff_effect_from_user objects=vmlinux review=0	Input: zero ff_effect before compat copy in input_ff_effect_from_user
+CVE-2026-98202	applies	funcs=rmi_driver_suspend,rmi_driver_resume objects=module:rmi_core review=0	Input: synaptics-rmi4 - fix GPF in suspend and resume when unbound
+CVE-2026-98203	applies	funcs=soc_button_get_button_info objects=module:soc_button_array review=0	Input: soc_button_array - check btns_desc->package.count
+CVE-2026-98204	applies	funcs=rmi_smb_write_block objects=module:rmi_smbus review=0	Input: rmi_smbus - fix out-of-bounds read in rmi_smb_write_block()
+CVE-2026-98205	applies	funcs=evdev_do_ioctl objects=vmlinux review=0	Input: evdev - zero absinfo before partial copy in EVIOCSABS
+CVE-2026-98206	applies	funcs=cyttsp5_handle_irq objects=module:cyttsp5 review=0	Input: cyttsp5 - clamp the HID report size before memcpy
+CVE-2026-98207	applies	funcs=mmc_spi_request objects=module:mmc_spi review=0	mmc: spi: reset bytes_xfered before retrying CRC failures
+CVE-2026-98208	applies	funcs=sdio_uart_add_port objects=module:sdio_uart review=0	mmc: sdio_uart: fix xmit_fifo leak when the port table is full
+CVE-2026-98209	applies	funcs=aspeed_sdc_probe,aspeed_sdc_remove objects=not-built review=0	mmc: sdhci-of-aspeed: Remove children before releasing SDC resources
+CVE-2026-98210	applies	funcs=mxcmci_remove objects=not-built review=0	mmc: mxcmmc: cancel data work and watchdog on remove
+CVE-2026-98211	applies	funcs=mmci_remove objects=not-built review=0	mmc: mmci: Fix use-after-free in busy-timeout work
+CVE-2026-98212	review	funcs=mmc_hsq_init objects=not-built review=1 1 changed line(s) outside any function; check for data or declaration changes	mmc: hsq: Fix use-after-free in retry work
+CVE-2026-98213	applies	funcs=mmc_free_host objects=vmlinux review=0	mmc: core: Cancel SDIO IRQ work before freeing host
+CVE-2026-98217	applies	funcs=register_one_pkey_tree,unregister_pkey_tree objects=module:mlx4_ib review=0	IB/mlx4: Fix use-after-free on pkey sysfs registration failure
+CVE-2026-98218	applies	funcs=i2c_atr_add_adapter objects=not-built review=0	i2c: atr: fix dangling adapter pointer on add failure
+CVE-2026-98221	applies	funcs=tpm2_key_decode,tpm2_load_cmd objects=vmlinux review=0	KEYS: trusted: Fix tpm2_load_cmd() boundary check
+CVE-2026-98222	review	funcs=encrypted_key_alloc objects=vmlinux review=1 1 changed line(s) outside any function; check for data or declaration changes	KEYS: encrypted: fix integer overflow of datablob_len
+CVE-2026-98227	applies	funcs=msb_remove objects=module:ms_block review=0	memstick: ms_block: destroy io_queue workqueue on removal
+CVE-2026-98233	applies	funcs=tpacket_rcv objects=vmlinux review=0	net/packet: clear RX owner on VNET header error
+CVE-2026-98234	review	funcs=hhf_change,hhf_init objects=module:sch_hhf review=1 2 changed line(s) outside any function; check for data or declaration changes	net/sched: hhf: cap hh_flows_limit at change time
+CVE-2026-98235	applies	funcs=tcf_action_put_many objects=vmlinux review=0	net/sched: act_api: release tail references on DELACTION failure
+CVE-2026-98236	review	funcs=mhi_mbim_rx objects=module:mhi_wwan_mbim review=1 8 changed line(s) outside any function; check for data or declaration changes	net: wwan: mhi_wwan_mbim: check skb_copy_bits() return value
+CVE-2026-98237	applies	funcs=mhi_mbim_rx objects=module:mhi_wwan_mbim review=0	net: wwan: mhi_wwan_mbim: guard against a cyclic NDP chain
+CVE-2026-98239	applies	funcs=lan743x_rx_process_buffer objects=module:lan743x review=0	net: lan743x: fix RX checksum use-after-free
+CVE-2026-98241	applies	funcs=xfrm6_local_rxpmtu,xfrm6_local_error objects=vmlinux review=0	ipv6: xfrm: use full sockets in local error paths
+CVE-2026-98245	applies	funcs=mark_block_group_to_copy objects=module:btrfs:loaded review=0	btrfs: take commit root semaphore when iterating in mark_block_group_to_copy()
+CVE-2026-98246	applies	funcs=hci_dev_close_sync objects=module:bluetooth review=0	Bluetooth: hci_sync: Serialize local codec list cleanup
+CVE-2026-98247	applies	funcs=hci_read_supported_codecs,hci_read_supported_codecs_v2 objects=module:bluetooth review=0	Bluetooth: hci_codec: validate vendor codec count length
+CVE-2026-98249	review	funcs=SYM_CODE_START objects=unknown review=1 other architecture, irrelevant on x86_64	arm64: hibernate: pass HVC_SET_VECTORS args to the resume hvc
+CVE-2026-98251	applies	funcs=ovs_ct_get_conn_labels objects=module:openvswitch review=0	openvswitch: avoid reallocating confirmed conntrack labels
+CVE-2026-98252	review	funcs=- objects=module:iw_cm review=1 9 changed line(s) outside any function; check for data or declaration changes	RDMA/core: fix refcount bug in iwpm_get_nlmsg_request()
+CVE-2026-98253	applies	funcs=ucma_process_join objects=unknown review=0	RDMA/ucma: Serialize join and leave on copy_to_user failure
+CVE-2026-98254	applies	funcs=swiotlb_bounce objects=vmlinux review=0	swiotlb: use the adjusted address for the highmem page lookup
+CVE-2026-98255	review	funcs=tcp_rcv_established objects=vmlinux review=1 1 changed line(s) outside any function; check for data or declaration changes	tcp: exclude old ACKs from tcp fast path
+CVE-2026-98257	applies	funcs=rds_ib_cm_connect_complete objects=module:rds_rdma review=0	rds: ib: use rds_conn_drop() on protocol version mismatch
+CVE-2026-98260	review	funcs=begin_new_exec objects=vmlinux review=1 11 changed line(s) outside any function; check for data or declaration changes	exec: Cleanup POSIX timers right after de_thread()
+CVE-2026-98261	applies	funcs=cifs_chan_skip_or_disable objects=module:cifs review=0	cifs: Fix server use-after-free in cifs_chan_skip_or_disable()
+CVE-2026-98262	applies	funcs=ahci_start_fis_rx objects=module:libahci review=0	ata: libahci: clear PxCLBU and PxFBU for AHCI_HFLAG_32BIT_ONLY
+CVE-2026-98263	review	funcs=rt712_sdca_dmic_hw_params objects=module:snd-soc-rt712-sdca-dmic review=1 1 changed line(s) outside any function; check for data or declaration changes	ASoC: codecs: rt712-sdca-dmic: fix uninitialized stream_config->type
+CVE-2026-98264	applies	funcs=virtsnd_remove,virtsnd_freeze objects=module:virtio_snd review=0	ALSA: virtio: reset device before deleting virtqueues
+CVE-2026-98266	applies	funcs=snd_card_init,snd_card_do_free objects=module:snd review=0	ALSA: core: Fix potential UAF after asynchronous card release
+CVE-2026-98267	applies	funcs=v9fs_issue_write objects=module:9p review=0	9p: Fix v9fs_issue_write() to update i_size and remote_i_size
+CVE-2026-98269	applies	funcs=btrfs_replace_file_extents objects=module:btrfs:loaded review=0	btrfs: abort transaction on failure to update inode for hole punching and reflinking
+CVE-2026-98270	applies	funcs=nbio_v7_9_handle_ras_controller_intr_no_bifring objects=module:amdgpu review=0	drm/amdgpu: check ras and obj before dereference
+CVE-2026-98271	review	funcs=pskb_carve_inside_header,pskb_carve_inside_nonlinear objects=vmlinux review=1 28 changed line(s) outside any function; check for data or declaration changes	net: skbuff: do not leave stale header offsets after pskb_carve()
+CVE-2026-98272	applies	funcs=mvpp2_change_mtu objects=not-built review=0	net: mvpp2: prevent buffer overflow in page_pool allocation
+CVE-2026-98275	applies	funcs=gmac_irq objects=not-built review=0	net: ethernet: cortina: Ack RX overrun interrupt correctly
+CVE-2026-98276	applies	funcs=sock_gettstamp objects=vmlinux review=0	net: lock the socket in sock_gettstamp()
+CVE-2026-98282	review	funcs=iommu_tce_check_ioba objects=not-built review=1 other architecture, irrelevant on x86_64	powerpc/iommu: Fix the overflow validation in iommu_tce_check_ioba
+CVE-2026-98283	review	funcs=kvmhv_emulate_tlbie_all_lpid objects=not-built review=1 other architecture, irrelevant on x86_64	KVM: PPC: Book3S HV: fix use-after-free in kvmhv_emulate_tlbie_all_lpid()
+CVE-2026-98285	applies	funcs=__vlan_del,__vlan_flush,br_vlan_delete,nbp_vlan_delete objects=module:bridge review=0	net: bridge: vlan: fix bugs caused by switchdev deletion errors
+CVE-2026-98287	applies	funcs=pppoatm_send objects=module:pppoatm review=0	pppoatm: ensure a writable skb header and linear data
+CVE-2026-98290	applies	funcs=rfcomm_sock_close,rfcomm_sock_shutdown objects=module:rfcomm review=0	Bluetooth: RFCOMM: avoid socket lock inversion in listener cleanup
+CVE-2026-98291	applies	funcs=btintel_pcie_submit_rx objects=module:btintel_pcie review=0	Bluetooth: btintel_pcie: fix off-by-one bounds check in RX submit
+CVE-2026-98292	applies	funcs=mtk_hci_wmt_sync,mtk_hci_wmt_sync objects=module:btmtksdio,module:btmtkuart review=0	Bluetooth: btmtksdio, btmtkuart: validate WMT event length before struct access
+CVE-2026-98293	applies	funcs=iso_conn_ready objects=module:bluetooth review=0	Bluetooth: ISO: Fix parent socket leak in iso_conn_ready()
+CVE-2026-98298	applies	funcs=mmp_pdma_prep_slave_sg objects=not-built review=0	dmaengine: mmp_pdma: fix wrong sg length in mmp_pdma_prep_slave_sg()
+CVE-2026-98299	review	funcs=- objects=unknown,vmlinux review=1 4 changed line(s) outside any function; check for data or declaration changes	tcp: do not let tcp_rmem be set below 4096
+CVE-2026-98300	applies	funcs=tcp_v6_do_rcv objects=vmlinux review=0	tcp: Don't call skb_clone_and_charge_r() for close()d listener in tcp_v6_do_rcv().
+CVE-2026-98301	applies	funcs=br_mst_set_state objects=module:bridge review=0	net: bridge: mst: move switchdev call outside rcu
+CVE-2026-98302	applies	funcs=skfp_ctl_set_mac_address objects=module:skfp review=0	net: fddi: skfp: fix NULL deref when setting the MAC address while down
+CVE-2026-98307	review	funcs=ath11k_mac_peer_cleanup_all,ath11k_mac_station_remove objects=module:ath11k review=1 16 changed line(s) outside any function; check for data or declaration changes	wifi: ath11k: cleanup arsta in ath11k_mac_peer_cleanup_all()
+CVE-2026-98308	applies	funcs=azx_pcm_open objects=module:snd-hda-codec review=0	ALSA: hda: trace PCM open only after assigning a stream
+CVE-2026-98309	applies	funcs=vc4_kms_load objects=not-built review=0	drm/vc4: Use managed KMS polling to fix UAF on unbind
+CVE-2026-98311	applies	funcs=virt_wifi_newlink objects=module:virt_wifi review=0	wifi: virt_wifi: don't transfer operstate before register
+CVE-2026-98314	applies	funcs=snd_pcm_timer_init objects=module:snd-pcm review=0	ALSA: pcm: set timer->private_data before registering the PCM timer
+CVE-2026-98319	applies	funcs=prepare_signaling objects=vmlinux review=0	drm: Fix drm_pending_vblank_event leak in error path for out_fence_ptr
+CVE-2026-98320	review	funcs=flow_offload_free,nf_flow_table_module_exit objects=module:nf_flow_table review=2 8 changed line(s) outside any function; check for data or declaration changes; nf_flow_table_module_exit is init or exit code, which has already run and cannot be livepatched	netfilter: flowtable: hold reference on ct until flow is released
+CVE-2026-98322	applies	funcs=nft_nat_setup_netmap objects=module:nft_nat review=0	netfilter: nft_nat: fully initialise new_addr in netmap setup
+CVE-2026-98323	applies	funcs=siw_get_hdr objects=module:siw review=0	RDMA/siw: Bound fragmented header copies by the remaining length
+CVE-2026-98326	applies	funcs=ieee80211_join_mesh objects=module:mac80211 review=0	wifi: mac80211: mesh: release the channel if start fails
+CVE-2026-98328	applies	funcs=ieee80211_register_hw objects=module:mac80211 review=0	wifi: mac80211: add HE 6 GHz capability in the scan elems len
+CVE-2026-98329	review	funcs=ieee80211_tx_prepare_skb,ieee80211_parse_tx_radiotap,ieee80211_monitor_select_queue,ieee80211_parse_tx_radiotap,ieee80211_monitor_start_xmit objects=module:mac80211,unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; 20 changed line(s) outside any function; check for data or declaration changes	wifi: mac80211: don't allow injecting frames wider than the chanctx
+CVE-2026-98331	review	funcs=ieee80211_uninit objects=module:mac80211 review=1 21 changed line(s) outside any function; check for data or declaration changes	wifi: mac80211: unlist vifs when their netdev is unregistered
+CVE-2026-98334	applies	funcs=ieee80211_start_ap objects=module:mac80211 review=0	wifi: mac80211: reset state when starting AP fails
+CVE-2026-98335	applies	funcs=ieee80211_stop_mesh objects=module:mac80211 review=0	wifi: mac80211: abort chanswitch when leaving a mesh
+CVE-2026-98336	applies	funcs=ieee80211_netdev_setup_tc objects=module:mac80211 review=0	wifi: mac80211: don't offload TC setup on AP_VLAN interfaces
+CVE-2026-98337	applies	funcs=__ieee80211_roc_work objects=module:mac80211 review=0	wifi: mac80211: don't start a ROC while scanning
+CVE-2026-98339	applies	funcs=cfg80211_update_assoc_bss_entry objects=module:cfg80211 review=0	wifi: cfg80211: don't filter by BSS type when removing stale entries
+CVE-2026-98340	review	funcs=- objects=module:cfg80211 review=1 7 changed line(s) outside any function; check for data or declaration changes	wifi: cfg80211: only group hidden BSSes with beacon entries
+CVE-2026-98342	applies	funcs=dma_device_release objects=vmlinux review=0	dmaengine: wait for RCU readers before releasing dma_device
+CVE-2026-98344	applies	funcs=dma_chan_put objects=vmlinux review=0	dmaengine: Fix device kref underflow in dma_chan_put()
+CVE-2026-98345	applies	funcs=cfg80211_classify8021d objects=module:cfg80211 review=0	wifi: cfg80211: check IP header size in cfg80211_classify8021d()
+CVE-2026-98346	applies	funcs=cfg80211_calculate_bi_data objects=module:cfg80211 review=0	wifi: cfg80211: don't get the radio mask for netdev-less wdevs
+CVE-2026-98347	review	funcs=__ipoib_ib_dev_flush,__ipoib_mcast_schedule_join_thread,ipoib_mcast_join,ipoib_mcast_join_task,ipoib_mcast_send,ipoib_mcast_restart_task objects=module:ib_ipoib,unknown review=3 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of anonymous; layout changes need shadow variables or a reboot; changes an inline function or macro, so every caller is recompiled and patched	IB/IPoIB: Avoid restoring OPER_UP after multicast flush
+CVE-2026-98348	applies	funcs=libipw_handle_assoc_resp objects=module:libipw review=0	wifi: libipw: reject too-short association responses
+CVE-2026-98349	applies	funcs=libipw_process_probe_response objects=module:libipw review=0	wifi: libipw: reject too-short beacon and probe responses
+CVE-2026-98351	applies	funcs=virt_wifi_start_xmit objects=module:virt_wifi review=0	wifi: virt_wifi: free skb when disconnected
+CVE-2026-98352	review	funcs=destroy_con_cq_qp,rtrs_rdma_addr_resolved,rtrs_clt_stop_and_destroy_conns,init_conns objects=module:rtrs-client,unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of rtrs_clt_con; layout changes need shadow variables or a reboot	RDMA/rtrs-clt: Fix CQ pool leak when connect is interrupted
+CVE-2026-98355	review	funcs=TRACE_DEFINE_ENUM,TRACE_EVENT objects=unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	RDMA/rtrs: guard against null kobj name
+CVE-2026-98357	review	funcs=isert_init_conn,isert_do_control_comp,isert_send_done,isert_wait_conn objects=module:ib_isert,unknown review=4 1 changed line(s) outside any function; check for data or declaration changes; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of isert_cmd; layout changes need shadow variables or a reboot; changes the definition of isert_conn; layout changes need shadow variables or a reboot	IB/isert: wait for deferred control PDU completions before releasing the connection
+CVE-2026-98358	applies	funcs=iser_check_remote_inv objects=module:ib_iser review=0	IB/iser: reject a remote invalidation of an unregistered direction
+CVE-2026-98359	applies	funcs=ib_get_eth_speed objects=module:ib_core review=0	RDMA/core: Reject unregistering netdevs in ib_get_eth_speed
+CVE-2026-98360	review	funcs=__rxe_init_mcg,rxe_get_mcg objects=module:rdma_rxe review=1 4 changed line(s) outside any function; check for data or declaration changes	RDMA/rxe: insert mcg into mcg_tree only after rxe_mcast_add() succeeds
+CVE-2026-98362	applies	funcs=scpi_dvfs_recalc_rate objects=not-built review=0	clk: scpi: bound-check DVFS index in scpi_dvfs_recalc_rate
+CVE-2026-98363	applies	funcs=scpi_dvfs_get_info objects=not-built review=0	firmware: arm_scpi: reject DVFS OPP count above MAX_DVFS_OPPS
+CVE-2026-98364	applies	funcs=xfrm_bundle_create,xfrm_create_dummy_bundle objects=vmlinux review=0	xfrm: hold net_device reference under RCU in bundle creation
+CVE-2026-98365	applies	funcs=mr_check_range objects=module:rdma_rxe review=0	RDMA/rxe: Fix integer overflow in mr_check_range() leading to OOB access
+CVE-2026-98366	applies	funcs=rxe_rereg_user_mr objects=module:rdma_rxe review=0	RDMA/rxe: validate access flags before swapping the MR's PD
+CVE-2026-98367	applies	funcs=siw_accept objects=module:siw review=0	RDMA/siw: Clear association under lock if siw_qp_modify fails in siw_accept
+CVE-2026-98368	applies	funcs=esp_output_head,esp6_output_head objects=module:esp4,module:esp6 review=0	esp: downgrade zerocopy managed frags before mutating skb frags
+CVE-2026-98374	applies	funcs=tcp_send_synack objects=vmlinux review=0	tcp: fix use-after-free of retransmit_skb_hint in tcp_send_synack()
+CVE-2026-98375	applies	funcs=handle_incoming_queue objects=vmlinux review=0	xen/netfront: drop RX packets with a short Ethernet header
+CVE-2026-98376	review	funcs=- objects=unknown,vmlinux review=4 2 changed line(s) outside any function; check for data or declaration changes; touches BPF or tracing hooks; check that no attached program depends on the old shape; 57 changed line(s) outside any function; check for data or declaration changes; touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Use array_map_meta_equal for percpu array inner map replacement
+CVE-2026-98377	review	funcs=__vlan_insert_inner_tag objects=unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	vlan: require the MAC header to be present in __vlan_insert_inner_tag()
+CVE-2026-98378	review	funcs=- objects=vmlinux review=2 5 changed line(s) outside any function; check for data or declaration changes; touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Skip unsettled links in link iterator
+CVE-2026-98379	applies	funcs=rpfilter_lookup_reverse6 objects=module:ip6t_rpfilter review=0	netfilter: ip6t_rpfilter: reject routes without inet6_dev
+CVE-2026-98380	applies	funcs=tcf_idr_delete_index objects=vmlinux review=0	net/sched: reject IDR error pointers when deleting actions
+CVE-2026-98381	applies	funcs=__veth_napi_enable_range,veth_napi_del_range objects=module:veth review=0	veth: manage XDP program pointers during channel resize
+CVE-2026-98382	review	funcs=__bpf_offload_dev_match objects=vmlinux review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Reject dev-bound-only programs on other devices
+CVE-2026-98383	review	funcs=lwt_seg6local_func_proto objects=vmlinux review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Disallow bpf_skb_pull_data() for LWT_SEG6LOCAL
+CVE-2026-98384	applies	funcs=late_initcall objects=vmlinux review=0	bpf: Fix out-of-bounds read of sk_protocol in bpf_sock_destroy()
+CVE-2026-98386	review	funcs=- objects=module:qla2xxx review=1 4 changed line(s) outside any function; check for data or declaration changes	scsi: qla2xxx: Use memset_io() to clear QLAFX00 request ring slot
+CVE-2026-98392	applies	funcs=btintel_pcie_msix_tx_handle objects=module:btintel_pcie review=0	Bluetooth: btintel_pcie: fix tx_handle bounds off-by-one
+CVE-2026-98398	review	funcs=register_lock_class,lockdep_init_map_type,lockdep_set_lock_cmp_fn,__lock_acquire,match_held_lock objects=not-built review=2 28 changed line(s) outside any function; check for data or declaration changes; changes an inline function or macro, so every caller is recompiled and patched	locking/lockdep: Invalidate stale class_cache entries for zapped classes
+CVE-2026-98399	review	funcs=dump_reipl_run objects=vmlinux review=1 other architecture, irrelevant on x86_64	s390/ipl: Fix NULL deref in dump_reipl without re-IPL parm block
+CVE-2026-98400	review	funcs=set_os_info_reipl_block objects=vmlinux review=1 other architecture, irrelevant on x86_64	s390/ipl: Fix NULL deref in kdump without re-IPL parm block
+CVE-2026-98401	review	funcs=gtp_rx,gro_cells_receive objects=module:gtp,unknown,vmlinux review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	net: iptunnel: fix stale transport header during tunnel decapsulation
+CVE-2026-98402	review	funcs=TRACE_EVENT objects=unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	net: icmp: avoid invalid transport header access in icmp_send tracepoint
+CVE-2026-98403	review	funcs=__bootdata,append_ipl_block_parm objects=vmlinux review=2 other architecture, irrelevant on x86_64; 1 changed line(s) outside any function; check for data or declaration changes	s390/boot: Avoid IPL parameter append past command line
+CVE-2026-98404	applies	funcs=virtio_gpu_user_framebuffer_create objects=module:virtio-gpu review=0	drm/virtio: Fix a NULL vs ERR_PTR() bug in virtio_gpu_user_framebuffer_create()
+CVE-2026-98405	applies	funcs=parse_posix_sids objects=module:cifs review=0	smb: client: fix missing iov bounds check in parse_posix_sids()
+CVE-2026-98406	applies	funcs=ieee80211_set_bitrate_mask objects=module:mac80211 review=0	wifi: mac80211: avoid WARN in set_bitrate_mask when sdata not in driver
+CVE-2026-98409	applies	funcs=rtd119x_wdt_probe objects=not-built review=0	watchdog: rtd119x: Avoid division by zero
+CVE-2026-98410	applies	funcs=da9063_wdt_suspend,da9063_wdt_resume objects=module:da9063_wdt review=0	watchdog: da9063: fix suspend/resume handling of HW_RUNNING watchdog
+CVE-2026-98411	applies	funcs=pwrseq_device_register objects=module:pwrseq-core review=0	power: sequencing: fix NULL-pointer dereference in pwrseq_device_register()
+CVE-2026-98412	applies	funcs=pwrseq_unit_new objects=module:pwrseq-core review=0	power: sequencing: fix NULL-pointer dereference in pwrseq_unit_new()
+CVE-2026-98413	applies	funcs=avc_has_perm_noaudit objects=vmlinux review=0	selinux: always fill AVC decision in avc_has_perm_noaudit()
+CVE-2026-98416	applies	funcs=k3_udma_glue_release_rx_chn objects=not-built review=0	dmaengine: ti: k3-udma-glue: fix NULL dereference in k3_udma_glue_release_rx_chn()
+CVE-2026-98417	applies	funcs=handle_esp objects=vmlinux review=0	net: xfrm: reject unrepresentable espintcp transport headers
+CVE-2026-98419	applies	funcs=reset_per_cpu_data objects=vmlinux review=0	drop_monitor: fix out-of-bounds write in reset_per_cpu_data()
+CVE-2026-98421	applies	funcs=ieee80211_tdls_mgmt objects=module:mac80211 review=0	wifi: mac80211: require a peer station for TDLS setup confirm
+CVE-2026-98422	applies	funcs=ieee80211_do_stop objects=module:mac80211 review=0	wifi: mac80211: reset the AP_VLAN tailroom counter on ifdown
+CVE-2026-98423	applies	funcs=mac80211_hwsim_stop,hwsim_cloned_frame_received_nl objects=module:mac80211_hwsim review=0	wifi: mac80211_hwsim: don't hand frames to mac80211 while stopping
+CVE-2026-98426	applies	funcs=mwifiex_pcie_request_irq objects=module:mwifiex_pcie review=0	wifi: mwifiex: fix IRQ leak using wrong index in MSI-X error path
+CVE-2026-98429	review	funcs=efa_com_arm_eq,efa_com_eq_init,efa_com_eq_init,efa_destroy_eq,efa_create_eq objects=module:efa,unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	RDMA/efa: Keep EQ resources alive while IRQ is registered
+CVE-2026-98430	applies	funcs=efa_com_admin_init,efa_probe_device,efa_remove_device objects=module:efa review=0	RDMA/efa: Keep admin queues alive while IRQ is registered
+CVE-2026-98432	applies	funcs=inet_sock_destruct,tcp_v4_reqsk_destructor objects=vmlinux review=0	ipv4: free inet_opt and ireq_opt after an RCU grace period
+CVE-2026-98433	review	funcs=kvmppc_svm_page_in objects=not-built review=1 other architecture, irrelevant on x86_64	KVM: PPC: Book3S HV: fix secure device page leak on uv_page_in() failure
+CVE-2026-98439	review	funcs=ksmbd_conn_handler_loop objects=module:ksmbd review=1 20 changed line(s) outside any function; check for data or declaration changes	smb/server: cancel async requests when closing connection
+CVE-2026-98441	applies	funcs=tcf_ct_act objects=module:act_ct review=0	net/sched: act_ct: avoid modifying shared unconfirmed ct entry
+CVE-2026-98442	applies	funcs=tcf_ct_act objects=module:act_ct review=0	net/sched: act_ct: fix helper UAF due to extensions realloc
+CVE-2026-98443	applies	funcs=xlog_recover_iunlink_bucket objects=module:xfs review=0	xfs: fix cursor and pointer handling when recovering iunlink buckets
+CVE-2026-98445	applies	funcs=xrep_newbt_add_blocks objects=unknown review=0	xfs: don't let memory failures leak blocks and kill repairs
+CVE-2026-98448	applies	funcs=xrep_orphanage_create objects=unknown review=0	xfs: release orphanage dir inode if chown fails
+CVE-2026-98449	applies	funcs=compound_send_recv objects=module:cifs review=0	smb: client: delete compound mids on send failure before unlock
+CVE-2026-98450	review	funcs=smb2_handle_cancelled_close,smb2_handle_cancelled_mid,compound_send_recv objects=module:cifs review=1 5 changed line(s) outside any function; check for data or declaration changes	smb: client: close completed creates on compound wait errors
+CVE-2026-98451	applies	funcs=cifs_do_create,cifs_atomic_open,cifs_create objects=module:cifs review=0	smb: client: use finish_no_open() for non-regular inodes
+CVE-2026-98452	review	funcs=open_cached_dir objects=module:cifs review=1 1 changed line(s) outside any function; check for data or declaration changes	smb: client: clean up failed cached directory opens
+CVE-2026-98454	applies	funcs=smb2_parse_lease_buf,smb3_parse_lease_buf,parse_query_id_ctxt,smb2_parse_contexts objects=module:cifs review=0	smb: client: fix create context out-of-bounds reads
+CVE-2026-98455	applies	funcs=rfcomm_sock_getsockopt_old objects=module:rfcomm review=0	Bluetooth: RFCOMM: fix NULL dereference of dlc->session in RFCOMM_CONNINFO
+CVE-2026-98456	applies	funcs=read_unconf_index_list objects=module:bluetooth review=0	Bluetooth: mgmt: fix race in read_unconf_index_list()
+CVE-2026-98457	applies	funcs=l2cap_data_rcv objects=module:bluetooth review=0	Bluetooth: L2CAP: validate frame length before control and FCS access
+CVE-2026-98459	review	funcs=- objects=module:bluetooth review=1 5 changed line(s) outside any function; check for data or declaration changes	Bluetooth: ISO: balance the parent hold in hci_bind_bis()
+CVE-2026-98460	applies	funcs=hci_sock_sendmsg objects=module:bluetooth review=0	Bluetooth: hci_sock: reject out-of-range OCF values
+CVE-2026-98461	applies	funcs=is_filtered_packet objects=module:bluetooth review=0	Bluetooth: hci_sock: validate event length before filtering
+CVE-2026-98464	review	funcs=kvm_riscv_vcpu_timer_cancel objects=module:kvm review=1 other architecture, irrelevant on x86_64	RISC-V: KVM: Synchronize hrtimer callback during teardown
+CVE-2026-98466	review	funcs=fix_host_ownership objects=unknown review=1 other architecture, irrelevant on x86_64	KVM: arm64: Transfer the hyp stack pages out of the host stage-2
+CVE-2026-98468	review	funcs=stage2_apply_range objects=module:kvm review=1 other architecture, irrelevant on x86_64	KVM: arm64: Fix spurious warning for benign stage 2 teardown race
+CVE-2026-98473	applies	funcs=vfio_ap_free_aqic_resources,apq_status_check,apq_reset_check,vfio_ap_mdev_reset_queue,vfio_ap_mdev_remove_queue objects=not-built review=0	s390/vfio-ap: fix KVM GISC and page leak when queue removed from host config
+CVE-2026-98475	review	funcs=set_schib objects=unknown,vmlinux review=3 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of schib_config; layout changes need shadow variables or a reboot; changes the definition of schib; layout changes need shadow variables or a reboot	s390/cmf: Fix virtual vs physical address confusion
+CVE-2026-98476	applies	funcs=ccw_device_get_util_str objects=vmlinux review=0	s390/cio: Fix NULL pointer dereference in ccw_device_get_util_str()
+CVE-2026-98479	applies	funcs=iscsi_tcp_data_in objects=module:libiscsi_tcp review=0	scsi: libiscsi_tcp: Check the data direction of a Data-In PDU
+CVE-2026-98481	applies	funcs=port100_recv_response objects=module:port100 review=0	nfc: port100: reject frames whose declared length exceeds the received data
+CVE-2026-98482	applies	funcs=nfc_llcp_recv_hdlc objects=module:nfc review=0	nfc: llcp: drop truncated I/RR/RNR PDUs in nfc_llcp_recv_hdlc()
+CVE-2026-98483	review	funcs=microread_start_poll,pn533_poll_dep,pn533_start_poll,pn544_hci_start_poll,st21nfca_hci_start_poll,nfc_get_local_general_bytes,nfc_dep_link_up,nfc_get_local_general_bytes,digital_tg_send_atr_res,nfc_llcp_general_bytes,nci_set_local_general_bytes,nfc_llcp_general_bytes objects=module:microread,module:nci,module:nfc,module:nfc_digital,module:pn533,module:pn544,module:st21nfca_hci,unknown review=6 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of pn533; layout changes need shadow variables or a reboot; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of nfc_hci_dev; layout changes need shadow variables or a reboot; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	nfc: fix use-after-free in nfc_get_local_general_bytes
+CVE-2026-98484	applies	funcs=nft_setelem_catchall_insert,nft_setelem_catchall_deactivate objects=module:nf_tables:loaded review=0	netfilter: nf_tables: skip expired catchall elements on insert and delete
+CVE-2026-98485	applies	funcs=rt_mt6,rt_mt6_check objects=module:ip6t_rt review=0	netfilter: ip6t_rt: fix zero-address non-strict match out-of-bounds read
+CVE-2026-98486	applies	funcs=ena_probe objects=module:ena review=0	net: ena: fix MMIO read buffer leak on probe failure
+CVE-2026-98487	applies	funcs=br_mdb_flush_pgs objects=module:bridge review=0	net: bridge: mdb: restart port group walk after deletion
+CVE-2026-98488	applies	funcs=atl1e_clean_tx_irq objects=module:atl1e review=0	net: atl1e: fix soft lockup on out-of-range hw_next_to_clean read
+CVE-2026-98489	applies	funcs=atl1c_clean_tx objects=module:atl1c review=0	net: atl1c: fix soft lockup on out-of-range tpd_cons read
+CVE-2026-98491	review	funcs=__ovs_ct_lookup objects=module:openvswitch,unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	net: openvswitch: conntrack: avoid modifying shared unconfirmed ct entry
+CVE-2026-98494	applies	funcs=atl1_intr_tx objects=module:atl1 review=0	net: atl1: fix soft lockup on out-of-range cmb_tpd_next_to_clean read
+CVE-2026-98495	applies	funcs=arp_ioctl objects=vmlinux review=0	net: arp: terminate device name before lookup
+CVE-2026-98498	applies	funcs=mlx5_tc_ct_shared_counter_get objects=unknown review=0	net/mlx5: Fix rev_entry reference leak in mlx5_tc_ct_shared_counter_get()
+CVE-2026-98499	applies	funcs=wacom_wac_pen_serial_enforce objects=module:wacom review=0	HID: wacom: fix OOB read in wacom_wac_pen_serial_enforce()
+CVE-2026-98501	applies	funcs=u1_raw_event,alps_input_configured objects=module:hid-alps review=0	HID: alps: fix use-after-free on input2 registration failure
+CVE-2026-98504	applies	funcs=of_pci_prop_bus_range,of_pci_prop_intr_map objects=not-built review=0	PCI: of_property: Omit bus properties without a subordinate bus
+CVE-2026-98505	applies	funcs=damon_hugetlb_mkold objects=not-built review=0	mm/damon/vaddr: avoid hw-driven pte updates during damon_hugetlb_mkold()
+CVE-2026-98507	review	funcs=reusable_anon_vma,__anon_vma_prepare objects=unknown review=1 7 changed line(s) outside any function; check for data or declaration changes	mm/rmap: fix missing barrier between anon_vma init and vma->anon_vma publish
+CVE-2026-98508	applies	funcs=virtio_gpu_init_submit objects=module:virtio-gpu review=0	drm/virtio: fix NULL pointer dereference on fence allocation failure
+CVE-2026-98509	applies	funcs=virtio_gpu_execbuffer_ioctl objects=module:virtio-gpu review=0	drm/virtio: fix memory leak of fence event on execbuffer failure
+CVE-2026-98510	applies	funcs=xe_vm_close_and_put objects=module:xe review=0	drm/xe/vm: nuke PTs only after unlinking contested VMAs
+CVE-2026-98511	applies	funcs=nouveau_bo_pin_locked objects=unknown review=0	drm/nouveau: don't bump pin count on failed re-pin in nouveau_bo_pin_locked()
+CVE-2026-98512	review	funcs=nouveau_sched_destroy objects=unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of nouveau_sched; layout changes need shadow variables or a reboot	drm/nouveau: RCU-free the scheduler-containing nouveau_sched
+CVE-2026-98513	applies	funcs=nouveau_connector_detect objects=unknown review=0	drm/nouveau: Fix runtime PM leak in nouveau_connector_detect()
+CVE-2026-98514	applies	funcs=validate_init objects=unknown review=0	drm/nouveau: Fix gem reference leak in validate_init()
+CVE-2026-98515	applies	funcs=nouveau_drm_open,nvif_vmm_dtor objects=unknown review=0	drm/nouveau: fix double-free in nvif_vmm_dtor
+CVE-2026-98516	applies	funcs=nv1a_ram_new objects=unknown review=0	drm/nouveau: Fix bridge reference leak in nv1a_ram_new()
+CVE-2026-98517	applies	funcs=op_map,bind_lock_validate objects=unknown review=0	drm/nouveau/uvmm: fix UAF in nouveau_uvmm_sm when BO is in TTM_PL_SYSTEM
+CVE-2026-98519	applies	funcs=amdgpu_debugfs_test_ib_show objects=module:amdgpu review=0	drm/amdgpu: Fix runtime PM leak in amdgpu_debugfs_test_ib_show()
+CVE-2026-98521	applies	funcs=i915_gem_object_free,__i915_gem_object_fini objects=unknown review=0	drm/i915: fix incorrect RCU teardown order
+CVE-2026-98522	review	funcs=pvr_mmu_map_sgl objects=not-built review=1 1 changed line(s) outside any function; check for data or declaration changes	drm/imagination: Propagate map failures correctly from pvr_mmu_map_sgl()
+CVE-2026-98524	applies	funcs=rds_ib_map_frmr objects=module:rds_rdma review=0	rds: ib: Clear the sg list when mapping an MR fails
+CVE-2026-98525	applies	funcs=mctp_lookup_prealloc_tag objects=vmlinux review=0	mctp: route: iterate socket tag list in mctp_lookup_prealloc_tag()
+CVE-2026-98526	review	funcs=llc_mac_header_len objects=module:llc2 review=1 2 changed line(s) outside any function; check for data or declaration changes	llc: reserve device headroom for allocated frames
+CVE-2026-98527	applies	funcs=zynq_gpio_request objects=not-built review=0	gpio: zynq: fix runtime PM leak on request error path
+CVE-2026-98528	applies	funcs=gpio_desc_to_lineinfo,lineinfo_get_v1,lineinfo_get,lineinfo_changed_notify objects=vmlinux review=0	gpio: cdev: fix kernel stack leak to user-space in error path
+CVE-2026-98529	applies	funcs=arizona_gpio_direction_out objects=module:gpio-arizona review=0	gpio: arizona: Fix runtime PM leak in arizona_gpio_direction_out()
+CVE-2026-98531	review	funcs=- objects=vmlinux review=1 4 changed line(s) outside any function; check for data or declaration changes	ipv6: sr: enforce exact attribute length for SEG6_ATTR_DST
+CVE-2026-98532	applies	funcs=ipv6_find_hdr objects=vmlinux review=0	ipv6: do not let ipv6_find_hdr() return an offset past the packet end
+CVE-2026-98535	applies	funcs=read_dts_node objects=not-built review=0	fsl/fman: Fix clk reference leak in read_dts_node()
+CVE-2026-98536	applies	funcs=cleanup_offline_cgwbs_workfn objects=vmlinux review=0	writeback: report a Tasks-RCU quiescent state per cgwb drain pass
+CVE-2026-98537	applies	funcs=check_flush_dependency objects=vmlinux review=0	workqueue: Fix NULL current_pwq deref in flush dependency check
+CVE-2026-98539	applies	funcs=ntfs_create_inode objects=module:ntfs3 review=0	fs/ntfs3: use d_instantiate_new() in ntfs_create_inode() and murder syzbot's "WARNING in do_new_mount" saga
+CVE-2026-98541	applies	funcs=fou_create objects=module:fou review=0	fou: reject omitted FOU_ATTR_IPPROTO on FOU_ENCAP_DIRECT
+CVE-2026-98544	applies	funcs=bnad_pci_probe,bnad_pci_remove objects=module:bna review=0	bna: prevent IOC timer rearm during teardown
+CVE-2026-98545	applies	funcs=ata_scsi_set_passthru_sense_fields objects=vmlinux review=0	ata: libata-scsi: bound the ATA passthru sense descriptor writes
+CVE-2026-98547	applies	funcs=prb_calc_retire_blk_tmo objects=vmlinux review=0	af_packet: fix integer overflow in prb_calc_retire_blk_tmo()
+CVE-2026-98548	applies	funcs=sctp_sf_do_5_2_6_stale objects=module:sctp review=0	sctp: discard the rest of the packet on a stale-cookie error
+CVE-2026-98553	applies	funcs=autofs_kill_sb objects=module:autofs4:loaded review=0	autofs: fix sbi->pipe file reference leak in autofs_kill_sb()
+CVE-2026-98554	applies	funcs=vlan_dev_hard_header objects=module:8021q review=0	vlan: ensure sufficient headroom in vlan_dev_hard_header()
+CVE-2026-98555	applies	funcs=llc_conn_ac_resend_i_xxx_x_set_0_or_send_rr,llc_sap_action_send_xid_r,llc_sap_action_send_test_r objects=module:llc2 review=0	llc: fix skb UAF and leaks on llc_mac_hdr_init() failure
+CVE-2026-98556	review	funcs=gve_prep_tso,gve_features_check_dqo objects=module:gve,unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	gve: DQO: reject TSO packets with an out of range MSS
+CVE-2026-98559	applies	funcs=smcr_port_err,smc_ib_gid_check objects=module:smc review=0	net/smc: fix UAF on lgr list traversal in smcr_port_err()
+CVE-2026-98561	applies	funcs=nfp_net_ipsec_rx objects=unknown review=0	nfp: hold IPsec RX state under the XArray lock
+CVE-2026-98565	applies	funcs=mt7530_remove objects=module:mt7530-mdio review=0	net: dsa: mt7530: fix NULL dereference on unbind of MT7531 and MT7621
+CVE-2026-98566	review	funcs=pvr_free_list_process_reconstruct_req objects=not-built review=1 1 changed line(s) outside any function; check for data or declaration changes	drm/imagination: clamp freelist reconstruction requests
+CVE-2026-98567	applies	funcs=__netif_set_xps_queue objects=vmlinux review=0	net: xps: reject an out of range traffic class
+CVE-2026-98568	applies	funcs=vxlan_na_create objects=module:vxlan review=0	vxlan: use one headroom snapshot for neighbour replies
+CVE-2026-98569	applies	funcs=erspan_newlink,erspan_changelink objects=module:ip_gre review=0	ip_gre: Reject enabling collect metadata through changelink
+CVE-2026-98572	review	funcs=emit_jmp_i64 objects=vmlinux review=1 other architecture, irrelevant on x86_64	bpf: Fix immediate JMP JEQ/JNE on MIPS32
+CVE-2026-98573	applies	funcs=skb_checksum_setup_ipv6 objects=vmlinux review=0	net: skbuff: fix pull-bound underflow in skb_checksum_setup_ipv6()
+CVE-2026-98575	applies	funcs=pn533_acr122_is_rx_frame_valid objects=module:pn533_usb review=0	nfc: pn533: fix OOB read in pn533_acr122_is_rx_frame_valid()
+CVE-2026-98576	review	funcs=nfc_llcp_wks_sap objects=module:nfc review=1 2 changed line(s) outside any function; check for data or declaration changes	nfc: llcp: fix slab-out-of-bounds reads when logging service names
+CVE-2026-98577	applies	funcs=nfc_llcp_wks_sap objects=module:nfc review=0	nfc: llcp: fix WKS SAP hijacking via prefix match in nfc_llcp_wks_sap()
+CVE-2026-98578	applies	funcs=st21nfca_get_iso15693_inventory objects=module:st21nfca_hci review=0	nfc: st21nfca: validate ISO15693 inventory length
+CVE-2026-98579	applies	funcs=nfc_genl_llc_sdreq objects=module:nfc review=0	nfc: llcp: fix sdreq TLV list leak on parse/alloc/send failure
+CVE-2026-98580	review	funcs=DEFINE_SPINLOCK,nfc_llcp_socket_release,nfc_llcp_local_get,local_release,nfc_llcp_local_put,nfc_llcp_register_device,nfc_llcp_init,nfc_llcp_exit,nfc_llcp_accept_unlink,llcp_sock_accept,llcp_sock_release objects=module:nfc,unknown review=5 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of nfc_llcp_local; layout changes need shadow variables or a reboot; 15 changed line(s) outside any function; check for data or declaration changes; nfc_llcp_init is init or exit code, which has already run and cannot be livepatched; 12 changed line(s) outside any function; check for data or declaration changes	nfc: llcp: Fix race condition in accept_queue lifecycle
+CVE-2026-98581	applies	funcs=nfc_llcp_recv_dm objects=module:nfc review=0	nfc: llcp: Fix list corruption / refcount desync in nfc_llcp_recv_dm()
+CVE-2026-98582	applies	funcs=st21nfca_hci_i2c_repack objects=module:st21nfca_i2c review=0	nfc: st21nfca: validate received frame size
+CVE-2026-98583	applies	funcs=process_state_fw_dnld objects=module:nfcmrvl review=0	nfc: nfcmrvl: validate helper command length before pull
+CVE-2026-98586	applies	funcs=sctp_icmp_proto_unreachable,sctp_generate_t3_rtx_event,sctp_generate_timeout_event,sctp_generate_heartbeat_event,sctp_generate_proto_unreach_event,sctp_generate_reconf_event,sctp_generate_probe_event objects=module:sctp review=0	sctp: hold asoc or transport before mod_timer() in timer handlers
+CVE-2026-98588	applies	funcs=sock_map_alloc objects=vmlinux review=0	bpf, sockmap: Reject max_entries > INT_MAX in sock_map_alloc
+CVE-2026-98590	review	funcs=bpf_sock_convert_ctx_access objects=vmlinux review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Fix bpf_sock context code generation
+CVE-2026-98591	review	funcs=skb_pointer_if_linear objects=unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	bpf: Fix bounds check for skb-backed dynptrs
+CVE-2026-98593	review	funcs=debug_info_copy objects=vmlinux review=1 other architecture, irrelevant on x86_64	s390/debug: Fix NULL pointer dereference in debug_info_copy()
+CVE-2026-98594	applies	funcs=tg3_init_one objects=module:tg3 review=0	tg3: clean up PHYLIB resources on probe failure
+CVE-2026-98596	review	funcs=ip6_rt_put_flags,rt6_uncached_list_add,ip6_dst_check objects=unknown,vmlinux review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; 4 changed line(s) outside any function; check for data or declaration changes	ipv6: Fix dst leak for uncached routes.
+CVE-2026-98597	applies	funcs=sr9700_rx_fixup objects=module:sr9700 review=0	net: usb: sr9700: include receive overhead in the length check
+CVE-2026-98601	applies	funcs=btintel_pcie_msix_tx_handle,btintel_pcie_msix_rx_handle objects=module:btintel_pcie review=0	Bluetooth: btintel_pcie: validate device-supplied DMA indices
+CVE-2026-98602	applies	funcs=bnep_rx_extension,bnep_rx_frame,bnep_tx_frame,bnep_net_xmit,bnep_net_setup objects=module:bnep review=0	Bluetooth: bnep: fix out-of-bounds reads on short RX/TX frames and control fallthrough
+CVE-2026-98605	applies	funcs=samsung_dsim_register_te_irq objects=not-built review=0	drm/bridge: samsung-dsim: fix TE GPIO lifetime for host attach
+CVE-2026-98606	applies	funcs=virtio_gpu_vram_create objects=module:virtio-gpu review=0	drm/virtio: release the GEM object on virtio_gpu_vram_create() errors
+CVE-2026-98607	applies	funcs=virtio_gpu_resource_create_blob_ioctl objects=module:virtio-gpu review=0	drm/virtio: fix object leaks in virtio_gpu_resource_create_blob_ioctl()
+CVE-2026-98608	applies	funcs=virtio_gpu_resource_create_ioctl objects=module:virtio-gpu review=0	drm/virtio: fix object leak in virtio_gpu_resource_create_ioctl()
+CVE-2026-98609	applies	funcs=virtio_gpu_gem_create objects=module:virtio-gpu review=0	drm/virtio: fix object leak when drm_gem_handle_create() fails
+CVE-2026-98610	review	funcs=hfsc_classify objects=module:sch_hfsc review=2 9 changed line(s) outside any function; check for data or declaration changes; changes an inline function or macro, so every caller is recompiled and patched	net/sched: sch_hfsc: bound the classify inner-filter walk with a drift budget
+CVE-2026-98611	review	funcs=bpf_crypto_ctx_create objects=vmlinux review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Check params size before reading reserved fields
+CVE-2026-98612	applies	funcs=catc_rx_done objects=module:catc review=0	net: usb: catc: bound the RX packet length in catc_rx_done()
+CVE-2026-98614	applies	funcs=sctp_assoc_update_retran_path objects=module:sctp review=0	sctp: avoid livelock while updating retransmit path
+CVE-2026-98618	applies	funcs=fbnic_alloc_napi_vectors objects=module:fbnic review=0	eth: fbnic: Handle maximum standalone channels
+CVE-2026-98620	applies	funcs=mtk_unreg_dev,mtk_probe objects=not-built review=0	net: ethernet: mtk_eth_soc: unregister net_devices in case of probe failure
+CVE-2026-98621	review	funcs=validate_gue_flags objects=unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	net: gue: reject invalid REMCSUM offsets
+CVE-2026-98622	applies	funcs=tcf_ct_flow_table_add objects=module:act_ct review=0	net/sched: act_ct: don't WARN on benign flow_offload_alloc() failure
+CVE-2026-98623	applies	funcs=nvkm_clk_ustate_update objects=unknown review=0	drm/nouveau/clk: fix list cursor use after loop in nvkm_clk_ustate_update
+CVE-2026-98625	applies	funcs=flow_offload_work_del,flow_offload_work_handler objects=module:nf_flow_table review=0	netfilter: flowtable: publish HW_DEAD after worker is done
+CVE-2026-98626	review	funcs=bpf_core_poison_insn,bpf_core_patch_insn objects=unknown review=2 2 changed line(s) outside any function; check for data or declaration changes; touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Restrict CO-RE poisoning to relocatable instructions
+CVE-2026-98631	review	funcs=xsk_map_gen_lookup objects=vmlinux review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	xsk: Use a 32-bit compare in xsk_map_gen_lookup
+CVE-2026-98634	applies	funcs=sd_zbc_read_zones objects=vmlinux review=0	scsi: sd_zbc: Reject disks with too many zones
+CVE-2026-98636	applies	funcs=squashfs_xz_comp_opts objects=vmlinux review=0	squashfs: Add dictionary size range check to prevent shift-out-of-bounds
+CVE-2026-98640	review	funcs=amd_mp2_pci_probe objects=module:amd_sfh,unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	HID: amd_sfh: Validate PCI BAR size before mapping
+CVE-2026-98643	review	funcs=sock_ops_convert_ctx_access objects=vmlinux review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Fix out-of-bounds read of rtt_min in sock_ops
+CVE-2026-98644	review	funcs=- objects=vmlinux review=3 24 changed line(s) outside any function; check for data or declaration changes; changes an inline function or macro, so every caller is recompiled and patched; touches BPF or tracing hooks; check that no attached program depends on the old shape	bpf: Avoid soft lockup in __htab_map_lookup_and_delete_batch()
+CVE-2026-98646	applies	funcs=inet_csk_listen_stop objects=vmlinux review=0	tcp: Skip cond_resched() in inet_csk_listen_stop() under BPF context
+CVE-2026-98647	applies	funcs=btf_struct_walk objects=vmlinux review=0	bpf: Fix divide-by-zero in btf_struct_walk()
+CVE-2026-98655	applies	funcs=SYSCALL_DEFINE5 objects=vmlinux review=0	perf: Require kernel access for text poke events
+CVE-2026-98656	applies	funcs=iio_trig_release objects=module:industrialio review=0	iio: trigger: cancel reenable_work before freeing trigger
+CVE-2026-98657	applies	funcs=lidar_probe objects=module:pulsedlight-lidar-lite-v2 review=0	iio: proximity: pulsedlight: fix iio_device left registered on PM setup failure
+CVE-2026-98660	applies	funcs=bmp280_write_sampling_frequency objects=module:bmp280 review=0	iio: pressure: bmp280: fix out-of-bounds access in sampling frequency lookup
+CVE-2026-98662	applies	funcs=gp2ap020a00f_probe,gp2ap020a00f_remove objects=module:gp2ap020a00f review=0	iio: light: gp2ap020a00f: drain irq_work after free_irq
+CVE-2026-98663	applies	funcs=adis16480_debugfs_init objects=module:adis16480 review=0	iio: imu: adis16480: fix unprotected debugfs reads
+CVE-2026-98664	applies	funcs=adis16400_debugfs_init objects=module:adis16400 review=0	iio: imu: adis16400: fix unprotected debugfs reads
+CVE-2026-98666	applies	funcs=adis16136_debugfs_init objects=module:adis16136 review=0	iio: gyro: adis16136: fix unprotected debugfs reads
+CVE-2026-98668	applies	funcs=iio_push_to_buffers_with_ts_unaligned objects=module:industrialio review=0	iio: buffer: Ensure bounce buffer used for unaligned case is zeroed.
+CVE-2026-98669	applies	funcs=iio_disable_all_buffers objects=module:industrialio review=0	iio: buffer: serialize buffer teardown with mode claims
+CVE-2026-98670	applies	funcs=xadc_probe objects=module:xilinx-xadc review=0	iio: adc: xilinx-xadc: free IRQ before cancelling the unmask worker on unbind
+CVE-2026-98671	applies	funcs=sun4i_gpadc_probe objects=not-built review=0	iio: adc: sun4i-gpadc-iio: clean up on thermal zone registration failure
+CVE-2026-98672	applies	funcs=stm32_adc_read_raw objects=not-built review=0	iio: adc: stm32-adc: fix possible division by zero in processed channel
+CVE-2026-98673	applies	funcs=pac1934_acpi_parse_channel_config objects=module:pac1934 review=0	iio: adc: pac1934: check ACPI label duplication
+CVE-2026-98674	applies	funcs=adi_axi_adc_probe objects=not-built review=0	iio: adc: adi-axi-adc: Initialize state mutex
+CVE-2026-98679	applies	funcs=kxcjk1013_write_event_config objects=module:kxcjk-1013 review=0	iio: accel: kxcjk-1013: reject duplicate event disable
+CVE-2026-98681	review	funcs=- objects=unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of cifsFileInfo; layout changes need shadow variables or a reboot	smb: client: split cifsFileInfo bitfields to avoid shared-byte RMW races
+CVE-2026-98683	applies	funcs=smb3_zero_range objects=module:cifs review=0	smb: client: flush dirty data before zeroing a range
+CVE-2026-98685	applies	funcs=cifs_remap_file_range objects=module:cifs review=0	smb: client: discard post-EOF pagecache when extending a file via clone range
+CVE-2026-98686	applies	funcs=smb3_zero_range objects=module:cifs review=0	smb: client: discard post-EOF pagecache when extending a file via zero range
+CVE-2026-98687	applies	funcs=tb_xdp_properties_request objects=unknown review=0	thunderbolt: Reject oversized XDomain properties responses
+CVE-2026-98695	applies	funcs=usb_serial_generic_wait_until_sent,serial_wait_until_sent,serial_get_serial,serial_set_serial,serial_ioctl,serial_set_termios,serial_break,serial_tiocmget,serial_tiocmset,xr_get_rs485_config,xr_set_rs485_config objects=module:usbserial,module:xr_serial review=0	USB: serial: fix ioctl hangup race
+CVE-2026-98696	review	funcs=usb_serial_register_drivers,usb_serial_deregister_drivers,usb_serial_bus_deregister objects=module:usbserial,unknown review=2 4 changed line(s) outside any function; check for data or declaration changes; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	USB: serial: fix driver deregistration order
+CVE-2026-98697	applies	funcs=usb_serial_bus_deregister objects=module:usbserial review=0	USB: serial: fix dynamic id driver deregistration race
+CVE-2026-98698	applies	funcs=aes_siv_encrypt objects=module:mac80211 review=0	wifi: mac80211: handle empty FILS association request payload
+CVE-2026-98699	applies	funcs=mesh_fast_tx_cache,mesh_path_free_rcu,__mesh_path_del objects=module:mac80211 review=0	wifi: mac80211: fix mesh fast xmit path deletion UAF
+CVE-2026-98700	applies	funcs=ieee80211_8023_xmit objects=module:mac80211 review=0	wifi: mac80211: set info->band for 802.3 encap offload frames
+CVE-2026-98701	review	funcs=- objects=module:mac80211 review=1 5 changed line(s) outside any function; check for data or declaration changes	wifi: mac80211: release mesh path quota on failed additions
+CVE-2026-98702	applies	funcs=validate_chandef_by_ht_vht_oper objects=module:mac80211 review=0	wifi: mac80211: reject invalid 320 MHz CSA bandwidth
+CVE-2026-98703	review	funcs=minstrel_ht_add_debugfs objects=unknown review=1 26 changed line(s) outside any function; check for data or declaration changes	wifi: mac80211: minstrel_ht: validate fixed rate index
+CVE-2026-98704	applies	funcs=ieee80211_assoc_config_link objects=module:mac80211 review=0	wifi: mac80211: keep fallback association elements alive
+CVE-2026-98705	applies	funcs=mpp_path_add objects=module:mac80211 review=0	wifi: mac80211: account proxy paths against the mesh path limit
+CVE-2026-98706	applies	funcs=__cleanup_single_sta,__sta_info_destroy_part2 objects=module:mac80211 review=0	wifi: mac80211: drain PS delivery work during station teardown
+CVE-2026-98707	applies	funcs=__ieee80211_stop_rx_ba_session objects=module:mac80211 review=0	wifi: mac80211: shut down RX BA session timer on teardown
+CVE-2026-98708	review	funcs=ieee80211_link_unreserve_chanctx,ieee80211_link_use_reserved_reassign,__ieee80211_link_release_channel objects=module:mac80211 review=1 7 changed line(s) outside any function; check for data or declaration changes	wifi: mac80211: keep paired old chanctx alive
+CVE-2026-98709	applies	funcs=ieee80211_link_has_in_place_reservation,ieee80211_chsw_switch_vifs,ieee80211_vif_use_reserved_switch objects=module:mac80211 review=0	wifi: mac80211: count only matching reservations in reserved switch
+CVE-2026-98710	applies	funcs=il3945_pci_remove objects=module:iwl3945 review=0	wifi: iwlegacy: 3945: free EEPROM data on remove
+CVE-2026-98711	review	funcs=cw1200_bh_tx_helper,cw1200_tx objects=module:cw1200_core review=1 1 changed line(s) outside any function; check for data or declaration changes	wifi: cw1200: fix TX padding OOB read leaking heap data to device
+CVE-2026-98713	review	funcs=populate_nv_trap_config objects=module:kvm review=2 other architecture, irrelevant on x86_64; populate_nv_trap_config is init or exit code, which has already run and cannot be livepatched	KVM: arm64: Apply the fine-grained UNDEFs without FEAT_FGT
+CVE-2026-98716	applies	funcs=msr_write_intercepted objects=unknown review=0	KVM: SVM: Use the active VMCB's MSR bitmap when checking if MSR is intercepted
+CVE-2026-98717	applies	funcs=shadow_walk_init_using_root objects=unknown review=0	KVM: x86/mmu: Bail from shadow walks if the root is invalid or a dummy
+CVE-2026-98720	applies	funcs=copy_enlightened_to_vmcs12 objects=unknown review=0	KVM: nVMX: Force MSR bitmap refresh if runtime eVMCS controls are modified
+CVE-2026-98721	applies	funcs=cadence_nand_init objects=not-built review=0	mtd: rawnand: cadence: Initialize IRQ state before requesting IRQ
+CVE-2026-98722	applies	funcs=add_device objects=module:block2mtd review=0	mtd: block2mtd: Fix divide error when erase_size is zero
+CVE-2026-98725	applies	funcs=nvmet_auth_challenge objects=module:nvmet review=0	nvmet-auth: fix out-of-bounds write in nvmet_auth_challenge()
+CVE-2026-98726	applies	funcs=nvme_parse_ana_log objects=module:nvme-core review=0	nvme-multipath: fix underflow in ANA log bounds checks
+CVE-2026-98727	applies	funcs=nvme_mpath_alloc_disk objects=module:nvme-core review=0	nvme-multipath: set BLK_FEAT_ZONED only after the zone info is known
+CVE-2026-98728	applies	funcs=tpm2_get_random objects=vmlinux review=0	tpm: fix off-by-four bounds check in tpm2_get_random()
+CVE-2026-98730	applies	funcs=btintel_pcie_send_frame objects=module:btintel_pcie review=0	Bluetooth: btintel_pcie: reject oversized TX packets in send_frame()
+CVE-2026-98731	applies	funcs=btintel_pcie_recv_frame objects=module:btintel_pcie review=0	Bluetooth: btintel_pcie: fix plen overflow in btintel_pcie_recv_frame()
+CVE-2026-98732	applies	funcs=btintel_hw_error objects=module:btintel review=0	Bluetooth: btintel: fix buffer over-read in btintel_hw_error()
+CVE-2026-98733	applies	funcs=hci_queue_iso objects=module:bluetooth review=0	Bluetooth: hci_core: Serialize fragmented ISO packet queueing
+CVE-2026-98735	applies	funcs=hci_sched_acl_pkt,hci_sched_le objects=module:bluetooth review=0	Bluetooth: hci_core: Serialize ACL scheduling with channel deletion
+CVE-2026-98737	applies	funcs=hci_stop_discovery_sync,hci_acl_create_conn_sync objects=module:bluetooth review=0	Bluetooth: hci_sync: Fix inquiry cache use-after-free
+CVE-2026-98739	applies	funcs=__rfcomm_release_dev,rfcomm_tty_install objects=module:rfcomm review=0	Bluetooth: RFCOMM: Fix initial port reference race
+CVE-2026-98740	review	funcs=altr_init_a10_ecc_device_type,socfpga_init_ethernet_ecc,socfpga_init_nand_ecc,socfpga_init_dma_ecc,socfpga_init_usb_ecc,socfpga_init_qspi_ecc,socfpga_init_sdmmc_ecc objects=not-built review=9 2 changed line(s) outside any function; check for data or declaration changes; altr_init_a10_ecc_device_type is init or exit code, which has already run and cannot be livepatched; socfpga_init_ethernet_ecc is init or exit code, which has already run and cannot be livepatched; socfpga_init_nand_ecc is init or exit code, which has already run and cannot be livepatched; socfpga_init_dma_ecc is init or exit code, which has already run and cannot be livepatched; socfpga_init_usb_ecc is init or exit code, which has already run and cannot be livepatched; socfpga_init_qspi_ecc is init or exit code, which has already run and cannot be livepatched; socfpga_init_sdmmc_ecc is init or exit code, which has already run and cannot be livepatched; touches init or exit code, which has already run and cannot be livepatched	EDAC/altera: Drop __init from ECC setup paths for re-probe safety
+CVE-2026-98741	applies	funcs=detect_usb_format objects=module:snd-ua101 review=0	ALSA: ua101: reject mismatched capture/playback packet sizes
+CVE-2026-98742	applies	funcs=snd_seq_call_port_info_ioctl objects=unknown review=0	ALSA: seq: Serialize compat port-info ioctls
+CVE-2026-98743	review	funcs=rt1017_sdca_pcm_hw_params objects=module:snd-soc-rt1017-sdca review=1 1 changed line(s) outside any function; check for data or declaration changes	ASoC: codecs: rt1017-sdca-sdw: fix uninitialized stream_config->type
+CVE-2026-98744	applies	funcs=max98363_sdw_dai_hw_params objects=module:snd-soc-max98363 review=0	ASoC: codecs: max98363: fix uninitialized stream_config->type
+CVE-2026-98746	applies	funcs=ma35d1serial_probe,ma35d1serial_remove objects=not-built review=0	serial: ma35d1: Fix clock reference leak in ma35d1serial_probe()
+CVE-2026-98748	applies	funcs=brcmuart_remove objects=not-built review=0	serial: 8250_bcm7271: fix use-after-free in brcmuart_remove()
+CVE-2026-98749	applies	funcs=max3100_shutdown,max3100_remove objects=module:max3100 review=0	tty: serial: max3100: shut down timer before freeing port
+CVE-2026-98750	review	funcs=gb_tty_init,acm_init,usb_serial_init objects=module:cdc-acm,module:gb-uart,module:usbserial,unknown,vmlinux review=5 18 changed line(s) outside any function; check for data or declaration changes; acm_init is init or exit code, which has already run and cannot be livepatched; usb_serial_init is init or exit code, which has already run and cannot be livepatched; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	tty: fix saved termios reset race
+CVE-2026-98751	review	funcs=__tty_hangup,send_break,tty_ioctl objects=unknown,vmlinux review=3 2 changed line(s) outside any function; check for data or declaration changes; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of tty_struct; layout changes need shadow variables or a reboot	tty: abort break signalling on hangup
+CVE-2026-98753	applies	funcs=tty_port_open objects=vmlinux review=0	tty: tty_port: restore TTY_IO_ERROR on activation failure
+CVE-2026-98754	applies	funcs=vcc_cleanup objects=not-built review=0	tty: vcc: hold port lock when clearing tty pointer in vcc_cleanup
+CVE-2026-98755	applies	funcs=vcc_send_ctl objects=not-built review=0	tty: vcc: zero-initialize control packet in vcc_send_ctl()
+CVE-2026-98756	applies	funcs=cdns3_pci_probe objects=module:cdns3-pci-wrap review=0	usb: cdns3: Fix NULL pointer dereference in cdns3_pci_probe
+CVE-2026-98757	applies	funcs=cdns3_gadget_exit objects=module:cdns3 review=0	usb: cdns3: fix use-after-free in cdns3_gadget_exit()
+CVE-2026-98758	applies	funcs=pmic_glink_ucsi_destroy,pmic_glink_ucsi_remove objects=not-built review=0	usb: typec: ucsi: glink: fix use-after-free of ucsi on remove
+CVE-2026-98760	applies	funcs=tps6598x_connect objects=module:tps6598x review=0	usb: typec: tipd: fix uninitialized typec_partner_desc in tps6598x_connect()
+CVE-2026-98761	applies	funcs=tcpm_pd_event_handler objects=module:tcpm review=0	usb: typec: tcpm: recover after failure to start the frs ams
+CVE-2026-98762	applies	funcs=dwc2_hcd_free,dwc2_hcd_release objects=vmlinux review=0	USB: dwc2: shut down wakeup timer before freeing HCD state
+CVE-2026-98763	review	funcs=usb_disable_endpoint objects=vmlinux review=1 3 changed line(s) outside any function; check for data or declaration changes	usb: core: clear both ep_in and ep_out for non-ep0 control endpoints
+CVE-2026-98764	applies	funcs=ffs_epfile_ioctl objects=module:usb_f_fs review=0	usb: gadget: f_fs: Fix NULL pointer dereference in FUNCTIONFS_ENDPOINT_DESC
+CVE-2026-98766	review	funcs=ast_vhub_remove,ast_vhub_probe,ast_vhub_udc_wakeup,ast_vhub_wake_work,ast_vhub_hub_wake_all,ast_vhub_init_hub,ast_vhub_hub_wake_all objects=not-built,unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	usb: gadget: aspeed-vhub: cancel wake work on device removal
+CVE-2026-98768	applies	funcs=anx7411_i2c_remove objects=module:anx7411 review=0	usb: typec: anx7411 - stop the IRQ before destroying the workqueue
+CVE-2026-98769	applies	funcs=generic_set_cmd,generic_get_cmd objects=module:usb_f_uac1_legacy review=0	usb: gadget: f_uac1_legacy: validate bRequest index in generic_{set,get}_cmd
+CVE-2026-98770	review	funcs=- objects=module:usb_f_midi2 review=1 changes the definition of f_midi2_usb_config; layout changes need shadow variables or a reboot	usb: gadget: midi2: Fix the jack descriptor array sizes
+CVE-2026-98771	applies	funcs=sierra_get_swoc_info objects=module:usb-storage review=0	usb: storage: sierra_ms: reject short SWoC info transfers
+CVE-2026-98772	applies	funcs=usb_serial_disconnect objects=module:usbserial review=0	USB: serial: fix port tear down use-after-free
+CVE-2026-98775	applies	funcs=ne_create_vm_ioctl objects=module:nitro_enclaves review=0	nitro_enclaves: fix use-after-free on SLOT_ALLOC failure
+CVE-2026-98777	applies	funcs=binder_proc_transaction objects=module:binder_linux review=0	binder: fix leaked fd fixups on TF_UPDATE_TXN supersede
+CVE-2026-98778	applies	funcs=binder_proc_transaction objects=module:binder_linux review=0	binder: fix is_failure flag for superseded transaction cleanup
+CVE-2026-98779	applies	funcs=acp_hw_init objects=module:amdgpu review=0	drm/amdgpu: fix ACP MFD device leak on init failure
+CVE-2026-98780	applies	funcs=amdgpu_discovery_sysfs_ips objects=module:amdgpu review=0	drm/amdgpu: fix IP instance memory leak on kobject add failure
+CVE-2026-98781	applies	funcs=mtk_drm_bind objects=not-built review=0	drm/mediatek: Fix pdev reference leak in mtk_drm_bind()
+CVE-2026-98782	applies	funcs=mtk_drm_probe,mtk_drm_remove objects=not-built review=0	drm/mediatek: Fix ovl adaptor platform device leak
+CVE-2026-98783	applies	funcs=mtk_drm_probe objects=not-built review=0	drm/mediatek: Add missing IS_ERR check for ovl_adaptor platform device
+CVE-2026-98784	review	funcs=gfx_v6_0_sw_fini objects=module:amdgpu review=1 8 changed line(s) outside any function; check for data or declaration changes	drm/amdgpu/gfx6: fix firmware leak on teardown
+CVE-2026-98785	applies	funcs=dm_suspend objects=unknown review=0	drm/amd/display: check dc_state_create_copy() for NULL in dm_suspend
+CVE-2026-98790	applies	funcs=perf_sigtrap objects=vmlinux review=0	perf: Fix race between perf_event_exit_task() and perf_pending_task()
+CVE-2026-98791	applies	funcs=mlx5e_xsk_fill_timestamp objects=unknown review=0	net/mlx5e: Fix AF_XDP TX timestamp teardown NULL dereference
+CVE-2026-98793	review	funcs=nf_nat_setup_info objects=module:nf_nat review=1 3 changed line(s) outside any function; check for data or declaration changes	netfilter: bpf: reject invalid NAT manipulation types
+CVE-2026-98794	review	funcs=ip_vs_process_message_v0,ip_vs_proc_sync_conn objects=module:ip_vs review=1 15 changed line(s) outside any function; check for data or declaration changes	ipvs: filter some flags received in the backup server
+CVE-2026-98796	applies	funcs=mtk_probe objects=not-built review=0	net: ethernet: mtk_eth_soc: allocate dummy netdev sooner
+CVE-2026-98797	review	funcs=nf_skip_egress,netdev_xmit_skip_txqueue,netdev_tx_queue_mapping,netdev_xmit_skip_txqueue,__dev_queue_xmit,tcf_skbedit_act objects=module:act_skbedit,unknown,vmlinux review=7 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of sk_buff; layout changes need shadow variables or a reboot; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	net: cap skb->queue_mapping when the tx queue is picked
+CVE-2026-98802	review	funcs=advance_nextseg,seg6_next_csid_advance_arg,input_action_end_core,end_next_csid_core,input_action_end_x_core,end_x_next_csid_core,end_flv8986_core,input_action_end_t,input_action_end_b6_encap,input_action_end_bpf objects=vmlinux review=1 1 changed line(s) outside any function; check for data or declaration changes	seg6: ensure packet data is writable before modifying SRH and IPv6 DA
+CVE-2026-98805	review	funcs=tipc_ehdr_build,tipc_crypto_key_flush,tipc_crypto_key_synch,tipc_crypto_start objects=module:tipc review=2 5 changed line(s) outside any function; check for data or declaration changes; changes the definition of tipc_crypto; layout changes need shadow variables or a reboot	tipc: prevent GCM nonce reuse on peer key changes
+CVE-2026-98808	applies	funcs=bcm_sysport_get_stats objects=module:bcmsysport review=0	net: systemport: Fix buffer overflow in bcm_sysport_get_stats()
+CVE-2026-98809	applies	funcs=hci_cmd_sync_work,hci_cmd_sync_clear objects=module:bluetooth review=0	Bluetooth: hci_sync: don't drain cmd_sync backlog on unregister
+CVE-2026-98810	applies	funcs=ieee80211_monitor_select_queue,ieee80211_validate_radiotap_len,ieee80211_monitor_start_xmit objects=module:mac80211 review=0	wifi: mac80211: fix slab-out-of-bounds read in ieee80211_monitor_select_queue()
+CVE-2026-98812	applies	funcs=mctp_add_dev objects=vmlinux review=0	net/mctp: publish the mctp_dev only after it is initialised
+CVE-2026-98819	applies	funcs=btintel_load_ddc_config objects=module:btintel review=0	Bluetooth: btintel: validate DDC record lengths
+CVE-2026-98823	applies	funcs=cfg80211_update_known_bss objects=module:cfg80211 review=0	wifi: cfg80211: preserve hidden-group beacon IE ownership
+CVE-2026-98824	review	funcs=minstrel_ht_txstat_valid,minstrel_ht_ri_txstat_valid,ieee80211_tx_status_ext,ieee80211_tx_rate_update objects=module:mac80211,unknown review=2 48 changed line(s) outside any function; check for data or declaration changes; 67 changed line(s) outside any function; check for data or declaration changes	wifi: mac80211: validate TX status rate metadata
+CVE-2026-98825	applies	funcs=mpfs_rtc_probe objects=not-built review=0	rtc: mpfs: fix unchecked devm_clk_get() error pointer in probe()
+CVE-2026-98828	review	funcs=ath9k_wmi_rsp_callback,ath9k_wmi_cmd_issue,ath9k_wmi_cmd objects=module:ath9k_htc,unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of wmi; layout changes need shadow variables or a reboot	wifi: ath9k: reject short WMI command responses
+CVE-2026-98830	applies	funcs=wfx_hif_read_mib objects=module:wfx review=0	wifi: wfx: validate MIB read length before copying to caller
+CVE-2026-98831	applies	funcs=init_overlay_changeset objects=not-built review=0	of/overlay: don't leak fragment references when changeset init fails
+CVE-2026-98833	applies	funcs=__get_mtd_device objects=module:mtd review=0	mtd: core: call _get_device() with the master MTD
+CVE-2026-98834	applies	funcs=mtd_otp_nvmem_add objects=module:mtd review=0	mtd: core: avoid double-free of OTP NVMEM device
+CVE-2026-98835	applies	funcs=kx022a_read_raw objects=module:kionix-kx022a review=0	iio: accel: kionix-kx022a: Fix array boundary check
+CVE-2026-98836	applies	funcs=submit_audio_out_urb objects=module:snd-usb-line6 review=0	ALSA: line6: reject oversized playback packets
+CVE-2026-98838	applies	funcs=do_con_trol objects=vmlinux review=0	vt: skip screen update for DEC alignment test on backgroup consoles
+CVE-2026-98841	applies	funcs=vmgenid_add_acpi,vmgenid_add_of objects=module:vmgenid review=0	virt: vmgenid: set driver_data before registering notification handlers
+CVE-2026-98846	applies	funcs=sctp_sendmsg_to_asoc objects=module:sctp review=0	sctp: check RCV_SHUTDOWN after the sendmsg connect wait
+CVE-2026-98847	applies	funcs=spear_rtc_probe objects=not-built review=0	rtc: spear: initialize IRQ state before requesting alarm IRQ
+CVE-2026-98848	applies	funcs=ac100_rtc_register_clks objects=not-built review=0	rtc: ac100: Assign .num before accessing .hws
+CVE-2026-98849	applies	funcs=pfcp_del_sock objects=module:pfcp review=0	pfcp: fix socket lifetime on netdevice registration failure
+CVE-2026-98851	applies	funcs=nft_flow_offload_init objects=module:nft_flow_offload review=0	netfilter: nft_flow_offload: drop flowtable reference on init error path
+CVE-2026-98853	review	funcs=ipv6_gso_segment objects=unknown,vmlinux review=6 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of skb_gso_cb; layout changes need shadow variables or a reboot; changes an inline function or macro, so every caller is recompiled and patched; 1 changed line(s) outside any function; check for data or declaration changes; 3 changed line(s) outside any function; check for data or declaration changes; 1 changed line(s) outside any function; check for data or declaration changes	net: gso: limit recursive IP-in-IP segmentation
+CVE-2026-98854	applies	funcs=free_overlay_changeset objects=not-built review=0	of/overlay: only treat a positive changeset id as registered
+CVE-2026-98855	applies	funcs=add_changeset_property objects=not-built review=0	of/overlay: put property on deadprops only after changeset add succeeds
+CVE-2026-98856	applies	funcs=get_optimized_kprobe objects=vmlinux review=0	kprobes: Skip disarmed probes when checking optkprobe overlap
+CVE-2026-98857	applies	funcs=ip_vs_lblc_new,ip_vs_lblcr_new objects=module:ip_vs_lblc,module:ip_vs_lblcr review=0	ipvs: bound LBLCR and LBLC cache growth
+CVE-2026-98858	applies	funcs=io_req_normal_work_add,io_ring_exit_work objects=vmlinux review=0	io_uring: fix task_work add use-after-free with SQPOLL
+CVE-2026-98859	applies	funcs=mt_remove objects=module:hid-multitouch review=0	HID: multitouch: stop the release timer from being rearmed on remove
+CVE-2026-98862	applies	funcs=kill_rules objects=vmlinux review=0	audit: fix exe mark UAF in kill_rules()
+CVE-2026-98871	applies	funcs=__sev_platform_init_handle_init_ex_path objects=module:ccp review=0	crypto: ccp - Fix possible deadlock in SEV init failure path
+CVE-2026-98872	applies	funcs=vxfs_bmap_typed objects=module:freevxfs review=0	freevxfs: don't BUG() on unknown typed-extent type
+CVE-2026-98876	applies	funcs=host1x_device_init objects=not-built review=0	host1x: bus: Fix missing ops null check in error teardown
+CVE-2026-98877	review	funcs=its_init objects=not-built review=1 its_init is init or exit code, which has already run and cannot be livepatched	irqchip/gic-v4: Don't advertise VLPIs if no ITS is probed
+CVE-2026-98879	applies	funcs=isofs_fill_super objects=module:isofs review=0	isofs: handle set_blocksize failures
+CVE-2026-98880	applies	funcs=ntfs_init_from_boot objects=module:ntfs3 review=0	ntfs3: handle set_blocksize failures
+CVE-2026-98881	applies	funcs=br_multicast_dev_del objects=module:bridge review=0	net: bridge: remove stale rcu_barrier() in br_multicast_dev_del()
+CVE-2026-98882	applies	funcs=wave5_vpu_dec_get_output_info objects=not-built review=0	media: chips-media: wave5: Add range checks for dec_output_info
+CVE-2026-98884	applies	funcs=mmc_mq_init_request objects=module:mmc_block review=0	mmc: core: Add validation for host-provided max_segs
+CVE-2026-98885	applies	funcs=ima_fix_xattr objects=vmlinux review=0	ima: return error early if file xattr cannot be changed
+CVE-2026-98886	applies	funcs=xfer_read,oaktrail_hdmi_i2c_access objects=module:gma500_gfx review=0	drm/gma500: return errors from Oaktrail HDMI I2C reads
+CVE-2026-98887	review	funcs=- objects=module:mac80211_hwsim review=1 6 changed line(s) outside any function; check for data or declaration changes	wifi: mac80211_hwsim: reject undersized HWSIM_ATTR_TX_INFO
+CVE-2026-98888	review	funcs=save_previous_kprobe,restore_previous_kprobe,reenter_kprobe objects=unknown,vmlinux review=4 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; other architecture, irrelevant on x86_64; changes the definition of prev_kprobe; layout changes need shadow variables or a reboot; other architecture, irrelevant on x86_64	arm64: kprobes: Allow reentering kprobes while single-stepping
+CVE-2026-98889	applies	funcs=iwl_mvm_mac_setup_register,iwl_mvm_sched_scan_start objects=module:iwlmvm review=0	wifi: iwlwifi: mvm: fix sched scan IE sizing
+CVE-2026-98890	applies	funcs=lbs_hard_start_xmit objects=module:libertas review=0	wifi: libertas: reject short monitor TX frames
+CVE-2026-98891	applies	funcs=ieee80211_rx_mgmt_deauth objects=module:mac80211 review=0	wifi: mac80211: validate deauth frame length before reason access
+CVE-2026-98892	applies	funcs=scmi_base_fill_custom_report objects=unknown review=0	firmware: arm_scmi: Validate BASE_ERROR_EVENT payload size
+CVE-2026-98893	applies	funcs=scmi_sensor_fill_custom_report objects=unknown review=0	firmware: arm_scmi: Validate SENSOR_UPDATE payload size
+CVE-2026-98896	applies	funcs=tb_queue_hotplug,tb_handle_hotplug objects=unknown review=0	thunderbolt: Keep the domain reference while processing hotplug
+CVE-2026-98898	applies	funcs=si_dpm_process_interrupt objects=unknown review=0	drm/amd/pm/si: Don't schedule thermal work when queue isn't initialized
+CVE-2026-98899	review	funcs=mtype_gc,mtype_add objects=unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	netfilter: ipset: mark the rcu locked areas properly
+CVE-2026-98900	applies	funcs=gntalloc_ioctl_alloc objects=module:xen-gntalloc review=0	xen/gntalloc: validate grant count before allocation
+CVE-2026-98902	applies	funcs=stripe_add_to_batch_list objects=module:raid456:loaded review=0	md/raid5: let stripe batch bm_seq comparison wrap-safe
+CVE-2026-98903	review	funcs=imx_mu_specific_rx,imx_mu_startup,imx_mu_shutdown objects=not-built review=2 30 changed line(s) outside any function; check for data or declaration changes; changes the definition of imx_mu_con_priv; layout changes need shadow variables or a reboot	mailbox: imx: Add a channel shutdown field
+CVE-2026-98904	applies	funcs=imx_mu_probe,imx_mu_remove objects=not-built review=0	mailbox: imx: Use devm_pm_runtime_enable()
+CVE-2026-98908	applies	funcs=sparx5_psfp_fm_add,sparx5_tc_flower_psfp_setup objects=not-built review=0	net: microchip: sparx5: clean up PSFP resources on flower setup failure
+CVE-2026-98909	applies	funcs=cpsw_probe objects=not-built review=0	net: cpsw_new: unregister devlink on port registration failure
+CVE-2026-98910	applies	funcs=kfd_dbg_trap_enable objects=unknown review=0	drm/amdkfd: Unwind debug trap enable on copy_to_user failure
+CVE-2026-98911	applies	funcs=dpaa2_switch_build_linear_skb,dpaa2_switch_rx objects=not-built review=0	dpaa2-switch: fix the error path in dpaa2_switch_rx()
+CVE-2026-98912	applies	funcs=snd_seq_oss_read objects=not-built review=0	ALSA: seq: oss: Reject reads that cannot fit the next event
+CVE-2026-98913	applies	funcs=nicvf_probe objects=module:nicvf review=0	net: thunderx: fix PTP device ref leak in nicvf_probe()
+CVE-2026-98915	applies	funcs=video_i2c_remove objects=module:video-i2c review=0	media: video-i2c: use vb2_video_unregister_device on driver removal
+CVE-2026-98916	applies	funcs=nl80211_color_change objects=module:cfg80211 review=0	wifi: nl80211: check link is beaconing for color change
+CVE-2026-98917	review	funcs=- objects=unknown review=2 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; other architecture, irrelevant on x86_64	parisc: Increase kernel stack size to 32kb
+CVE-2026-98925	applies	funcs=sk_psock_verdict_apply objects=vmlinux review=0	bpf, sockmap: Fix self-redirect copied_seq double-counting
+CVE-2026-98930	review	funcs=__inject_sigp_stop,do_inject_vcpu,kvm_s390_inject_vcpu,kvm_s390_set_irq_state objects=module:kvm review=1 other architecture, irrelevant on x86_64	KVM: s390: Fix IRQ injection with SIGP Stop and Store Status
+CVE-2026-98931	applies	funcs=spinand_create_dirmap objects=module:spinand review=0	mtd: spinand: fix NULL pointer dereference with no ECC engine
+CVE-2026-98934	applies	funcs=seg6_make_flowlabel objects=vmlinux review=0	ipv6: sr: use skb_get_hash_net() in seg6_make_flowlabel()
+CVE-2026-98935	applies	funcs=rtc_dev_ioctl objects=vmlinux review=0	rtc: dev: zero-initialize struct rtc_wkalrm to prevent information leak
+CVE-2026-98936	applies	funcs=ath11k_mac_op_start objects=module:ath11k review=0	wifi: ath11k: reset ar->num_stations on hardware start
+CVE-2026-98940	applies	funcs=asoc_qcom_lpass_cpu_platform_probe objects=not-built review=0	ASoC: qcom: lpass-cpu: use DAI table index for playback constraints
+CVE-2026-98947	applies	funcs=vsock_sk_destruct objects=module:vsock review=0	vsock: Fix memory leak in vmci_transport_recv_dgram_cb()
+CVE-2026-98948	review	funcs=mlxsw_sp_acl_rulei_create,mlxsw_sp_acl_rulei_destroy,mlxsw_sp_flower_tmplt_create objects=module:mlxsw_spectrum,unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	mlxsw: spectrum_flower: Fix port range register leak in tmplt_create()
+CVE-2026-98949	applies	funcs=pvr_vm_gpuva_remap objects=not-built review=0	drm/imagination: Fix reference and vm_bo handling in remap()
+CVE-2026-98950	review	funcs=bpf_flow_dissect objects=vmlinux review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	flow_dissector: avoid u16 truncation of hlen in bpf_flow_dissect()
+CVE-2026-98952	applies	funcs=pfcp_encap_recv objects=module:pfcp review=0	pfcp: make sure the SEID is linear before reading it
+CVE-2026-98953	applies	funcs=devlink_rel_nested_in_notify_work,devlink_rel_nested_in_notify_work_schedule objects=vmlinux review=0	devlink: fix devlink_rel reference leak when notify work is pending
+CVE-2026-98955	applies	funcs=__skb_flow_dissect objects=vmlinux review=0	flow_dissector: avoid u16 truncation of skb->len when computing thoff
+CVE-2026-98957	applies	funcs=mt7915_stop_hardware objects=module:mt7915e review=0	wifi: mt76: mt7915: disable rx napi when removing device
+CVE-2026-98959	applies	funcs=btrfs_setxattr objects=module:btrfs:loaded review=0	btrfs: fix xattr replace when multiple xattrs are packed in the same item
+CVE-2026-98964	applies	funcs=nvmet_req_alloc_p2pmem_sgls objects=module:nvmet review=0	nvmet: use the local P2P device on metadata allocation failure
+CVE-2026-98966	review	funcs=bond_xdp_set objects=module:bonding review=1 touches BPF or tracing hooks; check that no attached program depends on the old shape	bonding: fix the program leak when XDP is replaced
+CVE-2026-98967	applies	funcs=chcr_ktls_dev_del,chcr_ktls_dev_add objects=module:ch_ktls review=0	cxgb4/ch_ktls: disable softirqs around tid_list erases
+CVE-2026-98968	review	funcs=amt_skb_cb,amt_send_igmp_gq,amt_send_mld_gq,amt_dev_xmit objects=module:amt,unknown review=4 7 changed line(s) outside any function; check for data or declaration changes; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of amt_skb_cb; layout changes need shadow variables or a reboot; changes a type definition; layout changes need shadow variables or a reboot	amt: send the relay's General Query directly from the receive path
+CVE-2026-98969	applies	funcs=em_text_change objects=module:em_text review=0	net/sched: em_text: reject unterminated algo before autoload
+CVE-2026-98970	applies	funcs=vc4_bo_cache_destroy objects=not-built review=0	drm/vc4: Free the BO cache size list on teardown
+CVE-2026-98971	applies	funcs=gpio_exar_probe objects=module:gpio-exar review=0	gpio: exar: initialize the ID before registering its cleanup
+CVE-2026-98977	applies	funcs=attach_recursive_mnt objects=vmlinux review=0	namespace: handle mount locking for automounts correctly
+CVE-2026-98979	applies	funcs=do_add_mount objects=vmlinux review=0	namespace: refuse an automount below a mount that is in no namespace
+CVE-2026-98980	review	funcs=step_into objects=vmlinux review=1 27 changed line(s) outside any function; check for data or declaration changes	namei: don't reveal overmounted entries in refwalk
+CVE-2026-98981	review	funcs=__detach_mounts objects=vmlinux review=1 3 changed line(s) outside any function; check for data or declaration changes	namespace: unhash a dentry before detaching the mounts on it
+CVE-2026-98984	review	funcs=d_set_mounted objects=vmlinux review=1 2 changed line(s) outside any function; check for data or declaration changes	dcache: don't put a mountpoint on a dentry that's being removed
+CVE-2026-98985	applies	funcs=SYSCALL_DEFINE2 objects=vmlinux review=0	namespace: check the mounts before reading their parents in pivot_root()
+CVE-2026-98990	review	funcs=mark_mounts_for_expiry,select_submounts,shrink_submounts objects=vmlinux review=1 31 changed line(s) outside any function; check for data or declaration changes	namespace: check a submount for references right before unmounting it
+CVE-2026-98992	applies	funcs=__do_loopback objects=vmlinux review=0	namespace: don't copy an unmounted mount tree
+CVE-2026-98993	review	funcs=clone_mnt,umount_tree objects=unknown,vmlinux review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	namespace: don't inherit MNT_UMOUNT in clone_mnt()
+CVE-2026-99002	applies	funcs=vmw_kms_cursor_snoop objects=module:vmwgfx review=0	drm/vmwgfx: validate pitch coming from userspace
+CVE-2026-99003	applies	funcs=panthor_group_create objects=not-built review=0	drm/panthor: validate userspace queue count against initialized firmware slot count
+CVE-2026-99005	applies	funcs=rps_work objects=unknown review=0	drm/i915/gt: Unmask interrupts only when ACTIVE is true
+CVE-2026-99006	applies	funcs=eb_relocate_parse_slow objects=unknown review=0	drm/i915/gem: Prevent overstepping exec array boundary
+CVE-2026-99007	review	funcs=- objects=vmlinux review=1 6 changed line(s) outside any function; check for data or declaration changes	drm/fb-helper: defer setup when fbdev_probe() fails, not just on -EAGAIN
+CVE-2026-99008	applies	funcs=rfcomm_dev_shutdown objects=module:rfcomm review=0	Bluetooth: RFCOMM: Fix NULL tty_dev dereference in rfcomm_dev_shutdown
+CVE-2026-99010	applies	funcs=rfcomm_sk_data_ready objects=module:rfcomm review=0	Bluetooth: RFCOMM: free the skb when the DLC has no owner
+CVE-2026-99015	applies	funcs=hci_sock_bind objects=module:bluetooth review=0	Bluetooth: hci_sock: Serialize dead-device detachment
+CVE-2026-99018	review	funcs=SYM_CODE_START objects=unknown review=3 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; other architecture, irrelevant on x86_64; other architecture, irrelevant on x86_64	riscv: entry: gate shadow call stack reload on sstatus.SPP, not tp
+CVE-2026-99019	review	funcs=ch_readconfig,ch_destroy objects=module:ch review=1 changes the definition of anonymous; layout changes need shadow variables or a reboot	scsi: ch: Do not keep references to data transfer element devices
+CVE-2026-99020	review	funcs=- objects=not-built review=1 6 changed line(s) outside any function; check for data or declaration changes	regulator: tps6594-regulator: Fix n_linear_ranges for TPS65224 BUCK2-4
+CVE-2026-99022	review	funcs=ltc3676_readable_writeable_reg objects=module:ltc3676 review=1 13 changed line(s) outside any function; check for data or declaration changes	regulator: ltc3676: don't read the write-only HRST and CLIRQ registers
+CVE-2026-99024	applies	funcs=optee_ffa_probe,optee_probe objects=not-built review=0	optee: register TEE devices only once fully initialized
+CVE-2026-99025	applies	funcs=ovs_flow_cmd_dump objects=module:openvswitch review=0	openvswitch: fix soft lockup in the netlink flow dump
+CVE-2026-99026	applies	funcs=bc_transmit objects=module:team_mode_broadcast review=0	net: team: free skb when broadcast has no txable port
+CVE-2026-99029	applies	funcs=sparx5_tc_matchall_destroy objects=not-built review=0	net: sparx5: free the matchall entry on destroy
+CVE-2026-99031	review	funcs=br_multicast_find_del_pg,br_multicast_sg_del_exclude_ports,br_multicast_del_pg objects=module:bridge review=1 7 changed line(s) outside any function; check for data or declaration changes	net: bridge: avoid recursive multicast port cleanup
+CVE-2026-99032	applies	funcs=smc_getname objects=module:smc review=0	net/smc: protect clcsock lifetime in smc_getname
+CVE-2026-99033	applies	funcs=packet_rcv_spkt objects=vmlinux review=0	net/packet: guard the ll header push in packet_rcv_spkt()
+CVE-2026-99034	applies	funcs=sdhci_sprd_remove objects=not-built review=0	mmc: sdhci-sprd: disable runtime PM on remove
+CVE-2026-99035	applies	funcs=msdc_drv_remove objects=module:mtk-sd review=0	mmc: mtk-sd: Cancel request timeout work on remove
+CVE-2026-99036	applies	funcs=do_resume objects=vmlinux review=0	dm: fix reading free memory in do_resume
+CVE-2026-99037	applies	funcs=crypt_ctr_cipher_new objects=module:dm-crypt review=0	dm-crypt: reject the lmk IV mode with AEAD ciphers
+CVE-2026-99040	applies	funcs=__key_create_or_update objects=vmlinux review=0	KEYS: Fix add_key() race with keyring restriction
+CVE-2026-99043	applies	funcs=ice_eswitch_release_repr objects=module:ice review=0	ice: fix metadata_dst refcount handling on representor teardown
+CVE-2026-99045	applies	funcs=ibmveth_open objects=not-built review=0	ibmveth: h_free logical LAN on open-fail after register
+CVE-2026-99049	applies	funcs=xgpio_request objects=not-built review=0	gpio: xilinx: fix runtime PM leak on request error path
+CVE-2026-99052	applies	funcs=selinux_set_mnt_opts objects=vmlinux review=0	selinux: preserve NATIVE_LABELS on already-initialized sb in set_mnt_opts
+CVE-2026-99053	applies	funcs=tipc_node_find_by_name,tipc_nl_node_set_link,tipc_nl_node_get_link,tipc_nl_node_reset_link_stats objects=module:tipc review=0	tipc: hold a reference to nodes found by link name
+CVE-2026-99056	review	funcs=parsing,strp_done objects=unknown,vmlinux review=3 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of strparser; layout changes need shadow variables or a reboot; 2 changed line(s) outside any function; check for data or declaration changes	strparser: make sure __strp_recv isn't running before tearing down the parser
+CVE-2026-99057	applies	funcs=xennet_poll objects=vmlinux review=0	xen/netfront: don't leak the skb when xennet_fill_frags() fails
+CVE-2026-99058	applies	funcs=is_chained_work objects=vmlinux review=0	workqueue: Fix NULL current_pwq deref in chained work check
+CVE-2026-99059	applies	funcs=wg_noise_handshake_consume_response objects=module:wireguard review=0	wireguard: noise: reject response consumption after intermediate initiation
+CVE-2026-99060	applies	funcs=mt7603_mac_init objects=module:mt7603e review=0	wifi: mt76: mt7603: initialize global station WCID
+CVE-2026-99061	applies	funcs=brcmf_detach objects=module:brcmfmac review=0	wifi: brcmfmac: fix P2P device removal race in brcmf_detach()
+CVE-2026-99063	applies	funcs=get_result_buffer objects=vmlinux review=0	dm ioctl: don't let data_start run past the buffer
+CVE-2026-99064	applies	funcs=cipso_v4_skbuff_delattr objects=vmlinux review=0	cipso: adjust cached option offsets when removing CIPSO
+CVE-2026-99067	applies	funcs=scrub_print_warning_inode objects=module:btrfs:loaded review=0	btrfs: scrub: fix local_root reference leak in scrub_print_warning_inode()
+CVE-2026-99069	applies	funcs=ati_remote2_show_channel_mask,ati_remote2_store_channel_mask,ati_remote2_show_mode_mask,ati_remote2_store_mode_mask objects=module:ati_remote2 review=0	Input: ati_remote2 - fix type confusion in device attribute handlers
+CVE-2026-99070	applies	funcs=fib6_info_hw_flags_set objects=vmlinux review=0	ipv6: do not warn on route notification size race
+CVE-2026-99071	applies	funcs=fib_alias_hw_flags_set objects=vmlinux review=0	ipv4: do not warn on route notification size race
+CVE-2026-99073	applies	funcs=fib_dump_info_fnhe objects=vmlinux review=0	ipv4: stop exception dump when nexthop group shrinks
+CVE-2026-99077	applies	funcs=udp_err objects=vmlinux review=0	ipv4: udp: Create exceptions before socket matching
+CVE-2026-99078	review	funcs=mlx5e_xsk_alloc_rx_mpwqe objects=unknown review=1 1 changed line(s) outside any function; check for data or declaration changes	net/mlx5e: Prevent stale XSK buffer release on MPWQE refill retry
+CVE-2026-99079	applies	funcs=mlx5e_xsk_free_rx_wqe objects=module:mlx5_core review=0	net/mlx5e: Prevent stale XSK buffer release on refill retry
+CVE-2026-99080	applies	funcs=clear_inode objects=vmlinux review=0	fs: Free any excess xarray nodes in clear_inode()
+CVE-2026-99081	applies	funcs=bnxt_start_xmit objects=module:bnxt_en review=0	bnxt_en: fix DMA mapping length for padded small packets
+CVE-2026-99082	review	funcs=vcpu_cache_mmio_info,vcpu_match_mmio_gen objects=unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	KVM: x86: Use active memslots for the per-vCPU MMIO cache
+CVE-2026-99083	applies	funcs=krb5_authenticate objects=module:ksmbd review=0	ksmbd: fix heap out-of-bounds write in krb5_authenticate()
+CVE-2026-99088	applies	funcs=update_ipv6_checksum objects=module:openvswitch review=0	net: openvswitch: validate transport header presence in set_ipv6_addr
+CVE-2026-99089	applies	funcs=samsung_i2s_probe,samsung_i2s_remove objects=not-built review=0	ASoC: samsung: i2s: enable op_clk in probe to balance runtime PM
+CVE-2026-99090	review	funcs=amdgpu_get_vblank_counter_kms objects=module:amdgpu review=1 1 changed line(s) outside any function; check for data or declaration changes	drm/amdgpu: serialize vblank counter reads against GPU reset
+CVE-2026-99094	applies	funcs=btintel_pcie_send_sync objects=module:btintel_pcie review=0	Bluetooth: btintel_pcie: fix TX descriptor bounds check
+CVE-2026-99095	review	funcs=vc4_v3d_unbind objects=not-built review=1 1 changed line(s) outside any function; check for data or declaration changes	drm/vc4: drain the hangcheck timer and works on V3D unbind
+CVE-2026-99097	applies	funcs=tee_dyn_shm_alloc_helper objects=module:tee review=0	tee: shm: reject zero-sized allocations in tee_dyn_shm_alloc_helper()
+CVE-2026-99098	applies	funcs=dm_integrity_inline_recheck,dm_integrity_end_io objects=module:dm-integrity review=0	dm-integrity: fix buffer overflow in inline mode with large tag size
+CVE-2026-99103	applies	funcs=pwq_release_workfn objects=vmlinux review=0	workqueue: Fix unbound pool lifetime for pending pwqs
+CVE-2026-99106	applies	funcs=amdgpu_cs_ioctl objects=module:amdgpu review=0	drm/amdgpu: free the userptr ranges when a CS fails after parser_bos
+CVE-2026-99109	applies	funcs=CIFSSMBSetEA objects=module:cifs review=0	smb: client: reject SetEA requests that do not fit the request buffer
+CVE-2026-99110	applies	funcs=cifs_do_set_acl objects=module:cifs review=0	smb: client: fix heap overflow in cifs_do_set_acl()
+CVE-2026-99112	applies	funcs=fl_set_enc_opt objects=module:cls_flower review=0	net/sched: cls_flower: validate mask pointer after nla_next()
+CVE-2026-99113	applies	funcs=smb2_get_info_filesystem objects=module:ksmbd review=0	ksmbd: zero the FS_OBJECT_ID_INFORMATION buffer before filling it in
+CVE-2026-99114	applies	funcs=smb2_get_info_filesystem objects=module:ksmbd review=0	ksmbd: initialize FileSystemControlFlags in FS_CONTROL_INFORMATION
+CVE-2026-99115	applies	funcs=smb2_get_info_filesystem objects=module:ksmbd review=0	ksmbd: fill in FileSysIdentifier in FS_POSIX_INFORMATION
+CVE-2026-99117	applies	funcs=br_multicast_del_pg,br_multicast_find_del_pg objects=module:bridge review=0	net: bridge: mcast: don't truncate the port group walk on teardown
+CVE-2026-99118	applies	funcs=parse_dmc_fw_header objects=unknown review=0	drm/i915/dmc: Harden DMC firmware payload parsing
+CVE-2026-99121	applies	funcs=fib_rebalance objects=vmlinux review=0	ipv4: avoid divide by zero in fib_rebalance
+CVE-2026-99122	applies	funcs=vmci_transport_recv_stream_cb,vmci_transport_recv_pkt_work objects=module:vmw_vsock_vmci_transport review=0	vsock/vmci: validate packet source for connected sockets
+CVE-2026-99123	review	funcs=vsock_remove_connected,virtio_transport_recv_pkt objects=module:vmw_vsock_virtio_transport_common,module:vsock,unknown review=3 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; 32 changed line(s) outside any function; check for data or declaration changes; adds or removes an exported symbol, which a livepatch cannot do	vsock/virtio: validate packet source for connected sockets
+CVE-2026-99124	review	funcs=report_error_write objects=vmlinux review=1 other architecture, irrelevant on x86_64	s390/pci: Fix leak of uninitialized kernel data in SCLP report
+CVE-2026-99126	applies	funcs=mpc_action_go_ready,mpc_validate_xid objects=not-built review=0	s390/ctcm: Prevent XID null dereference
+CVE-2026-99127	applies	funcs=page_pool_alloc_frag_netmem objects=vmlinux review=0	page_pool: keep frag_offset aligned for odd-sized requests
+CVE-2026-99128	review	funcs=- objects=module:sctp review=1 6 changed line(s) outside any function; check for data or declaration changes	sctp: validate chunk length in the inqueue parser
+CVE-2026-99130	review	funcs=- objects=vmlinux review=1 7 changed line(s) outside any function; check for data or declaration changes	io_uring/cancel: don't spin on local work the task can't run
+CVE-2026-99131	applies	funcs=xfs_getfsmap,xfs_ioctl_setattr_get_trans,xfs_setattr_nonsize objects=module:xfs review=0	xfs: fix capability check in xfs
+CVE-2026-99132	applies	funcs=xfs_sync_sb_buf objects=unknown review=0	xfs: don't hold buffer locks across sync transaction commit in xfs_sync_sb_buf
+CVE-2026-99133	applies	funcs=afiucv_hs_send,iucv_sock_recvmsg objects=not-built review=0	net/iucv: fix the recvmsg window update
+CVE-2026-99135	applies	funcs=integrity_metadata objects=module:dm-integrity review=0	dm-integrity: fix infinite loop on discard with large tag size
+CVE-2026-99136	applies	funcs=crypt_dec_pending objects=module:dm-crypt review=0	dm-crypt: fix a tiny race condition in crypt_dec_pending
+CVE-2026-99138	applies	funcs=do_tcp_getsockopt,dctcp_get_info objects=module:tcp_dctcp,vmlinux review=0	tcp: fix use-after-free in do_tcp_getsockopt(TCP_CC_INFO)
+CVE-2026-99139	review	funcs=do_tcp_getsockopt,tcp_assign_congestion_control,tcp_reinit_congestion_control,tcp_ca_openreq_child,tcp_ca_dst_init objects=module:tcp_dctcp,vmlinux review=1 2 changed line(s) outside any function; check for data or declaration changes	tcp: fix use-after-free in do_tcp_getsockopt(TCP_CONGESTION)
+CVE-2026-99140	applies	funcs=hist_field_timestamp objects=vmlinux review=0	tracing: Fix hist trigger timestamps for buffered events
+CVE-2026-99142	applies	funcs=predicate_parse objects=vmlinux review=0	tracing: Check operator stack capacity before pushing
+CVE-2026-99143	applies	funcs=predicate_parse objects=vmlinux review=0	tracing: Keep the predicate limit separate from program capacity
+CVE-2026-99146	review	funcs=parse_dmc_fw_header objects=unknown review=3 49 changed line(s) outside any function; check for data or declaration changes; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes an inline function or macro, so every caller is recompiled and patched	drm/i915/dmc: Add sanity check for DMC load address
+CVE-2026-99147	review	funcs=drm_exec_unlock_all,drm_exec_cleanup,drm_exec_lock_contended,drm_exec_lock_obj objects=module:drm_exec,unknown review=2 10 changed line(s) outside any function; check for data or declaration changes; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	drm/exec: don't immediately add prelocked obj to array of locked objs
+CVE-2026-99150	applies	funcs=amdgpu_debugfs_gpr_read objects=module:amdgpu review=0	drm/amdgpu: don't drop the runtime PM reference twice in amdgpu_gpr
+CVE-2026-99152	applies	funcs=__iscsi_complete_pdu objects=module:libiscsi review=0	scsi: libiscsi: Validate the task named by a management response
+CVE-2026-99153	applies	funcs=iscsi_handle_reject objects=module:libiscsi review=0	scsi: libiscsi: Validate the ITT reflected in a Reject PDU
+CVE-2026-99154	review	funcs=iscsi_verify_itt objects=module:libiscsi review=1 2 changed line(s) outside any function; check for data or declaration changes	scsi: libiscsi: Reject a negative task index from parse_pdu_itt
+CVE-2026-99155	applies	funcs=scsifront_do_response objects=module:xen-scsifront review=0	scsi: xen/scsifront: Check for a NULL shadow entry on a backend response
+CVE-2026-99156	applies	funcs=st_remove objects=module:st review=0	scsi: st: Fix use-after-free race between st_remove() and st_open()
+CVE-2026-99157	review	funcs=bsg_transport_sg_io_fn,bsg_init_rq,mpi3mr_bsg_init,fc_bsg_hostadd,fc_bsg_rportadd,iscsi_bsg_host_add,sas_bsg_initialize,ufs_bsg_probe,bsg_job_done objects=module:mpi3mr,module:scsi_transport_fc,module:scsi_transport_iscsi,module:scsi_transport_sas,module:ufshcd-core,unknown,vmlinux review=3 5 changed line(s) outside any function; check for data or declaration changes; changes the definition of bsg_set; layout changes need shadow variables or a reboot; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	scsi: bsg: Pass reply_len to bsg_setup_queue() to fit UFS ARPMB replies
+CVE-2026-99163	applies	funcs=init_var_ref,create_field_var,check_synth_field,create_var_field,hist_trigger_elt_update objects=vmlinux review=0	tracing/histograms: Reject non-stacktrace fields for synthetic stacktrace fields
+CVE-2026-99165	review	funcs=sctp_sendmsg_to_asoc objects=module:sctp review=1 12 changed line(s) outside any function; check for data or declaration changes	sctp: revalidate output stream after association connect wait
+CVE-2026-99166	applies	funcs=rds_rdma_cm_event_handler_cmn objects=module:rds_rdma review=0	net: rds: fix uninitialized trans dereference in CM event handler
+CVE-2026-99167	applies	funcs=__tcf_action_put objects=vmlinux review=0	net/sched: fix use-after-free in __tcf_action_put()
+CVE-2026-99169	review	funcs=mm_init,get_inode_sequence_number,get_futex_key objects=unknown,vmlinux review=6 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of futex_key; layout changes need shadow variables or a reboot; changes an inline function or macro, so every caller is recompiled and patched; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of mm_struct; layout changes need shadow variables or a reboot; 16 changed line(s) outside any function; check for data or declaration changes	futex: Fix mm reuse handling for FUT_OFF_MMSHARED
+CVE-2026-99171	review	funcs=ntfs_set_shared,ntfs_put_shared,ntfs3_free_sbi,ntfs_put_super,ntfs3_kill_sb objects=module:ntfs3,unknown review=3 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of ntfs_sb_info; layout changes need shadow variables or a reboot; 5 changed line(s) outside any function; check for data or declaration changes	ntfs3: free the sbi after a grace period
+CVE-2026-99173	review	funcs=release_ei objects=vmlinux review=1 8 changed line(s) outside any function; check for data or declaration changes	eventfs: Free the eventfs_inode after an rcu grace period too
+CVE-2026-99174	review	funcs=ext4_es_unregister_shrinker,ext4_es_unregister_shrinker,ext4_put_super,__ext4_fill_super objects=unknown,vmlinux review=4 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of ext4_sb_info; layout changes need shadow variables or a reboot; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; 8 changed line(s) outside any function; check for data or declaration changes	ext4: free the sbi after a grace period
+CVE-2026-99175	review	funcs=fsnotify_add_mark_list,fsnotify_destroy_marks objects=unknown,vmlinux review=3 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of fsnotify_mark_connector; layout changes need shadow variables or a reboot; changes an inline function or macro, so every caller is recompiled and patched	fsnotify: prevent mark additions during connector teardown
+CVE-2026-99176	applies	funcs=load_vmcs12_host_state objects=unknown review=0	KVM: nVMX: Reset MMU back to the root MMU if loading L2 state fails for !VM-Entry
+CVE-2026-99179	applies	funcs=post_one_notification,watch_queue_set_size objects=vmlinux review=0	watch_queue: Fix note pool publication race in watch_queue_set_size()
+CVE-2026-99180	review	funcs=utf8_unload objects=unknown,vmlinux review=3 15 changed line(s) outside any function; check for data or declaration changes; header change; confirm it alters only function bodies, not types or inline helpers used elsewhere; changes the definition of unicode_map; layout changes need shadow variables or a reboot	unicode: free the map after a grace period
+CVE-2026-99181	applies	funcs=autofs_catatonic_mode,autofs_notify_daemon objects=module:autofs4:loaded review=0	autofs: ignore notification errors from a replaced pipe
+CVE-2026-99182	applies	funcs=sof_ipc4_prepare_copier_module objects=module:snd-sof review=0	ASoC: SOF: ipc4-topology: Fix shift-out-of-bounds for aggregated ALH capture
+CVE-2026-99187	applies	funcs=__perf_pmu_remove,perf_pmu_migrate_context objects=vmlinux review=0	perf: Fix perf_pmu_migrate_context() leaving events behind
+CVE-2026-99191	applies	funcs=calipso_skbuff_setattr objects=vmlinux review=0	calipso: keep BIG TCP payload_len in calipso_skbuff_setattr()
+CVE-2026-99192	applies	funcs=bcmgenet_xmit objects=module:genet review=0	net: bcmgenet: unshare the skb before writing the control block
+CVE-2026-99201	review	funcs=netlink_compare,netlink_compare_arg_init objects=vmlinux review=1 2 changed line(s) outside any function; check for data or declaration changes	netlink: avoid hashing the network namespace pointer
+CVE-2026-99203	applies	funcs=pipe_fasync objects=vmlinux review=0	pipe: preserve existing fasync readers on writer setup failure
+CVE-2026-99204	review	funcs=debug_state_print,DEFINE_SPINLOCK objects=module:ocfs2_dlm,unknown review=1 header change; confirm it alters only function bodies, not types or inline helpers used elsewhere	ocfs2/dlm: Protect the recovery list during debugfs reads
+CVE-2026-99206	applies	funcs=iscsi_disc_enforce_discovery_auth_store objects=module:iscsi_target_mod review=0	scsi: target: iscsi: Fix race in discovery auth updates
+CVE-2026-99208	applies	funcs=xe_oa_alloc_oa_buffer objects=module:xe review=0	drm/xe/oa: Zero OA buffer at allocation
+CVE-2026-99211	applies	funcs=netlink_unicast,do_one_broadcast objects=vmlinux review=0	netlink: reset skb headers before unicast and multicast filtering
+CVE-2026-99212	applies	funcs=rds_rdma_cm_event_handler_cmn objects=module:rds_rdma review=0	net/rds: don't let the rdma_cm destroy an id RDS still owns on route failure
+CVE-2026-99214	applies	funcs=vc4_hdmi_encoder_post_crtc_disable,vc4_hdmi_encoder_post_crtc_enable,vc4_hdmi_runtime_suspend,vc4_hdmi_runtime_resume objects=not-built review=0	drm/vc4: hdmi: Move packet RAM enable to PM runtime
+CVE-2026-99216	review	funcs=vmbus_connect,vmbus_exit objects=module:hv_vmbus review=1 vmbus_exit is init or exit code, which has already run and cannot be livepatched	Drivers: hv: Don't reset VMBus connection state on error/exit paths
