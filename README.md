@@ -1,12 +1,15 @@
 # linux-hotpatch
 
-Builds kernel livepatch modules for the running Ubuntu kernel with
-[kpatch](https://github.com/dynup/kpatch) and loads them without a reboot.
+Builds kernel livepatch modules for the running Linux kernel from a CVE id
+with [kpatch](https://github.com/dynup/kpatch) and loads them without a
+reboot. Distribution specifics sit in one backend file under `lib/backend/`;
+Ubuntu is the first backend.
 
-Source and debug symbols come from Launchpad, which still serves packages the
-archive pool has dropped, so end-of-life HWE kernels can be patched. The debug
-vmlinux is checked against the running kernel's GNU build-id before use, and
-each built module's symbol versions are compared with it before loading.
+On Ubuntu, source and debug symbols come from Launchpad, which still serves
+packages the archive pool has dropped, so end-of-life HWE kernels can be
+patched. The debug vmlinux is checked against the running kernel's GNU
+build-id before use, and each built module's symbol versions are compared
+with it before loading.
 
 ## Use
 

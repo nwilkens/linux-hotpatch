@@ -1,14 +1,10 @@
 #!/usr/bin/env bash
-# Build and manage kernel livepatches for the running Ubuntu kernel.
+# Build and manage kernel livepatches for the running kernel.
 set -euo pipefail
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # shellcheck source=lib/common.sh
 source "$HERE/lib/common.sh"
-# shellcheck source=lib/archive.sh
-source "$HERE/lib/archive.sh"
-# shellcheck source=lib/ubuntu.sh
-source "$HERE/lib/ubuntu.sh"
 # shellcheck source=lib/cve.sh
 source "$HERE/lib/cve.sh"
 # shellcheck source=lib/kpatch.sh
@@ -45,19 +41,19 @@ case "$cmd" in
 		DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends "${DEPS[@]}"
 		;;
 	prepare)
-		need_root; ubuntu_detect
-		ubuntu_fetch_source
+		need_root; backend_load; backend_detect
+		backend_fetch_source
 		kpatch_install
-		ubuntu_fetch_vmlinux
+		backend_fetch_vmlinux
 		;;
 	fetch-patch)
 		[[ $# -eq 1 ]] || usage
-		need_root; ubuntu_detect
+		need_root; backend_load; backend_detect
 		cve_fetch_patch "$1"
 		;;
 	inspect)
 		[[ $# -eq 1 ]] || usage
-		need_root; ubuntu_detect
+		need_root; backend_load; backend_detect
 		if is_cve_id "$1"; then
 			cve_fetch_patch "$1"; p="$(cve_patch_path "$1")"
 		else
@@ -67,7 +63,7 @@ case "$cmd" in
 		;;
 	build)
 		[[ $# -ge 1 ]] || usage
-		need_root; ubuntu_detect
+		need_root; backend_load; backend_detect
 		if is_cve_id "$1" && { [[ $# -eq 1 ]] || [[ "$2" == -* ]]; }; then
 			id="$1"; shift
 			cve_fetch_patch "$id"
@@ -77,9 +73,9 @@ case "$cmd" in
 			kpatch_build "$@"
 		fi
 		;;
-	load)   [[ $# -eq 1 ]] || usage; need_root; ubuntu_detect; lp_load "$1" ;;
+	load)   [[ $# -eq 1 ]] || usage; need_root; backend_load; backend_detect; lp_load "$1" ;;
 	unload) [[ $# -eq 1 ]] || usage; need_root; lp_unload "$1" ;;
 	status) lp_status ;;
-	env)    ubuntu_detect; printf 'SRC_TREE=%s\nVMLINUX=%s\nCONFIG=%s\n' "$SRC_TREE" "$VMLINUX" "$CONFIG" ;;
+	env)    backend_load; backend_detect; printf 'SRC_TREE=%s\nVMLINUX=%s\nCONFIG=%s\n' "$SRC_TREE" "$VMLINUX" "$CONFIG" ;;
 	*) usage ;;
 esac

@@ -37,7 +37,7 @@ kpatch_build() {
 	( cd "$SRC_TREE" && patch -p1 -N --dry-run -s < "$patch" ) \
 		|| die "patch does not apply cleanly to $SRC_TREE"
 	kpatch_compiler_report
-	ubuntu_build_env
+	backend_build_env
 	local out="$HOTPATCH_WORKDIR/out/$name"
 	mkdir -p "$out"
 	export CACHEDIR="$HOTPATCH_WORKDIR/kpatch-cache"

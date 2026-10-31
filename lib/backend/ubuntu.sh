@@ -1,6 +1,12 @@
 # shellcheck shell=bash
-# Ubuntu specifics: locate the exact source and debug kernel for the running
+# Ubuntu backend: locate the exact source and debug kernel for the running
 # kernel on Launchpad, which keeps packages the archive pool has dropped.
+# A backend defines backend_detect, backend_fetch_source,
+# backend_fetch_vmlinux and backend_build_env, and sets KVER, SRC_TREE,
+# VMLINUX and CONFIG.
+
+# shellcheck source=lib/backend/apt-archive.sh
+source "$HOTPATCH_HOME/lib/backend/apt-archive.sh"
 
 LP_SRC="https://launchpad.net/ubuntu/+archive/primary/+sourcefiles"
 LP_BIN="https://launchpad.net/ubuntu/+archive/primary/+files"
@@ -20,7 +26,7 @@ source_base() {
 }
 
 # Sets KVER, SRC_PKG, PKG_VER, FLAVOUR, ABI for the running kernel.
-ubuntu_detect() {
+backend_detect() {
 	KVER="$(running_kernel)"
 	dpkg-query -W "linux-image-$KVER" >/dev/null 2>&1 \
 		|| die "linux-image-$KVER is not an installed package"
@@ -40,7 +46,7 @@ ubuntu_detect() {
 # then unpack. From Launchpad the dsc is trusted on TLS alone, since uploader
 # keys are in no shipped keyring; from a pool mirror it is checked against the
 # archive-signed Sources index.
-ubuntu_fetch_source() {
+backend_fetch_source() {
 	need_cmd dpkg-source curl patch
 	local dsc="${SRC_PKG}_${PKG_VER}.dsc"
 	local base
@@ -80,7 +86,7 @@ ubuntu_prep_tree() {
 }
 
 # The -dbgsym ddeb is ~2GB; extract only vmlinux from it.
-ubuntu_fetch_vmlinux() {
+backend_fetch_vmlinux() {
 	need_cmd dpkg-deb tar readelf
 	local arch ddeb
 	arch="$(dpkg --print-architecture)"
@@ -113,7 +119,7 @@ ubuntu_verify_vmlinux() {
 # line rather than through .config, so /boot/config-* does not record them.
 # Without CONFIG_DEBUG_SECTION_MISMATCH the compiler inlines once-called
 # functions and the static symbols no longer match the shipped vmlinux.
-ubuntu_build_env() {
+backend_build_env() {
 	export CONFIG_DEBUG_SECTION_MISMATCH=y
 	export CFLAGS_MODULE="-DPKG_ABI=$ABI"
 }

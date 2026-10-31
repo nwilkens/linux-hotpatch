@@ -80,12 +80,22 @@ ask another model before building: `codex exec "..."` with the diff and the
 kpatch-build output pasted in. Disagreement means stop and show the human
 both views.
 
+## Other distributions
+
+Everything distribution specific lives in one backend file under
+`lib/backend/`, chosen from `/etc/os-release` (ID, then ID_LIKE) or
+`HOTPATCH_BACKEND`. A backend defines `backend_detect`,
+`backend_fetch_source`, `backend_fetch_vmlinux` and `backend_build_env`,
+and sets `KVER`, `SRC_TREE`, `VMLINUX` and `CONFIG`. Ubuntu is the only
+backend so far; a Fedora or Debian one is the same four functions over
+`dnf debuginfo-install` and SRPMs, or the Debian debug archive and dsc files.
+
 ## Known pitfalls on Ubuntu
 
 - Ubuntu passes `CONFIG_DEBUG_SECTION_MISMATCH=y` and `CFLAGS_MODULE` on the
   make command line, not in `.config`. Without them the rebuilt objects do
   not match vmlinux and create-diff-object fails with "couldn't find matching
-  local symbols". `lib/ubuntu.sh` sets them.
+  local symbols". `lib/backend/ubuntu.sh` sets them.
 - The host gcc may be a later packaging revision than the one that built the
   kernel. Read both version strings the tool prints, check the changelog
   delta on Launchpad, and pass `--skip-compiler-check` only when the delta

@@ -2,6 +2,7 @@
 # Shared helpers for the hotpatch tool.
 
 HOTPATCH_WORKDIR="${HOTPATCH_WORKDIR:-/var/lib/linux-hotpatch}"
+HOTPATCH_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 log()  { printf '[hotpatch] %s\n' "$*" >&2; }
 die()  { printf '[hotpatch] error: %s\n' "$*" >&2; exit 1; }
@@ -37,6 +38,29 @@ fetch() {
 
 running_kernel() { uname -r; }
 
+# Source lib/backend/<id>.sh for this distribution, trying ID then ID_LIKE.
+# HOTPATCH_BACKEND overrides the choice.
+backend_load() {
+	local id like name osr="${HOTPATCH_OS_RELEASE:-/etc/os-release}"
+	if [[ -n "${HOTPATCH_BACKEND:-}" ]]; then
+		like="$HOTPATCH_BACKEND"
+	else
+		[[ -r "$osr" ]] || die "cannot read $osr"
+		id="$(sed -n 's/^ID=//p' "$osr" | tr -d '"')"
+		like="$id $(sed -n 's/^ID_LIKE=//p' "$osr" | tr -d '"')"
+	fi
+	for name in $like; do
+		[[ "$name" =~ ^[a-z0-9_-]+$ ]] || continue
+		if [[ -r "$HOTPATCH_HOME/lib/backend/$name.sh" ]]; then
+			# shellcheck disable=SC1090
+			source "$HOTPATCH_HOME/lib/backend/$name.sh"
+			HOTPATCH_BACKEND="$name"
+			return 0
+		fi
+	done
+	die "no backend for this distribution ($like); see lib/backend/"
+}
+
 # GNU build-id of the running kernel, from the ELF notes it exposes.
 kernel_build_id() {
 	python3 -I - <<'PY'
@@ -51,5 +75,3 @@ while off + 12 <= len(d):
         print(desc.hex())
 PY
 }
-# shellcheck disable=SC2034
-HOTPATCH_HOME="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
