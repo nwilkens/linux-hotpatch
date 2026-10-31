@@ -21,7 +21,8 @@ HUNK = re.compile(r"^@@ -(\d+)(?:,(\d+))? \+\d+(?:,(\d+))? @@ ?(.*)$")
 DEFINITION = re.compile(r"^(?=[A-Za-z_])(?:[\w\*\s]*?[\s\*])?(\w+)\s*\(")
 FUNC_CTX = DEFINITION
 TYPE_OPENER = re.compile(r"^(?:typedef\s+)?(?:struct|union|enum)\s*(\w+)?\s*\{")
-NOT_DEFINITION = re.compile(r"^(?:struct|union|enum|typedef|return|else|if|for|while|switch|do|case)\b|^#|;\s*$|^\s*$")
+NOT_DEFINITION = re.compile(r"^(?:struct|union|enum|typedef|return|else|if|for|while|switch|do|case)\b"
+                            r"|^(?:EXPORT_|MODULE_|DEFINE_|DECLARE_|__)|^#|;\s*$|^\s*$")
 INIT_FUNC = re.compile(r"\b__init\b|\b__exit\b|\b__ref\b")
 REVIEW = [
     (r"\b__init\b|\b__exit\b|\b__initdata\b|_initcall\(|module_init\(|module_exit\(",

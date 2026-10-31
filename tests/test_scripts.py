@@ -216,6 +216,8 @@ class InspectTest(unittest.TestCase):
             self.assertEqual(inspect.enclosing_block(BAR_C.splitlines(), len(BAR_C.splitlines()) - 1),
                              ("func", "leading_name", "leading_name(void)"))
             self.assertEqual(inspect.enclosing_block(["static void *ptr_fn(int a)", "{", "\tx;"], 3)[1], "ptr_fn")
+            self.assertEqual(inspect.enclosing_block(["}", "EXPORT_SYMBOL(ptr_fn)", "", "int next(void)", "{", "\tx;"], 6)[1], "next")
+            self.assertEqual(inspect.enclosing_block(["}", "EXPORT_SYMBOL(ptr_fn)", "static int x;"], 3)[0], None)
             text = "\n".join(inspect.review(files))
             self.assertIn("include/net/foo.h: header change", text)
             self.assertEqual(files["include/net/foo.h"]["types"], ["foo"])

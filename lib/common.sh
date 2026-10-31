@@ -31,7 +31,7 @@ fetch() {
 	local shown
 	shown="$(sed -E 's#//[^/@]*@#//#' <<<"$url")"
 	log "fetching $shown"
-	curl -fL -sS --retry 3 --connect-timeout 20 --proto '=https' --tlsv1.2 -A 'linux-hotpatch' -o "$dest.part" "$url" \
+	curl -fL -sS --retry 5 --retry-delay 3 --connect-timeout 20 --proto '=https' --tlsv1.2 -A 'linux-hotpatch' -o "$dest.part" "$url" \
 		|| { log "download failed: $shown"; return 1; }
 	mv "$dest.part" "$dest"
 }

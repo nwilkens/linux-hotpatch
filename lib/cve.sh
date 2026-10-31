@@ -4,6 +4,8 @@
 CVE_RECORDS="https://git.kernel.org/pub/scm/linux/security/vulns.git/plain/cve/published"
 STABLE_PATCH="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/patch/?id="
 CVE_DIR="$HOTPATCH_WORKDIR/cve"
+VULNS_REPO="https://git.kernel.org/pub/scm/linux/security/vulns.git"
+VULNS_DIR="$HOTPATCH_WORKDIR/vulns"
 
 is_cve_id() { [[ "$1" =~ ^CVE-[0-9]{4}-[0-9]{4,}$ ]]; }
 
@@ -44,8 +46,12 @@ cve_fetch_patch() {
 		&& log "$id: the curated patch does not apply to this tree; resolving from the CNA record instead"
 	rm -f "$dest"
 	json="$CVE_DIR/$id.json"
-	fetch "$CVE_RECORDS/${id:4:4}/$id.json" "$json" \
-		|| die "no kernel CNA record for $id (the kernel CNA covers CVEs issued since early 2024)"
+	if [[ -r "$VULNS_DIR/cve/published/${id:4:4}/$id.json" ]]; then
+		json="$VULNS_DIR/cve/published/${id:4:4}/$id.json"
+	else
+		fetch "$CVE_RECORDS/${id:4:4}/$id.json" "$json" \
+			|| die "no kernel CNA record for $id (the kernel CNA covers CVEs issued since early 2024)"
+	fi
 	while read -r commit branch; do
 		[[ "$commit" =~ ^[0-9a-f]{40}$ ]] || die "unexpected commit id: $commit"
 		candidate="$CVE_DIR/$id-$commit.patch"
@@ -67,8 +73,6 @@ cve_fetch_patch() {
 	die "$id: no recorded fix applies to $SRC_TREE; backport one by hand and pass it to 'hotpatch build <name> <patch>'"
 }
 
-VULNS_REPO="https://git.kernel.org/pub/scm/linux/security/vulns.git"
-VULNS_DIR="$HOTPATCH_WORKDIR/vulns"
 
 # Keep a sparse checkout of the kernel CNA records for this year and last.
 cve_update_records() {
@@ -130,6 +134,7 @@ cve_catalog() {
 			status="no-fix"
 		fi
 		printf '%s\t%s\t%s\t%s\n' "$id" "$status" "$detail" "$title" | tee -a "$out"
+		sleep 1
 	done < <(python3 -I "$HOTPATCH_HOME/scripts/cve-catalog.py" "$VULNS_DIR" "$KVER" "$ids")
 	log "catalog written to $out"
 }
