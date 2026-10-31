@@ -80,7 +80,8 @@ cve_update_records() {
 	local year
 	year="$(date +%Y)"
 	if [[ -d "$VULNS_DIR/.git" ]]; then
-		git -C "$VULNS_DIR" pull -q --depth 1 || die "could not update $VULNS_DIR"
+		git -C "$VULNS_DIR" pull -q --depth 1 \
+			|| log "warning: could not update $VULNS_DIR; using the records already present"
 	else
 		git clone -q --depth 1 --sparse "$VULNS_REPO" "$VULNS_DIR" || die "could not clone $VULNS_REPO"
 	fi
