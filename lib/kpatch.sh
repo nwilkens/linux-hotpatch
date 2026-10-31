@@ -29,17 +29,23 @@ kpatch_compiler_report() {
 	log "local compiler:    $lgcc"
 }
 
-# kpatch_build <name> [kpatch-build args] -- <patch>...
-# Several patches build one cumulative module, which is how livepatches
-# stack: kpatch modules replace whatever is loaded unless built with -R.
+# kpatch_build <name> [--cumulative] [kpatch-build args] -- <patch>...
+# Modules are built non-replace by default so each fix loads and unloads on
+# its own. --cumulative builds a replace module that supersedes every loaded
+# livepatch, for a combined module that carries all of them.
 kpatch_build() {
-	local name="$1" replace=1 p; shift
+	local name="$1" replace=0 p; shift
 	local -a flags=() patches=()
 	while [[ $# -gt 0 && "$1" != "--" ]]; do
-		[[ "$1" == "-R" || "$1" == "--non-replace" ]] && replace=0
-		flags+=("$1"); shift
+		if [[ "$1" == "--cumulative" ]]; then
+			replace=1
+		else
+			flags+=("$1")
+		fi
+		shift
 	done
 	shift || true
+	[[ $replace -eq 1 ]] || flags+=(-R)
 	for p in "$@"; do
 		p="$(readlink -f "$p")"
 		[[ -r "$p" ]] || die "patch not readable: $p"

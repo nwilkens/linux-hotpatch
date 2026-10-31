@@ -26,11 +26,12 @@ usage: hotpatch <command> [args]
                             resolved against the source tree
   build <CVE-ID> [kpatch-build args]
                             fetch the fix for <CVE-ID> and build it as cve_yyyy_nnnnn
-  build <name> <CVE-ID|patch>... [kpatch-build args]
-                            build one cumulative module <name> from several fixes
-  load <module.ko> [--replace]
-                            insert livepatch and wait for the transition; --replace
-                            acknowledges that loaded livepatches will be superseded
+  build <name> <CVE-ID|patch>... [--cumulative] [kpatch-build args]
+                            build module <name> from several fixes; modules stack
+                            independently unless --cumulative makes one that
+                            supersedes every loaded livepatch
+  load <module.ko> [--replace|--allow-overlap]
+                            insert livepatch and wait for the transition
   unload <name>             disable and remove a loaded livepatch
   status                    show loaded livepatches
   env                       print detected kernel and paths

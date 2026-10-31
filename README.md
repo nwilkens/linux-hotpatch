@@ -22,15 +22,18 @@ with it before loading.
     ./hotpatch status
     ./hotpatch unload cve_2026_98432
 
-kpatch modules replace whatever livepatch is already loaded, so a second fix
-goes into one cumulative module that carries every fix, loaded with
-`--replace`:
+Each CVE builds into its own module by default, and modules stack: load the
+ones you want, unload any one of them on its own. `load` refuses a module
+that replaces a function another loaded livepatch already patches, because
+the new version would not carry the older fix; build one module from both
+patches in that case:
 
-    ./hotpatch build fixes_2026_10 CVE-2026-98432 CVE-2026-99211
-    ./hotpatch load /var/lib/linux-hotpatch/out/fixes_2026_10/fixes_2026_10.ko --replace
+    ./hotpatch build net_fixes CVE-2026-98432 CVE-2026-99211
 
-`load` refuses to supersede a loaded livepatch without that flag. Each build
-writes a `.manifest` beside the module listing the patches it carries.
+`--cumulative` instead builds a module that supersedes every loaded livepatch
+when loaded with `--replace`, for sites that prefer one module carrying all
+fixes. Each build writes a `.manifest` beside the module listing what it
+carries, and `status` shows it for loaded modules.
 
 `inspect` and `build` take a CVE id. The tool reads the kernel CNA record
 from kernel.org, downloads each fixing commit starting with the stable branch

@@ -45,17 +45,39 @@ lp_others() {
 	done
 }
 
+# "object function" pairs a kpatch module replaces, from its string table.
+lp_module_funcs() {
+	readelf -p .kpatch.strings "$1" | awk -F'] *' 'NR>2 && NF>1 {print $2}' | paste -d' ' - -
+}
+
+# "object function" pairs every loaded livepatch other than $1 replaces.
+lp_loaded_funcs() {
+	local p d
+	for p in $(lp_others "$1"); do
+		for d in "$LP_SYS/$p"/*/*/; do
+			[[ -d "$d" ]] || continue
+			d="${d%/}"; printf '%s %s\n' "$(basename "$(dirname "$d")")" "${d##*/}" | sed 's/,[0-9]*$//'
+		done
+	done
+}
+
 lp_load() {
-	local ko="$1" replace_ok="${2:-}" name others replace=1
+	local ko="$1" opt="${2:-}" name others replace=0 overlap
 	[[ -r "$ko" ]] || die "module not readable: $ko"
-	[[ -z "$replace_ok" || "$replace_ok" == "--replace" ]] || die "unknown option $replace_ok"
+	[[ -z "$opt" || "$opt" == "--replace" || "$opt" == "--allow-overlap" ]] || die "unknown option $opt"
 	name="$(modinfo -F name "$ko")"
 	[[ -r "${ko%.ko}.manifest" ]] && replace="$(sed -n 's/^replace=//p' "${ko%.ko}.manifest")"
 	others="$(lp_others "$name")"
-	if [[ -n "$others" && "$replace" != 0 && "$replace_ok" != "--replace" ]]; then
+	if [[ -n "$others" && "$replace" == 1 && "$opt" != "--replace" ]]; then
 		die "loading $name would supersede: $(tr '\n' ' ' <<<"$others")" \
-			"(kpatch modules replace loaded livepatches). Build one cumulative" \
-			"module carrying every fix and pass --replace."
+			"(it was built --cumulative). Pass --replace if it carries every fix they do."
+	fi
+	if [[ -n "$others" && "$replace" != 1 ]]; then
+		overlap="$(comm -12 <(lp_module_funcs "$ko" | sort) <(lp_loaded_funcs "$name" | sort))"
+		[[ -z "$overlap" || "$opt" == "--allow-overlap" ]] \
+			|| die "$name replaces functions another livepatch already patches:" \
+				"$(tr '\n' ' ' <<<"$overlap"). Its version would not carry that fix." \
+				"Build one module from both patches, or pass --allow-overlap."
 	fi
 	[[ "$(modinfo -F livepatch "$ko")" == "Y" ]] || die "$ko is not a livepatch module"
 	[[ "$(modinfo -F vermagic "$ko" | awk '{print $1}')" == "$(running_kernel)" ]] \
@@ -80,6 +102,7 @@ lp_load() {
 	mkdir -p "$LP_LOADED"
 	[[ -r "${ko%.ko}.manifest" ]] && cp "${ko%.ko}.manifest" "$LP_LOADED/$name.manifest"
 	local o
+	[[ "$replace" == 1 ]] || others=""
 	for o in $others; do
 		if [[ ! -d "$LP_SYS/$o" ]]; then
 			rmmod "$o" 2>/dev/null && log "removed superseded $o"
