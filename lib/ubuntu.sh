@@ -28,9 +28,8 @@ ubuntu_detect() {
 	PKG_VER="$(dpkg-query -W -f='${Version}' "linux-image-$KVER")"
 	FLAVOUR="${KVER##*-}"
 	ABI="${KVER#*-}"; ABI="${ABI%-*}"
-	UPSTREAM_VER="${PKG_VER%%-*}"
 	SRC_DIR="$HOTPATCH_WORKDIR/src"
-	SRC_TREE="$SRC_DIR/$SRC_PKG-$UPSTREAM_VER"
+	SRC_TREE="$SRC_DIR/$SRC_PKG-$PKG_VER"
 	VMLINUX="$HOTPATCH_WORKDIR/dbg/usr/lib/debug/boot/vmlinux-$KVER"
 	CONFIG="/boot/config-$KVER"
 	[[ -r "$CONFIG" ]] || die "missing $CONFIG"
@@ -55,6 +54,7 @@ ubuntu_fetch_source() {
 	local sum f
 	while read -r sum _ f; do
 		[[ -n "$f" ]] || continue
+		[[ "$f" =~ ^[A-Za-z0-9][A-Za-z0-9._+~-]*$ ]] || die "unexpected file name in dsc: $f"
 		fetch "$base/$f" "$SRC_DIR/$f" || die "could not fetch $f"
 		sha256_check "$SRC_DIR/$f" "$sum"
 	done < <(sed -n '/^Checksums-Sha256:/,/^[A-Z]/{/^ /p}' "$SRC_DIR/$dsc")

@@ -64,7 +64,7 @@ def parse(lines):
         if line.startswith("+++ ") and hunk is None:
             path = line[4:].split("\t")[0]
             current = path[2:] if path.startswith("b/") else path
-            files[current] = {"hunks": []}
+            files.setdefault(current, {"hunks": []})
             continue
         if current is None:
             continue
@@ -203,6 +203,11 @@ def loaded(module):
         return None
 
 
+def standalone(obj):
+    """Regex for obj as a whole word in a make list, where - is part of names."""
+    return r"(?<![\w-])%s(?![\w-])" % re.escape(obj)
+
+
 def locate(src, config, path):
     """Say whether a .c file is built into vmlinux or a module, via its Makefile."""
     if not src or not path.endswith(".c"):
@@ -214,7 +219,7 @@ def locate(src, config, path):
         text = f.read().replace("\\\n", " ")
     target = os.path.basename(path)[:-2] + ".o"
     for _ in range(3):
-        m = re.search(r"^\s*obj-(?:(y)|\$\((CONFIG_\w+)\))\s*[+:]?=.*\b%s\b" % re.escape(target), text, re.M)
+        m = re.search(r"^\s*obj-(?:(y)|\$\((CONFIG_\w+)\))\s*[+:]?=.*%s" % standalone(target), text, re.M)
         if m:
             sym = m.group(2)
             val = "y" if m.group(1) else config_value(config, sym)
@@ -224,7 +229,7 @@ def locate(src, config, path):
                 state = loaded(target[:-2])
                 return f"module {target[:-2]} ({sym}=m), loaded: {'yes' if state else 'no' if state is False else 'unknown'}"
             return f"not built ({sym}={val})"
-        m = re.search(r"^\s*([\w-]+)-(?:y|m|objs|\$\(CONFIG_\w+\))\s*[+:]?=.*\b%s\b" % re.escape(target), text, re.M)
+        m = re.search(r"^\s*([\w-]+)-(?:y|m|objs|\$\(CONFIG_\w+\))\s*[+:]?=.*%s" % standalone(target), text, re.M)
         if not m:
             return "not found in Makefile"
         target = m.group(1) + ".o"

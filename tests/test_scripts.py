@@ -3,6 +3,7 @@ import importlib.util
 import json
 import os
 import struct
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -96,6 +97,17 @@ class FixCommitsTest(unittest.TestCase):
         pairs = fixcommits.fix_commits(rec)
         self.assertEqual({b for _, b in pairs}, {"unknown"})
         self.assertEqual(len(pairs), 4)
+
+    def test_branch_label_cannot_inject_rows(self):
+        rec = record(["a" * 40], ["7.3\n" + "b" * 40 + " evil"])
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump(rec, f)
+        try:
+            out = subprocess.run([sys.executable, "-I", os.path.join(SCRIPTS, "cve-fix-commits.py"), f.name, "6.11.0"],
+                                 capture_output=True, text=True, check=True).stdout
+        finally:
+            os.unlink(f.name)
+        self.assertEqual(out.splitlines(), ["a" * 40 + " unknown"])
 
     def test_main_rejects_bad_commit(self):
         rec = record(["zz" * 20], ["7.3"])
@@ -240,6 +252,17 @@ class InspectTest(unittest.TestCase):
             self.assertTrue(inspect.locate(d, cfg, "net/ipv4/tcp_bbr.c").startswith("module tcp_bbr"))
             self.assertIn("CONFIG_NET_FOO=y", inspect.locate(d, cfg, "net/ipv4/foo_util.c"))
             self.assertEqual(inspect.locate(d, cfg, "net/ipv4/nope.c"), "not found in Makefile")
+            with open(os.path.join(d, "net/ipv4/Makefile"), "a") as f:
+                f.write("obj-$(CONFIG_OTHER) += x-zap.o\nobj-$(CONFIG_ZAP) += zap.o\n")
+            with open(cfg, "a") as f:
+                f.write("CONFIG_OTHER=y\nCONFIG_ZAP=n\n")
+            self.assertEqual(inspect.locate(d, cfg, "net/ipv4/zap.c"), "not built (CONFIG_ZAP=n)")
+
+    def test_repeated_file_sections_keep_all_hunks(self):
+        twice = SYNTHETIC + "diff --git a/net/foo/bar.c b/net/foo/bar.c\n--- a/net/foo/bar.c\n+++ b/net/foo/bar.c\n@@ -1,2 +1,3 @@\n+int again;\n #include <net/foo.h>\n \n"
+        files = inspect.annotate(inspect.parse(twice.splitlines()), None)
+        self.assertEqual(len(files["net/foo/bar.c"]["hunks"]), 3)
+        self.assertEqual(files["net/foo/bar.c"]["unanchored"], 2)
 
 
 if __name__ == "__main__":

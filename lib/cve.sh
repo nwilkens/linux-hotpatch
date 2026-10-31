@@ -41,6 +41,7 @@ cve_fetch_patch() {
 	fetch "$CVE_RECORDS/${id:4:4}/$id.json" "$json" \
 		|| die "no kernel CNA record for $id (the kernel CNA covers CVEs issued since early 2024)"
 	while read -r commit branch; do
+		[[ "$commit" =~ ^[0-9a-f]{40}$ ]] || die "unexpected commit id: $commit"
 		candidate="$CVE_DIR/$id-$commit.patch"
 		fetch "$STABLE_PATCH$commit" "$candidate" || die "could not fetch commit $commit"
 		head -1 "$candidate" | grep -q "^From $commit " \
